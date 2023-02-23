@@ -7,40 +7,89 @@
             <div class="welcome-message center-align dp">
                 <h3>Welcome {{username}}</h3>
             </div>
-            <div class="tree-container">
-                <mat-tree [dataSource]="dataSource" [treeControl]="treeControl">
-                    <!-- This is the tree node template for leaf nodes -->
-                    <mat-tree-node *matTreeNodeDef="let node" matTreeNodePadding>
-                        <!-- use a disabled button to provide padding for tree leaf -->
-                        <button mat-icon-button disabled></button>
-                        {{node.name}}
-                    </mat-tree-node>
-                    <!-- This is the tree node template for expandable nodes -->
-                    <mat-tree-node *matTreeNodeDef="let node;when: hasChild" matTreeNodePadding>
-                        <button mat-icon-button matTreeNodeToggle [attr.aria-label]="'Toggle ' + node.name">
-                                <mat-icon class="mat-icon-rtl-mirror">
-                                    {{treeControl.isExpanded(node) ? 'expand_more' : 'chevron_right'}}
-                                </mat-icon>
-                        </button>
-                        <span>{{node.name}}</span>
-
-                    </mat-tree-node>
-                </mat-tree>
+            <div class="menu-container">
+                <mat-accordion multi>
+                    <mat-expansion-panel>
+                        <mat-expansion-panel-header>
+                            <mat-panel-title>
+                                <mat-icon aria-hidden="false" aria-label="stock transactions"
+                                    fontIcon="local_shipping"></mat-icon>
+                            </mat-panel-title>
+                            <mat-panel-description>
+                                Stock Transaction
+                            </mat-panel-description>
+                        </mat-expansion-panel-header>
+                        <mat-selection-list #shoes [multiple]="false">
+                            <mat-list-item role="listitem" routerLinkActive="route-active"><a
+                                    routerLink="/stockInward">Inward</a></mat-list-item>
+                            <mat-list-item role="listitem"><a href="#">Outward</a></mat-list-item>
+                            <mat-list-item role="listitem"><a href="#">Adjustment</a></mat-list-item>
+                        </mat-selection-list>
+                    </mat-expansion-panel>
+                    <mat-expansion-panel>
+                        <mat-expansion-panel-header>
+                            <mat-panel-title>
+                                <mat-icon aria-hidden="false" aria-label="Settings and master data"
+                                    fontIcon="settings"></mat-icon>
+                            </mat-panel-title>
+                            <mat-panel-description>
+                                Control Panel
+                            </mat-panel-description>
+                        </mat-expansion-panel-header>
+                        <mat-selection-list>
+                            <mat-list-item role="listitem" style="padding: 0 !important;"
+                                [ngClass]="{'master-panel-open' : panelOpenState}">
+                                <mat-expansion-panel (opened)="panelOpenState = true" (closed)="panelOpenState = false">
+                                    <mat-expansion-panel-header>
+                                        <mat-panel-description> Masters </mat-panel-description>
+                                    </mat-expansion-panel-header>
+                                    <mat-selection-list>
+                                        <mat-list-item role="listitem"><a href="#">Item
+                                                Group</a></mat-list-item>
+                                        <mat-list-item role="listitem"><a href="#">Item</a></mat-list-item>
+                                        <mat-list-item role="listitem"><a href="#">Godown</a></mat-list-item>
+                                        <mat-list-item role="listitem"><a href="#">Bay</a></mat-list-item>
+                                        <mat-list-item role="listitem"><a href="#">User
+                                                Management</a></mat-list-item>
+                                    </mat-selection-list>
+                                </mat-expansion-panel>
+                            </mat-list-item>
+                            <mat-list-item role="listitem"><a href="#">Change Password</a></mat-list-item>
+                            <mat-list-item role="listitem"><a href="#">Settings</a></mat-list-item>
+                        </mat-selection-list>
+                    </mat-expansion-panel>
+                    <mat-expansion-panel>
+                        <mat-expansion-panel-header>
+                            <mat-panel-title>
+                                <mat-icon aria-hidden="false" aria-label="Reports" fontIcon="analytics"></mat-icon>
+                            </mat-panel-title>
+                            <mat-panel-description>
+                                Reports
+                            </mat-panel-description>
+                        </mat-expansion-panel-header>
+                        <mat-selection-list #shoes [multiple]="false">
+                            <mat-list-item role="listitem"><a href="#">Consolidated Stock</a></mat-list-item>
+                            <mat-list-item role="listitem"><a href="#">Batchwise Stock</a></mat-list-item>
+                            <mat-list-item role="listitem"><a href="#">Item Movement Analysis</a></mat-list-item>
+                        </mat-selection-list>
+                    </mat-expansion-panel>
+                    <mat-expansion-panel [hideToggle]="true" (click)="logOut()">
+                        <mat-expansion-panel-header [expandedHeight]="'48px'" [collapsedHeight]="'48px'">
+                            <mat-panel-title>
+                                <mat-icon aria-hidden="false" aria-label="Reports" fontIcon="logout"></mat-icon>
+                            </mat-panel-title>
+                            <mat-panel-description> Logout </mat-panel-description>
+                        </mat-expansion-panel-header>
+                    </mat-expansion-panel>
+                </mat-accordion>
             </div>
         </mat-drawer>
-
-        <div class="menu-icon-container">
-            <mat-icon aria-hidden="false" aria-label="Toggle side menu" fontIcon="menu"
-                (click)="drawer.toggle()"></mat-icon>
-        </div>
-
-        <div class="center-align">
-            <button mat-icon-button (click)="getData()"> <mat-icon class="mat-icon-rtl-mirror" fontIcon="cached"></mat-icon>Get data</button>
-        </div>
-
-        <div class="center-align">
-            {{(data !== null || data !== undefined) ? (data | json) : 'Loading'}}
-        </div>
-
+        <p>
+            <mat-toolbar>
+                <mat-icon aria-hidden="false" aria-label="Toggle side menu" fontIcon="menu"
+                    (click)="drawer.toggle()"></mat-icon>
+            </mat-toolbar>
+        </p>
+        <router-outlet></router-outlet>
     </mat-drawer-container>
 </div>

@@ -1,0 +1,32 @@
+table {
+  width: 100%;
+}
+
+.mat-mdc-form-field {
+  font-size: 14px;
+}
+
+td,
+th {
+  width: 25%;
+}
+
+.mat-mdc-cell,
+.mat-mdc-header-cell {
+  vertical-align: middle;
+}
+
+.amrr-table-container {
+  margin-top: 10px;
+  height: calc(100vh - 460px);
+  overflow: auto;
+  padding: 0 15px;
+}
+
+.table-actions {
+  height: 85px;
+  padding: 15px;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+}

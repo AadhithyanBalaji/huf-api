@@ -10,3 +10,23 @@
   .menu-icon-container{
     padding: 15px;
   }
+
+  .master-panel-open{
+    height: 222px !important;
+  }
+
+  .menu-container mat-accordion mat-expansion-panel{
+    margin: 0 !important;
+    box-shadow: none;
+  }
+
+  .menu-container mat-list-item{
+    height: 30px;
+  }
+
+  .menu-container mat-list-item a, logout-div {
+    color: white;
+    font-family: Roboto, sans-serif;
+    font-size: 14px;
+    font-weight: 500;
+  }

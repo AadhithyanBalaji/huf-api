@@ -1,0 +1,102 @@
+<div class="stock-inward-container">
+    <div class="title-container">
+        <h2>Stock Inward</h2>
+        <div class="pull-right">
+            <button mat-flat-button color="primary">Add</button>
+        </div>
+    </div>
+    <div class="grid-container">
+        <div class="grid-filters-container">
+            <form *ngIf="profileForm" [formGroup]="profileForm" autocomplete="off">
+                <mat-grid-list cols="8" rowHeight="70px">
+                    <mat-grid-tile [colspan]="1" [rowspan]="1">
+                            <mat-form-field appearance="fill" [style.width.px]="212">
+                                <mat-label>From Date</mat-label>
+                                <input matInput formControlName="fromDate" [matDatepicker]="fromDatePicker">
+                                <mat-datepicker-toggle matIconSuffix [for]="fromDatePicker"></mat-datepicker-toggle>
+                                <mat-datepicker #fromDatePicker> </mat-datepicker>
+                            </mat-form-field>
+                    </mat-grid-tile>
+                    <mat-grid-tile [colspan]="1" [rowspan]="1">
+                            <mat-form-field appearance="fill" [style.width.px]="212">
+                                <mat-label>To Date</mat-label>
+                                <input matInput formControlName="toDate" [matDatepicker]="toDatePicker">
+                                <mat-datepicker-toggle matIconSuffix [for]="toDatePicker"></mat-datepicker-toggle>
+                                <mat-datepicker #toDatePicker> </mat-datepicker>
+                            </mat-form-field>
+                    </mat-grid-tile>
+                    <mat-grid-tile [colspan]="6" [rowspan]="1"></mat-grid-tile>
+                    <mat-grid-tile [colspan]="1" [rowspan]="1">
+                        <div>
+                            <mat-form-field appearance="fill">
+                                <mat-label>Godown</mat-label>
+                                <input type="text" aria-label="Godown" matInput formControlName="goDownId"
+                                    [matAutocomplete]="auto">
+                                <mat-autocomplete autoActiveFirstOption #auto="matAutocomplete">
+                                    <mat-option *ngFor="let option of filteredGodowns | async" [value]="option">
+                                        {{option}}
+                                    </mat-option>
+                                </mat-autocomplete>
+                            </mat-form-field>
+                        </div>
+                    </mat-grid-tile>
+                    <mat-grid-tile [colspan]="1" [rowspan]="1">
+                        <mat-form-field appearance="fill">
+                            <mat-label>Bay</mat-label>
+                            <input type="text" aria-label="Bay" matInput formControlName="bayId"
+                                [matAutocomplete]="auto1">
+                            <mat-autocomplete autoActiveFirstOption #auto1="matAutocomplete">
+                                <mat-option *ngFor="let option of filteredBays | async" [value]="option">
+                                    {{option}}
+                                </mat-option>
+                            </mat-autocomplete>
+                        </mat-form-field>
+                    </mat-grid-tile>
+                    <mat-grid-tile [colspan]="1" [rowspan]="1">
+                        <mat-form-field appearance="fill">
+                            <mat-label>Item Group</mat-label>
+                            <input type="text" aria-label="Item Group" matInput formControlName="itemGroupId"
+                                [matAutocomplete]="auto2">
+                            <mat-autocomplete autoActiveFirstOption #auto2="matAutocomplete">
+                                <mat-option *ngFor="let option of filteredItemGroups | async" [value]="option">
+                                    {{option}}
+                                </mat-option>
+                            </mat-autocomplete>
+                        </mat-form-field>
+                    </mat-grid-tile>
+                    <mat-grid-tile [colspan]="1" [rowspan]="1">
+                        <mat-form-field appearance="fill">
+                            <mat-label>Items</mat-label>
+                            <input type="text" aria-label="Item" matInput formControlName="itemId"
+                                [matAutocomplete]="auto3">
+                            <mat-autocomplete autoActiveFirstOption #auto3="matAutocomplete">
+                                <mat-option *ngFor="let option of filteredItems | async" [value]="option">
+                                    {{option}}
+                                </mat-option>
+                            </mat-autocomplete>
+                        </mat-form-field>
+                    </mat-grid-tile>
+                    <mat-grid-tile [colspan]="1" [rowspan]="1">
+                        <mat-form-field appearance="fill">
+                            <mat-label>Batch</mat-label>
+                            <input type="text" aria-label="Batch" matInput formControlName="batchId"
+                                [matAutocomplete]="auto4">
+                            <mat-autocomplete autoActiveFirstOption #auto4="matAutocomplete">
+                                <mat-option *ngFor="let option of filteredBatches | async" [value]="option">
+                                    {{option}}
+                                </mat-option>
+                            </mat-autocomplete>
+                        </mat-form-field>
+                    </mat-grid-tile>
+                    <mat-grid-tile [colspan]="1" [rowspan]="1">
+                        <div style="position: relative; top: -11px; left: -45px;">
+                            <button mat-flat-button color="primary" (click)="getData()">View</button>
+                        </div>
+                    </mat-grid-tile>
+                </mat-grid-list>
+            </form>
+        </div>
+        <mat-divider></mat-divider>
+        <app-ammr-grid [columns]="columns" [dataSource]="dataSource"></app-ammr-grid>
+    </div>
+</div>
