@@ -122,11 +122,7 @@ export class StockInwardComponent {
     {
       key: 'user',
       name: 'User',
-    },
-    {
-      key: 'options',
-      name: 'Options',
-    },
+    }
   ];
 
   constructor() {
@@ -140,6 +136,10 @@ export class StockInwardComponent {
 
   getData() {
     console.log(this.profileForm.value);
+  }
+
+  navigateToAddInward() {
+    console.log('Navigating to add inward screen');
   }
 
   private setupAutoCompleteListeners() {

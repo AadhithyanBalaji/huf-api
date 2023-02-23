@@ -1,10 +1,5 @@
-<div class="stock-inward-container">
-    <div class="title-container">
-        <h2>Stock Inward</h2>
-        <div class="pull-right">
-            <button mat-flat-button color="primary">Add</button>
-        </div>
-    </div>
+<div class="df">
+    <app-amrr-page-header [title]="'Stock Inward'" (onActionClicked)="navigateToAddInward()"></app-amrr-page-header>
     <div class="grid-container">
         <div class="grid-filters-container">
             <form *ngIf="profileForm" [formGroup]="profileForm" autocomplete="off">
