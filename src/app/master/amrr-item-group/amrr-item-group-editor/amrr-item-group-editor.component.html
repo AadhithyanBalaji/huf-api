@@ -1,0 +1,23 @@
+<div style="width: 30vw">
+    <h2 mat-dialog-title>
+        {{
+        formService.itemGroup && formService.itemGroup.name !== null
+        ? 'Edit Item Group'
+        : 'New Item Group' }}
+    </h2>
+    <div mat-dialog-content>
+        <mat-form-field appearance="fill">
+            <mat-label>Item Group Name</mat-label>
+            <input matInput [formControl]="formService.name" required>
+        </mat-form-field>
+    </div>
+    <div mat-dialog-actions>
+        <mat-divider></mat-divider>
+        <div style="width: 100%;        display: flex;        justify-content: end;">
+            <button mat-flat-button color="primary" (click)="formService.addItemGroup()">Save</button>
+            <button mat-flat-button color="primary" (click)="formService.addItemGroupAndClose()">Save &
+                Continue</button>
+            <button mat-flat-button color="secondary" (click)="formService.cancel()">Close</button>
+        </div>
+    </div>
+</div>

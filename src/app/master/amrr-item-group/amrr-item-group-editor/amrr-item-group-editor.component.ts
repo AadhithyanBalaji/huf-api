@@ -1,0 +1,25 @@
+import { Component, Inject, OnInit } from '@angular/core';
+import {
+  MatDialog,
+  MatDialogRef,
+  MAT_DIALOG_DATA,
+} from '@angular/material/dialog';
+import { AmrrItemGroupEditorFormService } from './amrr-item-group-editor-form.service';
+
+@Component({
+  selector: 'app-amrr-item-group-editor',
+  templateUrl: './amrr-item-group-editor.component.html',
+  styleUrls: ['./amrr-item-group-editor.component.css'],
+  providers: [AmrrItemGroupEditorFormService],
+})
+export class AmrrItemGroupEditorComponent implements OnInit {
+  constructor(
+    readonly formService: AmrrItemGroupEditorFormService,
+    @Inject(MAT_DIALOG_DATA) public data: any,
+    private readonly dialogRef: MatDialogRef<AmrrItemGroupEditorComponent>
+  ) {}
+
+  ngOnInit(): void {
+    this.formService.init(this.dialogRef, this.data);
+  }
+}

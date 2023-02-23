@@ -19,15 +19,6 @@ export class AppComponent {
   username = 'Arunjunai Rajavel';
   panelOpenState = false;
 
-  constructor(private httpClient: HttpClient) {}
-
-  getData() {
-    this.httpClient
-      .get('https://amrr-api.azurewebsites.net/data')
-      .pipe(take(1))
-      .subscribe((data) => (this.data = data));
-  }
-
   logOut() {
     console.log('logging out');
   }

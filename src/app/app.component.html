@@ -21,7 +21,7 @@
                         </mat-expansion-panel-header>
                         <mat-selection-list #shoes [multiple]="false">
                             <mat-list-item role="listitem" routerLinkActive="route-active"><a
-                                    routerLink="/stockInward">Inward</a></mat-list-item>
+                                    [routerLink]="['stockInward']">Inward</a></mat-list-item>
                             <mat-list-item role="listitem"><a href="#">Outward</a></mat-list-item>
                             <mat-list-item role="listitem"><a href="#">Adjustment</a></mat-list-item>
                         </mat-selection-list>
@@ -44,7 +44,8 @@
                                         <mat-panel-description> Masters </mat-panel-description>
                                     </mat-expansion-panel-header>
                                     <mat-selection-list>
-                                        <mat-list-item role="listitem"><a href="#">Item
+                                        <mat-list-item role="listitem" routerLinkActive="route-active"><a
+                                                [routerLink]="['itemGroup']">Item
                                                 Group</a></mat-list-item>
                                         <mat-list-item role="listitem"><a href="#">Item</a></mat-list-item>
                                         <mat-list-item role="listitem"><a href="#">Godown</a></mat-list-item>
