@@ -21,6 +21,8 @@ import { GlobalErrorHandler } from './shared/global-error-handler';
 import { AmrrLoadingComponent } from './shared/amrr-loading/amrr-loading.component';
 import { HttpLoadingInterceptor } from './shared/http-loading.interceptor';
 import { AmrrLoadingDialogService } from './shared/amrr-loading/amrr-loading-dialog.service';
+import { AmrrGodownComponent } from './master/amrr-godown/amrr-godown.component';
+import { AmrrGodownEditorComponent } from './master/amrr-godown/amrr-godown-editor/amrr-godown-editor.component';
 
 @NgModule({
   declarations: [
@@ -35,6 +37,8 @@ import { AmrrLoadingDialogService } from './shared/amrr-loading/amrr-loading-dia
     AmrrItemEditorComponent,
     AmrrTypeaheadComponent,
     AmrrLoadingComponent,
+    AmrrGodownComponent,
+    AmrrGodownEditorComponent,
   ],
   imports: [
     BrowserModule,
@@ -47,10 +51,10 @@ import { AmrrLoadingDialogService } from './shared/amrr-loading/amrr-loading-dia
   providers: [
     ApiBusinessService,
     AmrrLoadingDialogService,
-    {
-      provide: ErrorHandler,
-      useClass: GlobalErrorHandler,
-    },
+    // {
+    //   provide: ErrorHandler,
+    //   useClass: GlobalErrorHandler,
+    // },
     {
       provide: HTTP_INTERCEPTORS,
       useClass: HttpLoadingInterceptor,

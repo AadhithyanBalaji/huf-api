@@ -1,0 +1,48 @@
+<div style="width: 30vw">
+    <h2 mat-dialog-title>
+        {{
+        formService.data && formService.data.id !== null
+        ? 'Edit Godown'
+        : 'New Godown' }}
+    </h2>
+    <div mat-dialog-content>
+        <form *ngIf="formService.form" [formGroup]="formService.form" autocomplete="off">
+            <div>
+                <mat-form-field appearance="fill">
+                    <mat-label>Godown Name</mat-label>
+                    <input matInput [formControl]="formService.form.controls.name" required>
+                </mat-form-field>
+            </div>
+            <div>
+                <mat-form-field appearance="fill">
+                    <mat-label>Capacity</mat-label>
+                    <input matInput type="number" min="0" [formControl]="formService.form.controls.capacity">
+                </mat-form-field>
+            </div>
+            <div>
+                <mat-form-field appearance="fill">
+                    <mat-label>GSTIN Name</mat-label>
+                    <input matInput [formControl]="formService.form.controls.gstInName">
+                </mat-form-field>
+            </div>
+            <div>
+                <mat-form-field appearance="fill">
+                    <mat-label>GSTIN Address</mat-label>
+                    <input matInput [formControl]="formService.form.controls.gstInAddress">
+                </mat-form-field>
+            </div>
+            <div>
+                <mat-slide-toggle formControlName="isActive"> Status </mat-slide-toggle>
+            </div>
+        </form>
+    </div>
+    <div mat-dialog-actions>
+        <mat-divider></mat-divider>
+        <div style="width: 100%;        display: flex;        justify-content: end;">
+            <button mat-flat-button color="primary" (click)="formService.addGodown()">Save</button>
+            <button mat-flat-button color="primary" (click)="formService.addGodownAndClose()">Save &
+                Continue</button>
+            <button mat-flat-button color="secondary" (click)="formService.cancel()">Close</button>
+        </div>
+    </div>
+</div>
