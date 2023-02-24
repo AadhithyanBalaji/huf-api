@@ -1,21 +1,19 @@
-import { Injectable, TemplateRef } from '@angular/core';
+import { Injectable } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
+import { MatPaginator } from '@angular/material/paginator';
 import { MatTableDataSource } from '@angular/material/table';
 import { take } from 'rxjs';
-import {
-  GridColumnType,
-  IAmmrGridColumn,
-} from 'src/app/shared/ammr-grid/ammr-grid-column.interface';
+import { IAmmrGridColumn } from 'src/app/shared/ammr-grid/ammr-grid-column.interface';
 import { AmrrModalComponent } from 'src/app/shared/amrr-modal/amrr-modal.component';
 import { ApiBusinessService } from 'src/app/shared/api-business.service';
+import { AmrrItem } from '../amrr-item/amrr-item-editor/amrr-item.model';
 import { AmrrItemGroupEditorComponent } from './amrr-item-group-editor/amrr-item-group-editor.component';
 import { AmrrItemGroup } from './amrr-item-group-editor/amrr-item-group.model';
 
 @Injectable()
 export class AmrrItemGroupFormService {
   columns: IAmmrGridColumn[];
-  dataSource: any;
-  loading = true;
+  dataSource: MatTableDataSource<AmrrItemGroup, MatPaginator>;
 
   constructor(
     private readonly dialog: MatDialog,
@@ -23,16 +21,7 @@ export class AmrrItemGroupFormService {
   ) {}
 
   init() {
-    this.columns = [
-      {
-        key: 'ItemGroupId',
-        name: 'S.No.',
-      },
-      {
-        key: 'Name',
-        name: 'Item Group',
-      },
-    ];
+    this.columns = this.getColumns();
     this.getData();
   }
 
@@ -40,59 +29,78 @@ export class AmrrItemGroupFormService {
     this.dialog
       .open(AmrrItemGroupEditorComponent)
       .afterClosed()
-      .subscribe((result) => {
-        this.getData();
-      });
+      .subscribe((result) => (result ? this.getData() : null));
   }
 
-  onEdit(event: any) {
+  onEdit(row: AmrrItemGroup) {
     this.dialog
       .open(AmrrItemGroupEditorComponent, {
-        data: {
-          itemGroupId: event.ItemGroupId,
-          name: event.Name,
-        },
+        data: row,
       })
       .afterClosed()
       .subscribe((result) => {
-        setTimeout(() => {
-          this.getData();
-        }, 1000);
+        result
+          ? setTimeout(() => {
+              this.getData();
+            }, 1000)
+          : null;
       });
   }
 
-  onDelete(event: any) {
-    this.dialog
-      .open(AmrrModalComponent, {
-        data: {
-          title: 'Confirm Deletion',
-          body: `Are you sure you want to delete the item group - ${event.Name} ?`,
-        },
-      })
-      .afterClosed()
-      .subscribe((result) => {
-        if (result) {
-          this.deleteItemGroup(event.ItemGroupId);
-        }
+  onDelete(row: AmrrItemGroup) {
+    this.apiBusinessService
+      .get(`item/itemGroups/${row.id}`)
+      .pipe(take(1))
+      .subscribe((items: any) => {
+        this.getDeleteConfirmationFromUser(row, (items as AmrrItem[]).length);
       });
   }
 
   private getData() {
-    this.loading = true;
     this.apiBusinessService
       .get('itemGroup')
-      .pipe(take(1))
-      .subscribe((data) => {
-        this.dataSource = new MatTableDataSource(data as AmrrItemGroup[]);
-        this.loading = false;
-      });
+      .subscribe(
+        (data) =>
+          (this.dataSource = new MatTableDataSource(data as AmrrItemGroup[]))
+      );
   }
 
-  private deleteItemGroup(itemGroupId: number) {
-    this.loading = true;
+  private deleteItemGroup(id: number) {
     this.apiBusinessService
-      .delete('itemGroup', itemGroupId)
+      .delete('itemGroup', id)
       .pipe(take(1))
       .subscribe((_) => this.getData());
+  }
+
+  private getDeleteConfirmationFromUser(
+    row: AmrrItemGroup,
+    childItemsCount: number
+  ) {
+    this.dialog
+      .open(AmrrModalComponent, {
+        data: {
+          title: 'Confirm Deletion',
+          body:
+            childItemsCount > 0
+              ? `There are ${childItemsCount} items associated with this group. Are you sure you want to delete the item group - ${row.name} ?`
+              : `Are you sure you want to delete the item group - ${row.name} ?`,
+        },
+      })
+      .afterClosed()
+      .pipe(take(1))
+      .subscribe((result) => (result ? this.deleteItemGroup(row.id) : null));
+  }
+
+  private getColumns(): IAmmrGridColumn[] {
+    return [
+      {
+        key: 'id',
+        name: 'S.No.',
+      },
+      {
+        key: 'name',
+        name: 'Item Group',
+      },
+    ];
   }
 }

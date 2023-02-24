@@ -1,7 +1,7 @@
 <div style="width: 30vw">
     <h2 mat-dialog-title>
         {{
-        formService.itemGroup && formService.itemGroup.name !== null
+        formService.data && formService.data.id !== null
         ? 'Edit Item Group'
         : 'New Item Group' }}
     </h2>
@@ -12,7 +12,6 @@
         </mat-form-field>
     </div>
     <div mat-dialog-actions>
-        <mat-divider></mat-divider>
         <div style="width: 100%;        display: flex;        justify-content: end;">
             <button mat-flat-button color="primary" (click)="formService.addItemGroup()">Save</button>
             <button mat-flat-button color="primary" (click)="formService.addItemGroupAndClose()">Save &

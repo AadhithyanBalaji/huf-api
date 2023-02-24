@@ -1,10 +1,10 @@
 import { Component, Inject, OnInit } from '@angular/core';
 import {
-  MatDialog,
   MatDialogRef,
   MAT_DIALOG_DATA,
 } from '@angular/material/dialog';
 import { AmrrItemGroupEditorFormService } from './amrr-item-group-editor-form.service';
+import { AmrrItemGroup } from './amrr-item-group.model';
 
 @Component({
   selector: 'app-amrr-item-group-editor',
@@ -15,7 +15,7 @@ import { AmrrItemGroupEditorFormService } from './amrr-item-group-editor-form.se
 export class AmrrItemGroupEditorComponent implements OnInit {
   constructor(
     readonly formService: AmrrItemGroupEditorFormService,
-    @Inject(MAT_DIALOG_DATA) public data: any,
+    @Inject(MAT_DIALOG_DATA) public data: AmrrItemGroup,
     private readonly dialogRef: MatDialogRef<AmrrItemGroupEditorComponent>
   ) {}
 
