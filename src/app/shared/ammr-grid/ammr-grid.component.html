@@ -36,6 +36,14 @@
                                     [ngTemplateOutletContext]="{row: row}"></ng-container>
                             </td>
                         </ng-container>
+                        <ng-container [matColumnDef]="col.key" *ngSwitchCase="GridColumnType.Boolean">
+                            <th mat-header-cell *matHeaderCellDef mat-sort-header> {{col.name}} </th>
+                            <td mat-cell *matCellDef="let row">
+                                <mat-slide-toggle class="example-margin" [checked]="row[col.key]" [color]="'primary'"
+                                    disabled>
+                                </mat-slide-toggle>
+                            </td>
+                        </ng-container>
                         <ng-container [matColumnDef]="col.key" *ngSwitchDefault>
                             <th mat-header-cell *matHeaderCellDef mat-sort-header> {{col.name}} </th>
                             <td mat-cell *matCellDef="let row"> {{row[col.key]}} </td>

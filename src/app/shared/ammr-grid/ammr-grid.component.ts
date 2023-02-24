@@ -1,5 +1,4 @@
 import {
-  AfterViewInit,
   Component,
   EventEmitter,
   Input,
@@ -35,10 +34,13 @@ export class AmmrGridComponent implements OnChanges {
     if (this.dataSource) {
       this.dataSource.paginator = this.paginator;
       this.dataSource.sort = this.sort;
-      if (this.enableActionColumn && this.columns.findIndex(col => col.key === 'options') === -1) {
+      if (
+        this.enableActionColumn &&
+        this.columns.findIndex((col) => col.key === 'options') === -1
+      ) {
         this.columns.push({
           key: 'options',
-          name: 'Options'
+          name: 'Options',
         });
       }
     }
