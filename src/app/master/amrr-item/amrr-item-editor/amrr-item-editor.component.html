@@ -1,0 +1,38 @@
+<div style="width: 30vw">
+    <h2 mat-dialog-title>
+        {{
+        formService.data && formService.data.itemId !== null
+        ? 'Edit Item'
+        : 'New Item' }}
+    </h2>
+    <div mat-dialog-content>
+        <form *ngIf="formService.form" [formGroup]="formService.form" autocomplete="off">
+            <app-amrr-typeahead [title]="'Item Group Name'" [formControl]="formService.form.controls.itemGroupId"
+                [options]="formService.itemGroups"></app-amrr-typeahead>
+            <div>
+                <mat-form-field appearance="fill">
+                    <mat-label>Item Name</mat-label>
+                    <input matInput [formControl]="formService.form.controls.name" required>
+                </mat-form-field>
+            </div>
+            <mat-form-field appearance="fill">
+                <mat-label>Unit of Measure</mat-label>
+                <input matInput value="Quintal" disabled>
+            </mat-form-field>
+            <div>
+                <mat-slide-toggle class="example-margin" formControlName="isActive">
+                    Status
+                </mat-slide-toggle>
+            </div>
+        </form>
+    </div>
+    <div mat-dialog-actions>
+        <mat-divider></mat-divider>
+        <div style="width: 100%;        display: flex;        justify-content: end;">
+            <button mat-flat-button color="primary" (click)="formService.addItem()">Save</button>
+            <button mat-flat-button color="primary" (click)="formService.addItemAndClose()">Save &
+                Continue</button>
+            <button mat-flat-button color="secondary" (click)="formService.cancel()">Close</button>
+        </div>
+    </div>
+</div>
