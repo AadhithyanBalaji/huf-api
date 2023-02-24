@@ -55,7 +55,7 @@ export class AmrrItemFormService {
       .open(AmrrModalComponent, {
         data: {
           title: 'Confirm Deletion',
-          body: `Are you sure you want to delete the item - ${event.item} ?`,
+          body: `Are you sure you want to delete the item - ${event.name} ?`,
         },
       })
       .afterClosed()
@@ -94,7 +94,7 @@ export class AmrrItemFormService {
         name: 'Group Name',
       },
       {
-        key: 'item',
+        key: 'name',
         name: 'Item Name',
       },
       {

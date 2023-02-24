@@ -12,6 +12,7 @@ export class AmrrItemEditorFormService {
   dialogRef: MatDialogRef<AmrrItemEditorComponent, any>;
   data: AmrrItem;
   itemGroups: AmrrItemGroup[];
+  shouldRefresh = false;
   form: FormGroup<{
     itemGroupId: FormControl<any>;
     itemId: FormControl<any>;
@@ -28,6 +29,7 @@ export class AmrrItemEditorFormService {
   }
 
   addItem() {
+    this.shouldRefresh = true;
     this.saveItem();
   }
 
@@ -36,7 +38,7 @@ export class AmrrItemEditorFormService {
   }
 
   cancel() {
-    this.dialogRef.close();
+    this.dialogRef.close(this.shouldRefresh);
   }
 
   private populateEditor(data: AmrrItem) {
@@ -50,7 +52,7 @@ export class AmrrItemEditorFormService {
             Validators.required,
           ]),
           itemId: new FormControl(data?.itemId, [Validators.required]),
-          name: new FormControl(data?.item, [Validators.required]),
+          name: new FormControl(data?.name, [Validators.required]),
           isActive: new FormControl(data?.isActive, [Validators.required]),
         });
       });
@@ -60,13 +62,13 @@ export class AmrrItemEditorFormService {
     const item = new AmrrItem();
     item.itemId = this.form.controls.itemId.value;
     item.itemGroupId = this.form.controls.itemGroupId.value;
-    item.item = this.form.controls.name.value;
+    item.name = this.form.controls.name.value;
     item.isActive = this.form.controls.isActive.value;
     this.apiBusinessService
       .post('item', item)
       .pipe(take(1))
       .subscribe((_) =>
-        closeDialog ? this.dialogRef.close() : this.form.reset()
+        closeDialog ? this.dialogRef.close(new AmrrItem()) : this.form.reset()
       );
   }
 }
