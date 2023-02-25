@@ -23,6 +23,9 @@ import { HttpLoadingInterceptor } from './shared/http-loading.interceptor';
 import { AmrrLoadingDialogService } from './shared/amrr-loading/amrr-loading-dialog.service';
 import { AmrrGodownComponent } from './master/amrr-godown/amrr-godown.component';
 import { AmrrGodownEditorComponent } from './master/amrr-godown/amrr-godown-editor/amrr-godown-editor.component';
+import { AmrrBayComponent } from './master/amrr-bay/amrr-bay.component';
+import { AmrrBayEditorComponent } from './master/amrr-bay/amrr-bay-editor/amrr-bay-editor.component';
+import { AmrrTypeaheadMultiselectComponent } from './shared/amrr-typeahead-multiselect/amrr-typeahead-multiselect.component';
 
 @NgModule({
   declarations: [
@@ -39,6 +42,9 @@ import { AmrrGodownEditorComponent } from './master/amrr-godown/amrr-godown-edit
     AmrrLoadingComponent,
     AmrrGodownComponent,
     AmrrGodownEditorComponent,
+    AmrrBayComponent,
+    AmrrBayEditorComponent,
+    AmrrTypeaheadMultiselectComponent,
   ],
   imports: [
     BrowserModule,
