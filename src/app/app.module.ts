@@ -26,6 +26,8 @@ import { AmrrGodownEditorComponent } from './master/amrr-godown/amrr-godown-edit
 import { AmrrBayComponent } from './master/amrr-bay/amrr-bay.component';
 import { AmrrBayEditorComponent } from './master/amrr-bay/amrr-bay-editor/amrr-bay-editor.component';
 import { AmrrTypeaheadMultiselectComponent } from './shared/amrr-typeahead-multiselect/amrr-typeahead-multiselect.component';
+import { AmrrLoginComponent } from './auth/amrr-login/amrr-login.component';
+import { AmrrHomeComponent } from './amrr-home/amrr-home.component';
 
 @NgModule({
   declarations: [
@@ -45,6 +47,8 @@ import { AmrrTypeaheadMultiselectComponent } from './shared/amrr-typeahead-multi
     AmrrBayComponent,
     AmrrBayEditorComponent,
     AmrrTypeaheadMultiselectComponent,
+    AmrrLoginComponent,
+    AmrrHomeComponent
   ],
   imports: [
     BrowserModule,
