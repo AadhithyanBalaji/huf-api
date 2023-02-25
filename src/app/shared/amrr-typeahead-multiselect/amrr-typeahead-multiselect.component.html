@@ -1,0 +1,18 @@
+<mat-form-field appearance="fill">
+    <mat-label>{{title}}</mat-label>
+    <mat-chip-grid #chipGrid aria-label="Multi selection">
+        <mat-chip-row *ngFor="let chipText of chipsText" (removed)="remove(chipText)">
+            {{chipText}}
+            <button matChipRemove [attr.aria-label]="'remove ' + chipText">
+                <mat-icon>cancel</mat-icon>
+            </button>
+        </mat-chip-row>
+    </mat-chip-grid>
+    <input placeholder="Type here.." #multiselectInput [formControl]="formControl" [matChipInputFor]="chipGrid"
+        [matAutocomplete]="auto" [matChipInputSeparatorKeyCodes]="separatorKeysCodes" />
+    <mat-autocomplete #auto="matAutocomplete" (optionSelected)="selected($event)" [displayWith]="displayFn.bind(this)">
+        <mat-option *ngFor="let option of filteredOptions | async" [value]="option">
+            {{option.name}}
+        </mat-option>
+    </mat-autocomplete>
+</mat-form-field>

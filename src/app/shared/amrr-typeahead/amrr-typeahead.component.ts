@@ -26,7 +26,7 @@ export class AmrrTypeaheadComponent implements OnChanges {
     const options = changes['options']?.currentValue;
 
     if (
-      Helper.isTruthy(this.formControl) &&
+      !Helper.isTruthy(this.formControl) &&
       formControl &&
       options &&
       options.length >= 0
