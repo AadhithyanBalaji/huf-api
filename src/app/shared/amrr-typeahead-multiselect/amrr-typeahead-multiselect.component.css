@@ -1,3 +1,4 @@
-.example-chip-list {
-    width: 100%;
-  }
+.example-chip-list,
+.typeahead-form-field {
+  width: 100%;
+}

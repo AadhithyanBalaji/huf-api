@@ -7,6 +7,10 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
     padding: 15px;
 }
 
+.dp-b{
+    padding-bottom: 15px;
+}
+
 .center-align{
     display: flex;
     align-content: center;
@@ -36,4 +40,8 @@ a{
     height: 100vh;
     width: 100vw;
     background-color: transparent;
+}
+
+form div mat-form-field{
+    width: 100%;
 }

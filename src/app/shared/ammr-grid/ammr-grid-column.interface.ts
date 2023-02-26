@@ -5,6 +5,7 @@ export class IAmmrGridColumn {
   name: string;
   type?: GridColumnType = GridColumnType.String;
   template?: TemplateRef<any>;
+  hidden? = false;
 }
 
 export enum GridColumnType {

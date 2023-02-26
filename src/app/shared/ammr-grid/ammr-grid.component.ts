@@ -21,6 +21,7 @@ export class AmmrGridComponent implements OnChanges {
   @Input() dataSource: MatTableDataSource<any>;
   @Input() loading: boolean;
   @Input() enableActionColumn = true;
+  @Input() hideDeleteActionForColumnKey: string;
 
   @Output() onEdit = new EventEmitter<any>();
   @Output() onDelete = new EventEmitter<any>();
@@ -47,7 +48,7 @@ export class AmmrGridComponent implements OnChanges {
   }
 
   getDisplayColumns() {
-    return this.columns.map((col) => col.key);
+    return this.columns.filter((col) => !col.hidden).map((col) => col.key);
   }
 
   onEditClicked(event: any) {
