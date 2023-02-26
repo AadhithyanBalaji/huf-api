@@ -3,14 +3,13 @@
         <form class="example-form">
             <mat-card-content>
                 <div class="creds-form-container">
-                    <p style="color: white"> Note : Login not yet implemented. Click to 'Login' get in and view the UI
-                    </p>
                     <mat-form-field class="example-full-width">
-                        <input matInput placeholder="Username">
+                        <input matInput placeholder="Username" [formControl]="loginForm.controls.userName">
                         <mat-icon color="primary" matSuffix>person</mat-icon>
                     </mat-form-field>
                     <mat-form-field class="example-full-width">
-                        <input matInput placeholder="Password" type="password">
+                        <input matInput placeholder="Password" type="password"
+                            [formControl]="loginForm.controls.password">
                         <mat-icon color="primary" matSuffix>lock</mat-icon>
                     </mat-form-field>
                 </div>

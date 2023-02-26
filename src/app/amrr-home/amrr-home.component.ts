@@ -9,10 +9,9 @@ import { AuthService } from '../auth/amrr-login/auth.service';
 export class AmrrHomeComponent {
   data: any;
   showFiller = false;
-  username = 'Arunjunai Rajavel';
   panelOpenState = false;
 
-  constructor(private readonly authService: AuthService) {}
+  constructor(readonly authService: AuthService) {}
 
   logOut() {
     this.authService.logOut();

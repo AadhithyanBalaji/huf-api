@@ -7,6 +7,7 @@ import { AmrrBayComponent } from './master/amrr-bay/amrr-bay.component';
 import { AmrrGodownComponent } from './master/amrr-godown/amrr-godown.component';
 import { AmrrItemGroupComponent } from './master/amrr-item-group/amrr-item-group.component';
 import { AmrrItemComponent } from './master/amrr-item/amrr-item.component';
+import { AmrrUserComponent } from './master/amrr-user/amrr-user.component';
 import { StockInwardComponent } from './stock-inward/stock-inward.component';
 
 const routes: Routes = [
@@ -21,6 +22,7 @@ const routes: Routes = [
       { path: 'item', component: AmrrItemComponent },
       { path: 'godown', component: AmrrGodownComponent },
       { path: 'bay', component: AmrrBayComponent },
+      { path: 'user', component: AmrrUserComponent },
     ],
   },
 ];
