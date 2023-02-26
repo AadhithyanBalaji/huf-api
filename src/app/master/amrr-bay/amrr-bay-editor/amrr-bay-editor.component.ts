@@ -20,7 +20,6 @@ export class AmrrBayEditorComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    console.log(this.typeaheadComponent);
     this.formService.init(this.dialogRef, this.data, this.typeaheadComponent);
   }
 }

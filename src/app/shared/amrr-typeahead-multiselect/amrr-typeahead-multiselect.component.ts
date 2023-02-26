@@ -73,7 +73,6 @@ export class AmrrTypeaheadMultiselectComponent implements AfterViewInit {
   }
 
   private _filter = (value: AmrrGodown): IAmrrTypeahead[] => {
-    console.log(value);
     return this.options.filter(
       (option) =>
         option.name.toLowerCase().includes(value.name.toLowerCase()) &&
