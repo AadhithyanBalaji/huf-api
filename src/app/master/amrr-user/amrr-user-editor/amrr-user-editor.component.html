@@ -1,0 +1,64 @@
+<div style="width: 30vw">
+    <h2 mat-dialog-title>
+        {{
+        formService.data && formService.data.id !== null
+        ? 'Edit User'
+        : 'Add New User' }}
+    </h2>
+    <div mat-dialog-content>
+        <form class="user-form" *ngIf="formService.form" [formGroup]="formService.form" autocomplete="off">
+            <div>
+                <mat-form-field appearance="fill">
+                    <mat-label>Real Name</mat-label>
+                    <input matInput [formControl]="formService.form.controls.name" required>
+                </mat-form-field>
+            </div>
+            <div>
+                <mat-form-field appearance="fill">
+                    <mat-label>Mobile Number</mat-label>
+                    <input matInput [formControl]="formService.form.controls.mobileNumber" required>
+                    <mat-error
+                        *ngIf="formService.form?.controls?.mobileNumber?.errors && formService.form.controls.mobileNumber.errors!['pattern']">Please
+                        provide only numbers</mat-error>
+                    <mat-error
+                        *ngIf="formService.form?.controls?.mobileNumber?.errors && formService.form.controls.mobileNumber.errors!['maxlength']">Maximum
+                        is 10 digits</mat-error>
+                    <mat-error
+                        *ngIf="formService.form?.controls?.mobileNumber?.errors && formService.form.controls.mobileNumber.errors!['minlength']">Provide
+                        exactly 10 digits</mat-error>
+                </mat-form-field>
+            </div>
+            <div>
+                <mat-form-field appearance="fill">
+                    <mat-label>Login Name</mat-label>
+                    <input matInput [formControl]="formService.form.controls.loginName" required>
+                </mat-form-field>
+            </div>
+            <div>
+                <mat-form-field appearance="fill">
+                    <mat-label>Password</mat-label>
+                    <input matInput [formControl]="formService.form.controls.password" type="password" required>
+                </mat-form-field>
+            </div>
+            <div style="padding-bottom: 30px !important">
+                <mat-slide-toggle formControlName="isAdmin"> Is Admin </mat-slide-toggle>
+            </div>
+            <div>
+                <app-amrr-typeahead-multiselect [title]="'Godown'" [ctrl]="formService.form.controls.godowns"
+                    [options]="formService.godowns" #multiselect></app-amrr-typeahead-multiselect>
+            </div>
+            <div>
+                <mat-slide-toggle formControlName="isActive"> Status </mat-slide-toggle>
+            </div>
+        </form>
+    </div>
+    <div mat-dialog-actions>
+        <mat-divider></mat-divider>
+        <div style="width: 100%;        display: flex;        justify-content: end;">
+            <button mat-flat-button color="primary" (click)="formService.addUser()">Save</button>
+            <button mat-flat-button color="primary" (click)="formService.addUserAndClose()">Save &
+                Continue</button>
+            <button mat-flat-button color="secondary" (click)="formService.cancel()">Close</button>
+        </div>
+    </div>
+</div>
