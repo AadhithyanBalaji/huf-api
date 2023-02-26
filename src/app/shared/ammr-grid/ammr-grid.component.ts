@@ -22,6 +22,7 @@ export class AmmrGridComponent implements OnChanges {
   @Input() loading: boolean;
   @Input() enableActionColumn = true;
   @Input() hideDeleteActionForColumnKey: string;
+  @Input() readOnly = false;
 
   @Output() onEdit = new EventEmitter<any>();
   @Output() onDelete = new EventEmitter<any>();
@@ -37,7 +38,8 @@ export class AmmrGridComponent implements OnChanges {
       this.dataSource.sort = this.sort;
       if (
         this.enableActionColumn &&
-        this.columns.findIndex((col) => col.key === 'options') === -1
+        this.columns.findIndex((col) => col.key === 'options') === -1 &&
+        !this.readOnly
       ) {
         this.columns.push({
           key: 'options',

@@ -4,6 +4,7 @@ import { AmrrHomeComponent } from './amrr-home/amrr-home.component';
 import { AmrrChangePasswordComponent } from './auth/amrr-change-password/amrr-change-password.component';
 import { AmrrLoginComponent } from './auth/amrr-login/amrr-login.component';
 import { AuthGuard } from './auth/auth.guard';
+import { AmrrAccessLogComponent } from './master/amrr-access-log/amrr-access-log.component';
 
 import { AmrrBayComponent } from './master/amrr-bay/amrr-bay.component';
 import { AmrrGodownComponent } from './master/amrr-godown/amrr-godown.component';
@@ -26,6 +27,7 @@ const routes: Routes = [
       { path: 'bay', component: AmrrBayComponent },
       { path: 'user', component: AmrrUserComponent },
       { path: 'changePassword', component: AmrrChangePasswordComponent },
+      { path: 'accessLogs', component: AmrrAccessLogComponent },
     ],
   },
 ];

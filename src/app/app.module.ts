@@ -31,6 +31,7 @@ import { AmrrUserComponent } from './master/amrr-user/amrr-user.component';
 import { AmrrUserEditorComponent } from './master/amrr-user/amrr-user-editor/amrr-user-editor.component';
 import { AmrrChangePasswordComponent } from './auth/amrr-change-password/amrr-change-password.component';
 import { GlobalErrorHandler } from './shared/global-error-handler';
+import { AmrrAccessLogComponent } from './master/amrr-access-log/amrr-access-log.component';
 
 @NgModule({
   declarations: [
@@ -54,7 +55,8 @@ import { GlobalErrorHandler } from './shared/global-error-handler';
     AmrrHomeComponent,
     AmrrUserComponent,
     AmrrUserEditorComponent,
-    AmrrChangePasswordComponent
+    AmrrChangePasswordComponent,
+    AmrrAccessLogComponent
   ],
   imports: [
     BrowserModule,

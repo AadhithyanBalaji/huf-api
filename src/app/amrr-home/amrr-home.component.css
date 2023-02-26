@@ -12,7 +12,7 @@
   }
 
   .master-panel-open{
-    height: 222px !important;
+    height: 290px !important;
   }
 
   .menu-container mat-accordion mat-expansion-panel{
@@ -20,8 +20,12 @@
     box-shadow: none;
   }
 
+  .menu-container .mat-expansion-panel-header .mat-expanded{
+    height: 40px !important;
+  }
+
   .menu-container mat-list-item{
-    height: 30px;
+    height: 40px;
   }
 
   .menu-container mat-list-item a, logout-div {
