@@ -17,7 +17,6 @@ import { AmrrModalComponent } from './shared/amrr-modal/amrr-modal.component';
 import { AmrrItemComponent } from './master/amrr-item/amrr-item.component';
 import { AmrrItemEditorComponent } from './master/amrr-item/amrr-item-editor/amrr-item-editor.component';
 import { AmrrTypeaheadComponent } from './shared/amrr-typeahead/amrr-typeahead.component';
-import { GlobalErrorHandler } from './shared/global-error-handler';
 import { AmrrLoadingComponent } from './shared/amrr-loading/amrr-loading.component';
 import { HttpLoadingInterceptor } from './shared/http-loading.interceptor';
 import { AmrrLoadingDialogService } from './shared/amrr-loading/amrr-loading-dialog.service';
@@ -30,6 +29,8 @@ import { AmrrLoginComponent } from './auth/amrr-login/amrr-login.component';
 import { AmrrHomeComponent } from './amrr-home/amrr-home.component';
 import { AmrrUserComponent } from './master/amrr-user/amrr-user.component';
 import { AmrrUserEditorComponent } from './master/amrr-user/amrr-user-editor/amrr-user-editor.component';
+import { AmrrChangePasswordComponent } from './auth/amrr-change-password/amrr-change-password.component';
+import { GlobalErrorHandler } from './shared/global-error-handler';
 
 @NgModule({
   declarations: [
@@ -52,7 +53,8 @@ import { AmrrUserEditorComponent } from './master/amrr-user/amrr-user-editor/amr
     AmrrLoginComponent,
     AmrrHomeComponent,
     AmrrUserComponent,
-    AmrrUserEditorComponent
+    AmrrUserEditorComponent,
+    AmrrChangePasswordComponent
   ],
   imports: [
     BrowserModule,
@@ -65,10 +67,10 @@ import { AmrrUserEditorComponent } from './master/amrr-user/amrr-user-editor/amr
   providers: [
     ApiBusinessService,
     AmrrLoadingDialogService,
-    // {
-    //   provide: ErrorHandler,
-    //   useClass: GlobalErrorHandler,
-    // },
+    {
+      provide: ErrorHandler,
+      useClass: GlobalErrorHandler,
+    },
     {
       provide: HTTP_INTERCEPTORS,
       useClass: HttpLoadingInterceptor,

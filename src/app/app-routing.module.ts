@@ -1,8 +1,10 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { AmrrHomeComponent } from './amrr-home/amrr-home.component';
+import { AmrrChangePasswordComponent } from './auth/amrr-change-password/amrr-change-password.component';
 import { AmrrLoginComponent } from './auth/amrr-login/amrr-login.component';
-import { AuthGuard } from './auth/amrr-login/auth.guard';
+import { AuthGuard } from './auth/auth.guard';
+
 import { AmrrBayComponent } from './master/amrr-bay/amrr-bay.component';
 import { AmrrGodownComponent } from './master/amrr-godown/amrr-godown.component';
 import { AmrrItemGroupComponent } from './master/amrr-item-group/amrr-item-group.component';
@@ -23,6 +25,7 @@ const routes: Routes = [
       { path: 'godown', component: AmrrGodownComponent },
       { path: 'bay', component: AmrrBayComponent },
       { path: 'user', component: AmrrUserComponent },
+      { path: 'changePassword', component: AmrrChangePasswordComponent },
     ],
   },
 ];
