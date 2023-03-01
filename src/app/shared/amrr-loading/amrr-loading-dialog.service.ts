@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import { MatDialog, MatDialogRef } from '@angular/material/dialog';
+import Helper from '../helper';
 import { AmrrLoadingComponent } from './amrr-loading.component';
 
 @Injectable()
@@ -8,9 +9,11 @@ export class AmrrLoadingDialogService {
   constructor(private dialog: MatDialog) {}
 
   showLoading() {
-    this.dialogRef = this.dialog.open(AmrrLoadingComponent, {
-      disableClose: true,
-    });
+    if (!Helper.isTruthy(this.dialogRef)) {
+      this.dialogRef = this.dialog.open(AmrrLoadingComponent, {
+        disableClose: true,
+      });
+    }
   }
 
   hideLoading() {

@@ -21,11 +21,11 @@ import Helper from '../helper';
 export class AmrrTypeaheadMultiselectComponent implements AfterViewInit {
   @Input() title: string;
   @Input() ctrl: FormControl;
-  @Input() options: IAmrrTypeahead[] = []; // = ['Apple', 'Lemon', 'Lime', 'Orange', 'Strawberry'];
+  @Input() options: IAmrrTypeahead[] = [];
 
   formControl = new FormControl();
   filteredOptions: Observable<IAmrrTypeahead[]>;
-  chipsText: string[] = []; // = ['Lemon'];
+  chipsText: string[] = [];
   separatorKeysCodes: number[] = [ENTER, COMMA];
 
   @ViewChild('multiselectInput') multiselectInput: ElementRef<HTMLInputElement>;

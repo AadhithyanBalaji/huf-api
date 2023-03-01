@@ -1,4 +1,4 @@
-<mat-form-field appearance="fill" *ngIf="formControl">
+<mat-form-field appearance="fill" *ngIf="formControl" class="typeahead-form-field">
     <mat-label>{{title}}</mat-label>
     <input type="text" aria-label="typeahead" matInput [formControl]="formControl" [matAutocomplete]="auto">
     <mat-autocomplete autoActiveFirstOption #auto="matAutocomplete" [displayWith]="displayFn.bind(this)">

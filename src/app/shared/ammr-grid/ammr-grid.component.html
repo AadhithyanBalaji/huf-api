@@ -62,7 +62,7 @@
                             <button mat-icon-button aria-label="Edit" (click)="onEditClicked(row)">
                                 <mat-icon>edit</mat-icon>
                             </button>
-                            <button *ngIf="hideDeleteActionForColumnKey && !row[hideDeleteActionForColumnKey]" mat-icon-button aria-label="Delete"
+                            <button *ngIf="!(hideDeleteActionForColumnKey && row[hideDeleteActionForColumnKey])" mat-icon-button aria-label="Delete"
                                 (click)="onDeleteClicked(row)">
                                 <mat-icon>delete</mat-icon>
                             </button>

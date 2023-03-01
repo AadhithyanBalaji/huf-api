@@ -1,91 +1,50 @@
 <div class="df">
-    <app-amrr-page-header [title]="'Stock Inward'" (onActionClicked)="navigateToAddInward()"></app-amrr-page-header>
+    <app-amrr-page-header [title]="'Stock Inward'"
+        (onActionClicked)="formService.navigateToAddInward()"></app-amrr-page-header>
     <div class="grid-container">
         <div class="grid-filters-container">
-            <form *ngIf="profileForm" [formGroup]="profileForm" autocomplete="off">
+            <form *ngIf="formService.form" [formGroup]="formService.form" autocomplete="off">
                 <mat-grid-list cols="8" rowHeight="70px">
                     <mat-grid-tile [colspan]="1" [rowspan]="1">
-                            <mat-form-field appearance="fill" [style.width.px]="212">
-                                <mat-label>From Date</mat-label>
-                                <input matInput formControlName="fromDate" [matDatepicker]="fromDatePicker">
-                                <mat-datepicker-toggle matIconSuffix [for]="fromDatePicker"></mat-datepicker-toggle>
-                                <mat-datepicker #fromDatePicker> </mat-datepicker>
-                            </mat-form-field>
+                        <mat-form-field appearance="fill" [style.width.px]="212">
+                            <mat-label>From Date</mat-label>
+                            <input matInput formControlName="fromDate" [matDatepicker]="fromDatePicker">
+                            <mat-datepicker-toggle matIconSuffix [for]="fromDatePicker"></mat-datepicker-toggle>
+                            <mat-datepicker #fromDatePicker> </mat-datepicker>
+                        </mat-form-field>
                     </mat-grid-tile>
                     <mat-grid-tile [colspan]="1" [rowspan]="1">
-                            <mat-form-field appearance="fill" [style.width.px]="212">
-                                <mat-label>To Date</mat-label>
-                                <input matInput formControlName="toDate" [matDatepicker]="toDatePicker">
-                                <mat-datepicker-toggle matIconSuffix [for]="toDatePicker"></mat-datepicker-toggle>
-                                <mat-datepicker #toDatePicker> </mat-datepicker>
-                            </mat-form-field>
+                        <mat-form-field appearance="fill" [style.width.px]="212">
+                            <mat-label>To Date</mat-label>
+                            <input matInput formControlName="toDate" [matDatepicker]="toDatePicker">
+                            <mat-datepicker-toggle matIconSuffix [for]="toDatePicker"></mat-datepicker-toggle>
+                            <mat-datepicker #toDatePicker> </mat-datepicker>
+                        </mat-form-field>
                     </mat-grid-tile>
                     <mat-grid-tile [colspan]="6" [rowspan]="1"></mat-grid-tile>
                     <mat-grid-tile [colspan]="1" [rowspan]="1">
-                        <div>
-                            <mat-form-field appearance="fill">
-                                <mat-label>Godown</mat-label>
-                                <input type="text" aria-label="Godown" matInput formControlName="goDownId"
-                                    [matAutocomplete]="auto">
-                                <mat-autocomplete autoActiveFirstOption #auto="matAutocomplete">
-                                    <mat-option *ngFor="let option of filteredGodowns | async" [value]="option">
-                                        {{option}}
-                                    </mat-option>
-                                </mat-autocomplete>
-                            </mat-form-field>
-                        </div>
+                        <app-amrr-typeahead [title]="'Godown'" [formControl]="formService.form.controls.goDownId"
+                            [options]="formService.godowns"></app-amrr-typeahead>
                     </mat-grid-tile>
                     <mat-grid-tile [colspan]="1" [rowspan]="1">
-                        <mat-form-field appearance="fill">
-                            <mat-label>Bay</mat-label>
-                            <input type="text" aria-label="Bay" matInput formControlName="bayId"
-                                [matAutocomplete]="auto1">
-                            <mat-autocomplete autoActiveFirstOption #auto1="matAutocomplete">
-                                <mat-option *ngFor="let option of filteredBays | async" [value]="option">
-                                    {{option}}
-                                </mat-option>
-                            </mat-autocomplete>
-                        </mat-form-field>
+                        <app-amrr-typeahead [title]="'Bay'" [formControl]="formService.form.controls.bayId"
+                            [options]="formService.bays"></app-amrr-typeahead>
                     </mat-grid-tile>
                     <mat-grid-tile [colspan]="1" [rowspan]="1">
-                        <mat-form-field appearance="fill">
-                            <mat-label>Item Group</mat-label>
-                            <input type="text" aria-label="Item Group" matInput formControlName="itemGroupId"
-                                [matAutocomplete]="auto2">
-                            <mat-autocomplete autoActiveFirstOption #auto2="matAutocomplete">
-                                <mat-option *ngFor="let option of filteredItemGroups | async" [value]="option">
-                                    {{option}}
-                                </mat-option>
-                            </mat-autocomplete>
-                        </mat-form-field>
+                        <app-amrr-typeahead [title]="'Item Group'" [formControl]="formService.form.controls.itemGroupId"
+                            [options]="formService.itemGroups"></app-amrr-typeahead>
                     </mat-grid-tile>
                     <mat-grid-tile [colspan]="1" [rowspan]="1">
-                        <mat-form-field appearance="fill">
-                            <mat-label>Items</mat-label>
-                            <input type="text" aria-label="Item" matInput formControlName="itemId"
-                                [matAutocomplete]="auto3">
-                            <mat-autocomplete autoActiveFirstOption #auto3="matAutocomplete">
-                                <mat-option *ngFor="let option of filteredItems | async" [value]="option">
-                                    {{option}}
-                                </mat-option>
-                            </mat-autocomplete>
-                        </mat-form-field>
+                        <app-amrr-typeahead [title]="'Item'" [formControl]="formService.form.controls.itemId"
+                            [options]="formService.items"></app-amrr-typeahead>
                     </mat-grid-tile>
                     <mat-grid-tile [colspan]="1" [rowspan]="1">
-                        <mat-form-field appearance="fill">
-                            <mat-label>Batch</mat-label>
-                            <input type="text" aria-label="Batch" matInput formControlName="batchId"
-                                [matAutocomplete]="auto4">
-                            <mat-autocomplete autoActiveFirstOption #auto4="matAutocomplete">
-                                <mat-option *ngFor="let option of filteredBatches | async" [value]="option">
-                                    {{option}}
-                                </mat-option>
-                            </mat-autocomplete>
-                        </mat-form-field>
+                        <app-amrr-typeahead [title]="'Batch'" [formControl]="formService.form.controls.batchId"
+                            [options]="formService.batches"></app-amrr-typeahead>
                     </mat-grid-tile>
                     <mat-grid-tile [colspan]="1" [rowspan]="1">
                         <div style="position: relative; top: -11px; left: -45px;">
-                            <button mat-flat-button color="primary" (click)="getData()">View</button>
+                            <button mat-flat-button color="primary" (click)="formService.getData()">View</button>
                         </div>
                     </mat-grid-tile>
                 </mat-grid-list>
