@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { Router } from '@angular/router';
 import { combineLatest, take } from 'rxjs';
 import { AmrrBay } from '../master/amrr-bay/amrr-bay-editor/amrr-bay.model';
 import { AmrrGodown } from '../master/amrr-godown/amrr-godown-editor/amrr-godown.model';
@@ -25,7 +26,10 @@ export class StockInwardFormService {
     batchId: FormControl<any>;
   }>;
 
-  constructor(private readonly apiBusinessService: ApiBusinessService) {}
+  constructor(
+    private readonly apiBusinessService: ApiBusinessService,
+    private readonly router: Router
+  ) {}
 
   init() {
     combineLatest([
@@ -59,7 +63,7 @@ export class StockInwardFormService {
   }
 
   navigateToAddInward() {
-    console.log('Navigating to add inward screen');
+    this.router.navigate(['stockInward', 'edit', 'new']);
   }
 
   private setupFormListeners() {

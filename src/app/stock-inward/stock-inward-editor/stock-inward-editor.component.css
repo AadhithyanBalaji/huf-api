@@ -1,0 +1,34 @@
+.first-row {
+  display: flex;
+  justify-content: space-evenly;
+}
+
+.first-row mat-card {
+  width: 32vw !important;
+}
+
+.inward-items-editor-container {
+  margin: 5px;
+}
+
+.last-row {
+  display: flex;
+  justify-content: space-between;
+  margin: 5px;
+}
+
+.display-cards-container {
+  display: flex;
+  gap: 5px;
+}
+
+.display-card {
+  width: 20vw;
+}
+
+.action-row {
+  display: flex;
+  justify-content: end;
+  gap: 10px;
+  padding: 15px;
+}

@@ -1,7 +1,8 @@
 <div class="mat-elevation-z8">
-    <div class="table-actions">
-        <mat-paginator [pageSizeOptions]="[5, 10, 25, 100]" aria-label="Select page of users"></mat-paginator>
-        <div>
+    <div class="table-actions" *ngIf="allowFilter || allowPagination">
+        <mat-paginator *ngIf="allowPagination" [pageSizeOptions]="[5, 10, 25, 100]"
+            aria-label="Select page of users"></mat-paginator>
+        <div *ngIf="allowFilter">
             <mat-form-field>
                 <mat-label>Search</mat-label>
                 <input matInput (keyup)="applyFilter($event)" placeholder="Ex. Orid" #input>
@@ -9,7 +10,7 @@
         </div>
     </div>
 
-    <div class="amrr-table-container">
+    <div class="amrr-table-container" [ngClass]="autoHeight ? 'auto-height': ''">
         <div *ngIf="loading" style="height: 100px;
         position: absolute;
         z-index: 999;
@@ -59,11 +60,11 @@
                     <th mat-header-cell *matHeaderCellDef> Options </th>
                     <td mat-cell *matCellDef="let row">
                         <div>
-                            <button mat-icon-button aria-label="Edit" (click)="onEditClicked(row)">
+                            <button mat-icon-button aria-label="Edit" (click)="onEditClicked(row)" *ngIf="enableEdit">
                                 <mat-icon>edit</mat-icon>
                             </button>
-                            <button *ngIf="!(hideDeleteActionForColumnKey && row[hideDeleteActionForColumnKey])" mat-icon-button aria-label="Delete"
-                                (click)="onDeleteClicked(row)">
+                            <button *ngIf="!(hideDeleteActionForColumnKey && row[hideDeleteActionForColumnKey])"
+                                mat-icon-button aria-label="Delete" (click)="onDeleteClicked(row)">
                                 <mat-icon>delete</mat-icon>
                             </button>
                         </div>
@@ -74,7 +75,7 @@
             <tr mat-header-row *matHeaderRowDef="getDisplayColumns(); sticky: true"></tr>
             <tr mat-row *matRowDef="let row; columns: getDisplayColumns();"></tr>
             <tr class="mat-row" *matNoDataRow>
-                <td class="mat-cell" colspan="4">No data matching the filter "{{input.value}}"</td>
+                <td class="mat-cell" colspan="4" *ngIf="allowFilter">No data</td>
             </tr>
         </table>
     </div>

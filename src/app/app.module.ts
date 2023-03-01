@@ -32,6 +32,8 @@ import { AmrrUserEditorComponent } from './master/amrr-user/amrr-user-editor/amr
 import { AmrrChangePasswordComponent } from './auth/amrr-change-password/amrr-change-password.component';
 import { GlobalErrorHandler } from './shared/global-error-handler';
 import { AmrrAccessLogComponent } from './master/amrr-access-log/amrr-access-log.component';
+import { StockInwardEditorComponent } from './stock-inward/stock-inward-editor/stock-inward-editor.component';
+import { InwardTransactionBatchComponent } from './stock-inward/inward-transaction-batch/inward-transaction-batch.component';
 
 @NgModule({
   declarations: [
@@ -56,7 +58,9 @@ import { AmrrAccessLogComponent } from './master/amrr-access-log/amrr-access-log
     AmrrUserComponent,
     AmrrUserEditorComponent,
     AmrrChangePasswordComponent,
-    AmrrAccessLogComponent
+    AmrrAccessLogComponent,
+    StockInwardEditorComponent,
+    InwardTransactionBatchComponent
   ],
   imports: [
     BrowserModule,
@@ -69,10 +73,10 @@ import { AmrrAccessLogComponent } from './master/amrr-access-log/amrr-access-log
   providers: [
     ApiBusinessService,
     AmrrLoadingDialogService,
-    {
-      provide: ErrorHandler,
-      useClass: GlobalErrorHandler,
-    },
+    // {
+    //   provide: ErrorHandler,
+    //   useClass: GlobalErrorHandler,
+    // },
     {
       provide: HTTP_INTERCEPTORS,
       useClass: HttpLoadingInterceptor,

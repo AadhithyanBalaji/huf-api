@@ -23,6 +23,10 @@ export class AmmrGridComponent implements OnChanges {
   @Input() enableActionColumn = true;
   @Input() hideDeleteActionForColumnKey: string;
   @Input() readOnly = false;
+  @Input() enableEdit = true;
+  @Input() autoHeight = false;
+  @Input() allowPagination = true;
+  @Input() allowFilter = true;
 
   @Output() onEdit = new EventEmitter<any>();
   @Output() onDelete = new EventEmitter<any>();

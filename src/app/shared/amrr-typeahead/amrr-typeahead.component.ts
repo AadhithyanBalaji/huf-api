@@ -31,13 +31,19 @@ export class AmrrTypeaheadComponent implements AfterViewChecked {
   }
 
   displayFn(option: number): string {
-    return this.options.find((o) => o.id === option)?.name || '';
+    return (
+      (Helper.isTruthy(this.options) &&
+        this.options.find((o) => o.id === option)?.name) ||
+      ''
+    );
   }
 
   private _filter(value: string, options: IAmrrTypeahead[]): IAmrrTypeahead[] {
     return options && options.length > 0
-      ? options.filter((option: IAmrrTypeahead) =>
-          option.name.toLowerCase().includes(value.toLowerCase())
+      ? options.filter(
+          (option: IAmrrTypeahead) =>
+            Helper.isTruthy(option) &&
+            option?.name.toLowerCase().includes(value.toLowerCase())
         )
       : options;
   }

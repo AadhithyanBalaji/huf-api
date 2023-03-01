@@ -11,6 +11,7 @@ import { AmrrGodownComponent } from './master/amrr-godown/amrr-godown.component'
 import { AmrrItemGroupComponent } from './master/amrr-item-group/amrr-item-group.component';
 import { AmrrItemComponent } from './master/amrr-item/amrr-item.component';
 import { AmrrUserComponent } from './master/amrr-user/amrr-user.component';
+import { StockInwardEditorComponent } from './stock-inward/stock-inward-editor/stock-inward-editor.component';
 import { StockInwardComponent } from './stock-inward/stock-inward.component';
 
 const routes: Routes = [
@@ -21,6 +22,7 @@ const routes: Routes = [
     canActivate: [AuthGuard],
     children: [
       { path: 'stockInward', component: StockInwardComponent },
+      { path: 'stockInward/edit/:id', component: StockInwardEditorComponent },
       { path: 'itemGroup', component: AmrrItemGroupComponent },
       { path: 'item', component: AmrrItemComponent },
       { path: 'godown', component: AmrrGodownComponent },
