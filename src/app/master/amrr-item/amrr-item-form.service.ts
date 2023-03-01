@@ -62,7 +62,7 @@ export class AmrrItemFormService {
       .pipe(take(1))
       .subscribe((result) => {
         if (result) {
-          this.deleteItem(event.itemId);
+          this.deleteItem(event.id);
         }
       });
   }
@@ -88,6 +88,11 @@ export class AmrrItemFormService {
       {
         key: 'itemId',
         name: 'S.No.',
+      },
+      {
+        key: 'itemGroupId',
+        name: 'Item Group Id',
+        hidden: true
       },
       {
         key: 'itemGroup',

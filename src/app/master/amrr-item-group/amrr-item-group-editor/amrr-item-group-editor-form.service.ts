@@ -46,7 +46,7 @@ export class AmrrItemGroupEditorFormService {
       .post('itemGroup', itemGroup)
       .pipe(take(1))
       .subscribe((_) => {
-        closeDialog ? this.dialogRef.close() : this.name.setValue(null);
+        closeDialog ? this.dialogRef.close(new AmrrItemGroup()) : this.name.setValue(null);
       });
   }
 }

@@ -51,7 +51,7 @@ export class AmrrItemEditorFormService {
           itemGroupId: new FormControl(data?.itemGroupId, [
             Validators.required,
           ]),
-          itemId: new FormControl(data?.itemId, [Validators.required]),
+          itemId: new FormControl(data?.id, [Validators.required]),
           name: new FormControl(data?.name, [Validators.required]),
           isActive: new FormControl(data?.isActive, [Validators.required]),
         });
@@ -60,7 +60,7 @@ export class AmrrItemEditorFormService {
 
   private saveItem(closeDialog = false) {
     const item = new AmrrItem();
-    item.itemId = this.form.controls.itemId.value;
+    item.id = this.form.controls.itemId.value;
     item.itemGroupId = this.form.controls.itemGroupId.value;
     item.name = this.form.controls.name.value;
     item.isActive = this.form.controls.isActive.value;

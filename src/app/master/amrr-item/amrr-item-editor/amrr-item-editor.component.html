@@ -1,24 +1,28 @@
 <div style="width: 30vw">
     <h2 mat-dialog-title>
         {{
-        formService.data && formService.data.itemId !== null
+        formService.data && formService.data.id !== null
         ? 'Edit Item'
         : 'New Item' }}
     </h2>
     <div mat-dialog-content>
         <form *ngIf="formService.form" [formGroup]="formService.form" autocomplete="off">
+            <div>
             <app-amrr-typeahead [title]="'Item Group Name'" [formControl]="formService.form.controls.itemGroupId"
                 [options]="formService.itemGroups"></app-amrr-typeahead>
+            </div>
             <div>
                 <mat-form-field appearance="fill">
                     <mat-label>Item Name</mat-label>
                     <input matInput [formControl]="formService.form.controls.name" required>
                 </mat-form-field>
             </div>
-            <mat-form-field appearance="fill">
-                <mat-label>Unit of Measure</mat-label>
-                <input matInput value="Quintal" disabled>
-            </mat-form-field>
+            <div>
+                <mat-form-field appearance="fill">
+                    <mat-label>Unit of Measure</mat-label>
+                    <input matInput value="Quintal" disabled>
+                </mat-form-field>
+            </div>
             <div>
                 <mat-slide-toggle class="example-margin" formControlName="isActive">
                     Status
