@@ -1,4 +1,5 @@
 export class TransactionBatch{
+  transactionBatchId: number;
   godownId: number;
   bayId: number;
   batchId: number;
@@ -11,6 +12,5 @@ export class TransactionBatch{
   godown: string;
   bay: string;
   itemName: string;
-  batchNo: string;
 
 }

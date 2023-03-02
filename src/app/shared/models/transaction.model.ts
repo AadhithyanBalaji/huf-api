@@ -5,11 +5,12 @@ export class Transaction{
     transationId: number;
     transactionTypeId: number;
     invoiceNo: string;
-    partName: string;
+    partyName: string;
     vehicleName: string;
     vehicleRegNo: string;
     weightMeasureType: number;
     remarks: string;
     verifiedBy: string;
     transactionDate: Date;
+  transaction: any;
 }

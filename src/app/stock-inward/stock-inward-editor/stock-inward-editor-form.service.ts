@@ -1,17 +1,11 @@
 import { Injectable } from '@angular/core';
-import { FormControl, FormGroup } from '@angular/forms';
-import { MatPaginator } from '@angular/material/paginator';
-import { MatTableDataSource } from '@angular/material/table';
+import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
-import { combineLatest, take } from 'rxjs';
-import { AmrrBay } from 'src/app/master/amrr-bay/amrr-bay-editor/amrr-bay.model';
-import { AmrrGodown } from 'src/app/master/amrr-godown/amrr-godown-editor/amrr-godown.model';
-import { AmrrItem } from 'src/app/master/amrr-item/amrr-item-editor/amrr-item.model';
-import { IAmmrGridColumn } from 'src/app/shared/ammr-grid/ammr-grid-column.interface';
+import { take } from 'rxjs';
 import { IAmrrTypeahead } from 'src/app/shared/amrr-typeahead/amrr-typeahead.interface';
 import { ApiBusinessService } from 'src/app/shared/api-business.service';
-import Helper from 'src/app/shared/helper';
 import { TransactionBatch } from 'src/app/shared/models/transaction-batch.model';
+import { Transaction } from 'src/app/shared/models/transaction.model';
 
 @Injectable()
 export class StockInwardEditorFormService {
@@ -37,16 +31,20 @@ export class StockInwardEditorFormService {
       name: 'Weighbridge',
     },
   ];
+  batchData: any;
 
-  constructor(private readonly router: Router) {}
+  constructor(
+    private readonly router: Router,
+    private readonly apiBusinessService: ApiBusinessService
+  ) {}
 
   init() {
     this.form = new FormGroup({
       inwardDate: new FormControl(new Date()),
-      inwardNo: new FormControl('TBD'),
-      invoiceNo: new FormControl(''),
-      party: new FormControl(''),
-      vehicleDetails: new FormControl(''),
+      inwardNo: new FormControl(),
+      invoiceNo: new FormControl(),
+      party: new FormControl('', [Validators.required]),
+      vehicleDetails: new FormControl('', [Validators.required]),
       weightMeasureType: new FormControl(),
       remarks: new FormControl(),
       verifiedBy: new FormControl(),
@@ -54,15 +52,35 @@ export class StockInwardEditorFormService {
   }
 
   onBatchUpdate(event: any) {
-    console.log(event);
+    this.batchData = event;
   }
 
-  addTransaction() {
-    console.log('adding transaction');
+  addTransaction(stayOnPage = false) {
+    if (this.form.dirty && this.form.valid) {
+      const transaction = new Transaction();
+      transaction.batches = this.batchData;
+      transaction.transactionTypeId = 1;
+      transaction.transactionDate = this.form.controls.inwardDate.value!;
+      transaction.invoiceNo = this.form.controls.invoiceNo.value!;
+      transaction.partyName = this.form.controls.party.value!;
+      transaction.vehicleName = this.form.controls.vehicleDetails.value!;
+      transaction.weightMeasureType =
+        this.form.controls.weightMeasureType.value!;
+      transaction.remarks = this.form.controls.remarks.value!;
+      transaction.verifiedBy = this.form.controls.verifiedBy.value!;
+      this.apiBusinessService
+        .post('stock', transaction)
+        .pipe(take(1))
+        .subscribe((_) => {
+          stayOnPage
+            ? this.router.navigate([])
+            : this.router.navigate(['stockInward']);
+        });
+    }
   }
 
   addTransactionAndClose() {
-    console.log('adding transaction and closing');
+    this.addTransaction(true);
   }
 
   cancel() {

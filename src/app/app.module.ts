@@ -34,6 +34,7 @@ import { GlobalErrorHandler } from './shared/global-error-handler';
 import { AmrrAccessLogComponent } from './master/amrr-access-log/amrr-access-log.component';
 import { StockInwardEditorComponent } from './stock-inward/stock-inward-editor/stock-inward-editor.component';
 import { InwardTransactionBatchComponent } from './stock-inward/inward-transaction-batch/inward-transaction-batch.component';
+import { DatePipe } from '@angular/common';
 
 @NgModule({
   declarations: [
@@ -71,6 +72,7 @@ import { InwardTransactionBatchComponent } from './stock-inward/inward-transacti
     SharedModule,
   ],
   providers: [
+    DatePipe,
     ApiBusinessService,
     AmrrLoadingDialogService,
     // {
