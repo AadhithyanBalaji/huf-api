@@ -1,0 +1,7 @@
+.batch-selection-container {
+  padding: 15px 0;
+}
+
+.form-container mat-form-field {
+  width: unset !important;
+}

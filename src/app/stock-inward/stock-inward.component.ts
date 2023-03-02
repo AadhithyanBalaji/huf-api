@@ -11,44 +11,7 @@ import { StockInwardFormService } from './stock-inward-form.service';
   providers: [StockInwardFormService],
 })
 export class StockInwardComponent {
-  dataSource: any;
-  columns = [
-    {
-      key: 'id',
-      name: 'S.No.',
-    },
-    {
-      key: 'inwardDate',
-      name: 'Inward Date',
-    },
-    {
-      key: 'godown',
-      name: 'Godown',
-    },
-    {
-      key: 'invoiceDetail',
-      name: 'Invoice Detail',
-    },
-    {
-      key: 'items',
-      name: 'Items',
-    },
-    {
-      key: 'noOfBags',
-      name: 'No. of Bags',
-    },
-    {
-      key: 'qty',
-      name: 'Qty',
-    },
-    {
-      key: 'user',
-      name: 'User',
-    },
-  ];
-
   constructor(readonly formService: StockInwardFormService) {
-    this.dataSource = new MatTableDataSource([]);
     this.formService.init();
   }
 }

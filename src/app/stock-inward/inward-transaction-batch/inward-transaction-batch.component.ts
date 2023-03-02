@@ -15,7 +15,7 @@ export class InwardTransactionBatchComponent implements OnInit{
   constructor(readonly formService: InwardTransactionBatchFormService) {}
 
   ngOnInit(): void {
-    this.formService.init();
+    this.formService.init(this.onBatchUpdate);
   }
 
   

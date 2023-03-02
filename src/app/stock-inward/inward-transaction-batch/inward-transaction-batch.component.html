@@ -1,47 +1,38 @@
 <div class="batch-selection-container">
     <form *ngIf="formService.batchForm" [formGroup]="formService.batchForm">
-        <mat-grid-list cols="8" rowHeight="50px">
-            <mat-grid-tile [colspan]="1" [rowspan]="1">
-                <app-amrr-typeahead [title]="'Destination'" [formControl]="formService.batchForm.controls.godownId"
-                    [options]="formService.godowns"></app-amrr-typeahead>
-            </mat-grid-tile>
-            <mat-grid-tile [colspan]="1" [rowspan]="1">
-                <app-amrr-typeahead [title]="'Bay'" [formControl]="formService.batchForm.controls.bayId"
-                    [options]="formService.bays"></app-amrr-typeahead>
-            </mat-grid-tile>
-            <mat-grid-tile [colspan]="6" [rowspan]="1"></mat-grid-tile>
-            <mat-grid-tile [colspan]="1" [rowspan]="1">
-                <app-amrr-typeahead [title]="'Item Name'" [formControl]="formService.batchForm.controls.itemId"
-                    [options]="formService.items"></app-amrr-typeahead>
-            </mat-grid-tile>
-            <mat-grid-tile [colspan]="1" [rowspan]="1">
-                <app-amrr-typeahead [title]="'Batch Type'" [formControl]="formService.batchForm.controls.batchTypeId"
-                    [options]="formService.batches"></app-amrr-typeahead>
-            </mat-grid-tile>
-            <mat-grid-tile [colspan]="1" [rowspan]="1">
-                <mat-form-field appearance="fill">
-                    <mat-label>Batch No</mat-label>
-                    <input matInput [formControl]="formService.batchForm.controls.batchNo" required>
+        <div class="form-container">
+            <app-amrr-typeahead [title]="'Destination'" [ctrl]="formService.batchForm.controls.godownId"
+                [options]="formService.godowns"></app-amrr-typeahead>
+            <app-amrr-typeahead [title]="'Bay'" [ctrl]="formService.batchForm.controls.bayId"
+                [options]="formService.bays"></app-amrr-typeahead>
+            <app-amrr-typeahead [title]="'Item Name'" [ctrl]="formService.batchForm.controls.itemId"
+                [options]="formService.items"></app-amrr-typeahead>
+            <app-amrr-typeahead [title]="'Batch Type'" [ctrl]="formService.batchForm.controls.batchTypeId"
+                [options]="formService.batchTypes"></app-amrr-typeahead>
+            <app-amrr-typeahead *ngIf="formService.batchForm.controls.batchTypeId.value === 2; else newBatchTemplate"
+                [title]="'Batch No.'" [ctrl]="formService.batchForm.controls.batchId"
+                [options]="formService.batches"></app-amrr-typeahead>
+            <ng-template #newBatchTemplate>
+                <mat-form-field appearance="outline">
+                    <mat-label>Batch No.</mat-label>
+                    <input matInput [formControl]="formService.batchForm.controls.batchName" required>
+                    <mat-error *ngIf="formService.batchForm.controls.batchName.hasError('InvalidValue')">Invalid value</mat-error>
                 </mat-form-field>
-            </mat-grid-tile>
-            <mat-grid-tile [colspan]="1" [rowspan]="1">
-                <mat-form-field appearance="fill">
-                    <mat-label>No. of Bags</mat-label>
-                    <input matInput [formControl]="formService.batchForm.controls.bags" required>
-                    <mat-icon color="primary" matSuffix>shopping_bag</mat-icon>
-                </mat-form-field>
-            </mat-grid-tile>
-            <mat-grid-tile [colspan]="1" [rowspan]="1">
-                <mat-form-field appearance="fill">
-                    <mat-label>Qty</mat-label>
-                    <input matInput [formControl]="formService.batchForm.controls.qty" required>
-                    <mat-icon color="primary" matSuffix>weight</mat-icon>
-                </mat-form-field>
-            </mat-grid-tile>
-            <mat-grid-tile>
-                <button mat-flat-button color="primary" (click)="formService.addBatch()">Add</button>
-            </mat-grid-tile>
-        </mat-grid-list>
+            </ng-template>
+            <mat-form-field appearance="outline">
+                <mat-label>No. of Bags</mat-label>
+                <input matInput [formControl]="formService.batchForm.controls.bags" required>
+                <mat-icon color="primary" matSuffix>shopping_bag</mat-icon>
+                <mat-error *ngIf="formService.batchForm.controls.bags.hasError('InvalidValue')">Invalid value</mat-error>
+            </mat-form-field>
+            <mat-form-field appearance="outline">
+                <mat-label>Qty</mat-label>
+                <input matInput [formControl]="formService.batchForm.controls.qty" required>
+                <mat-icon color="primary" matSuffix>weight</mat-icon>
+                <mat-error *ngIf="formService.batchForm.controls.qty.hasError('InvalidValue')">Invalid value</mat-error>
+            </mat-form-field>
+            <button mat-flat-button color="primary" (click)="formService.addBatch()">Add</button>
+        </div>
     </form>
 </div>
 <div class="batch-grid-container">
