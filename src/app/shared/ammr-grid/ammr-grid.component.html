@@ -49,6 +49,10 @@
                             </mat-slide-toggle>
                         </td>
                     </ng-container>
+                    <ng-container [matColumnDef]="col.key" *ngSwitchCase="GridColumnType.Date">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header> {{col.name}} </th>
+                        <td mat-cell *matCellDef="let row"> {{row[col.key] | date}} </td>
+                    </ng-container>
                     <ng-container [matColumnDef]="col.key" *ngSwitchDefault>
                         <th mat-header-cell *matHeaderCellDef mat-sort-header> {{col.name}} </th>
                         <td mat-cell *matCellDef="let row"> {{row[col.key]}} </td>

@@ -4,9 +4,10 @@ import {
   Component,
   Input,
   OnChanges,
+  OnInit,
   SimpleChanges,
 } from '@angular/core';
-import { FormControl } from '@angular/forms';
+import { DefaultValueAccessor, FormControl } from '@angular/forms';
 import { map, Observable, startWith } from 'rxjs';
 import Helper from '../helper';
 import { IAmrrTypeahead } from './amrr-typeahead.interface';
@@ -16,18 +17,27 @@ import { IAmrrTypeahead } from './amrr-typeahead.interface';
   templateUrl: './amrr-typeahead.component.html',
   styleUrls: ['./amrr-typeahead.component.css'],
 })
-export class AmrrTypeaheadComponent implements AfterViewChecked {
+export class AmrrTypeaheadComponent
+  implements OnInit, OnChanges
+{
   @Input() title: string;
-  @Input() formControl: FormControl;
   @Input() options: IAmrrTypeahead[] = [];
 
+  @Input() ctrl = new FormControl();
   filteredOptions: Observable<IAmrrTypeahead[]>;
 
-  ngAfterViewChecked() {
-    this.filteredOptions = this.formControl.valueChanges.pipe(
+  ngOnInit() {
+    this.filteredOptions = this.ctrl.valueChanges.pipe(
       startWith(''),
-      map((value) => this._filter(value || '', this.options))
+      map((value) => {
+        return this._filter(value);
+      })
     );
+  }
+  ngOnChanges(changes: SimpleChanges): void {
+    if(changes['options']) {
+      this.ctrl.setValue('');
+    }
   }
 
   displayFn(option: number): string {
@@ -38,13 +48,17 @@ export class AmrrTypeaheadComponent implements AfterViewChecked {
     );
   }
 
-  private _filter(value: string, options: IAmrrTypeahead[]): IAmrrTypeahead[] {
-    return options && options.length > 0
-      ? options.filter(
-          (option: IAmrrTypeahead) =>
+  private _filter(value: string): IAmrrTypeahead[] {
+    return this.options &&
+      this.options.length > 0 &&
+      Helper.isTruthy(value) &&
+      value.length > 0
+      ? this.options.filter((option: IAmrrTypeahead) => {
+          return (
             Helper.isTruthy(option) &&
             option?.name.toLowerCase().includes(value.toLowerCase())
-        )
-      : options;
+          );
+        })
+      : this.options;
   }
 }

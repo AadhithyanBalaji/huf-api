@@ -12,5 +12,6 @@ export enum GridColumnType {
   Number = 1,
   String = 2,
   Template = 3,
-  Boolean = 4
+  Boolean = 4,
+  Date = 5,
 }

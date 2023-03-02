@@ -9,6 +9,7 @@ import {
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
+import Helper from '../helper';
 import { GridColumnType, IAmmrGridColumn } from './ammr-grid-column.interface';
 
 @Component({
@@ -54,7 +55,9 @@ export class AmmrGridComponent implements OnChanges {
   }
 
   getDisplayColumns() {
-    return this.columns.filter((col) => !col.hidden).map((col) => col.key);
+    return Helper.isTruthy(this.columns) && this.columns.length > 0
+      ? this.columns.filter((col) => !col.hidden).map((col) => col.key)
+      : this.columns;
   }
 
   onEditClicked(event: any) {
