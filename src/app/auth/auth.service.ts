@@ -86,6 +86,16 @@ export class AuthService {
       });
   }
 
+  getUserId(): number {
+    if (Helper.isTruthy(this.authData.userId)) return this.authData.userId;
+    const authData = localStorage.getItem('authData');
+    if (Helper.isTruthy(authData) && authData != '') {
+      const data = JSON.parse(authData!) as AuthData;
+      return data?.userId;
+    }
+    throw new Error('User Id not found in cache');
+  }
+
   private setIsAuthenticated(isAuthenticated: boolean) {
     localStorage.setItem('isAuthenticated', isAuthenticated ? '1' : '0');
     this.isAuthenticated = isAuthenticated;

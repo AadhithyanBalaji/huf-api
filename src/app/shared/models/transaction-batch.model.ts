@@ -1,4 +1,5 @@
 export class TransactionBatch{
+  sno: number;
   transactionBatchId: number;
   godownId: number;
   bayId: number;

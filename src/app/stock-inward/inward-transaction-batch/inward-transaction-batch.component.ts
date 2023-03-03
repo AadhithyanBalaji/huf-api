@@ -9,14 +9,12 @@ import { InwardTransactionBatchFormService } from './inward-transaction-batch-fo
   providers: [InwardTransactionBatchFormService]
 })
 export class InwardTransactionBatchComponent implements OnInit{
-  @Input() batch : TransactionBatch;
+  @Input() batches : TransactionBatch[];
   @Output() onBatchUpdate = new EventEmitter<any>();
 
   constructor(readonly formService: InwardTransactionBatchFormService) {}
 
   ngOnInit(): void {
-    this.formService.init(this.onBatchUpdate);
+    this.formService.init(this.onBatchUpdate, this.batches);
   }
-
-  
 }

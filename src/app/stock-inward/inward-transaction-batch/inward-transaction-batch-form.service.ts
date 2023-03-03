@@ -42,7 +42,7 @@ export class InwardTransactionBatchFormService {
   batches: AmrrBatch[];
   columns: IAmmrGridColumn[] = [
     {
-      key: Helper.nameof<TransactionBatch>('transactionBatchId'),
+      key: Helper.nameof<TransactionBatch>('sno'),
       name: 'S.No.',
     },
     {
@@ -76,7 +76,7 @@ export class InwardTransactionBatchFormService {
   errorMessages: string;
   constructor(private readonly apiBusinessService: ApiBusinessService) {}
 
-  init(onBatchUpdate: EventEmitter<any>) {
+  init(onBatchUpdate: EventEmitter<any>, batches: TransactionBatch[]) {
     this.onBatchUpdate = onBatchUpdate;
     combineLatest([
       this.apiBusinessService.get('godown'),
@@ -97,8 +97,12 @@ export class InwardTransactionBatchFormService {
           qty: new FormControl(null, [Validators.required]),
           bags: new FormControl(null, [Validators.required]),
         });
-
         this.dataSource = new MatTableDataSource();
+        if (Helper.isTruthy(batches) && batches.length > 0) {
+          let count = 1;
+          batches.forEach((b) => (b.sno = count++));
+          this.dataSource.data = [...batches];
+        }
         this.setupFormListeners();
       });
   }
@@ -106,7 +110,7 @@ export class InwardTransactionBatchFormService {
   addBatch() {
     if (this.checkIfBatchIsValid()) {
       const batch = new TransactionBatch();
-      batch.transactionBatchId = this.dataSource.data.length + 1;
+      batch.sno = this.dataSource.data.length + 1;
       batch.godownId = this.batchForm.controls.godownId.value;
       batch.godown = this.godowns.find((g) => g.id === batch.godownId)!.name;
       batch.bayId = this.batchForm.controls.bayId.value;
@@ -122,6 +126,7 @@ export class InwardTransactionBatchFormService {
             )?.name;
       batch.bags = this.batchForm.controls.bags.value;
       batch.qty = this.batchForm.controls.qty.value;
+      batch.sno = this.dataSource.data.length + 1;
       const data = this.dataSource.data;
       data.push(batch);
       this.dataSource.data = data;
@@ -141,6 +146,7 @@ export class InwardTransactionBatchFormService {
     if (index !== -1) {
       data.splice(index, 1);
       this.dataSource.data = data;
+      this.onBatchUpdate.emit(this.dataSource.data);
     }
   }
 

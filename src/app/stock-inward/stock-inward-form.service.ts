@@ -1,7 +1,9 @@
 import { DatePipe } from '@angular/common';
 import { Injectable } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { MatDialog } from '@angular/material/dialog';
 import { MatPaginator } from '@angular/material/paginator';
+import { MatSnackBar } from '@angular/material/snack-bar';
 import { MatTableDataSource } from '@angular/material/table';
 import { Router } from '@angular/router';
 import { combineLatest, take } from 'rxjs';
@@ -13,10 +15,12 @@ import {
   GridColumnType,
   IAmmrGridColumn,
 } from '../shared/ammr-grid/ammr-grid-column.interface';
+import { AmrrModalComponent } from '../shared/amrr-modal/amrr-modal.component';
 import { IAmrrTypeahead } from '../shared/amrr-typeahead/amrr-typeahead.interface';
 import { ApiBusinessService } from '../shared/api-business.service';
 import Helper from '../shared/helper';
 import { AmrrBatch } from '../shared/models/amrr-batch.model';
+import { Transaction } from '../shared/models/transaction.model';
 import { StockInward } from './stock-inward.model';
 
 @Injectable()
@@ -41,7 +45,9 @@ export class StockInwardFormService {
   constructor(
     private readonly apiBusinessService: ApiBusinessService,
     private readonly router: Router,
-    private readonly datePipe: DatePipe
+    private readonly datePipe: DatePipe,
+    private readonly dialog: MatDialog,
+    private readonly snackBar: MatSnackBar
   ) {}
 
   init() {
@@ -105,6 +111,25 @@ export class StockInwardFormService {
     this.router.navigate(['stockInward', 'edit', 'new']);
   }
 
+  edit(transaction: Transaction) {
+    this.router.navigate(['stockInward', 'edit', +transaction.transactionId]);
+  }
+
+  delete(transaction: Transaction) {
+    this.dialog
+      .open(AmrrModalComponent, {
+        data: {
+          title: 'Confirm Deletion',
+          body: `Are you sure you want to delete the transaction with invoice - ${transaction.invoiceNo} ?`,
+        },
+      })
+      .afterClosed()
+      .pipe(take(1))
+      .subscribe((result) => {
+        result ? this.deleteTransaction(transaction.transactionId) : null;
+      });
+  }
+
   private setDataSource(data: any) {
     const inwards = data.recordset as StockInward[];
     let count = 1;
@@ -114,6 +139,11 @@ export class StockInwardFormService {
 
   private getColumns(): IAmmrGridColumn[] {
     return [
+      {
+        key: Helper.nameof<StockInward>('transactionId'),
+        name: 'TRID',
+        hidden: true,
+      },
       {
         key: Helper.nameof<StockInward>('id'),
         name: 'S.No.',
@@ -143,10 +173,24 @@ export class StockInwardFormService {
         key: Helper.nameof<StockInward>('qty'),
         name: 'Qty',
       },
-      // {
-      //   key: 'user',
-      //   name: 'User',
-      // },
+      {
+        key: Helper.nameof<StockInward>('createdBy'),
+        name: 'Created By',
+      },
+      {
+        key: Helper.nameof<StockInward>('updatedBy'),
+        name: 'Updated By',
+      },
     ];
+  }
+
+  private deleteTransaction(transactionId: number) {
+    this.apiBusinessService
+      .delete('stock', transactionId)
+      .pipe(take(1))
+      .subscribe((_) => {
+        this.snackBar.open('Deleted Transaction', '', { duration: 2000 });
+        this.getData();
+      });
   }
 }
