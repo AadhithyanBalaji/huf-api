@@ -1,0 +1,33 @@
+<div class="batch-selection-container">
+    <form *ngIf="formService.batchForm" [formGroup]="formService.batchForm">
+        <div class="form-container">
+            <app-amrr-typeahead [title]="'Destination'" [ctrl]="formService.batchForm.controls.godownId"
+                [options]="formService.godowns"></app-amrr-typeahead>
+            <app-amrr-typeahead [title]="'Bay'" [ctrl]="formService.batchForm.controls.bayId"
+                [options]="formService.bays"></app-amrr-typeahead>
+            <app-amrr-typeahead [title]="'Item Name'" [ctrl]="formService.batchForm.controls.itemId"
+                [options]="formService.items"></app-amrr-typeahead>
+            <app-amrr-typeahead [title]="'Batch No.'" [ctrl]="formService.batchForm.controls.batchId"
+                [options]="formService.batches"></app-amrr-typeahead>
+            <mat-form-field appearance="outline">
+                <mat-label>No. of Bags {{formService.getSelectedBatch().bags}}</mat-label>
+                <input matInput [formControl]="formService.batchForm.controls.bags" required>
+                <mat-icon color="primary" matSuffix>shopping_bag</mat-icon>
+                <mat-error *ngIf="formService.batchForm.controls.bags.hasError('InvalidValue')">Invalid
+                    value</mat-error>
+            </mat-form-field>
+            <mat-form-field appearance="outline">
+                <mat-label>Qty {{formService.getSelectedBatch().qty}}</mat-label>
+                <input matInput [formControl]="formService.batchForm.controls.qty" required>
+                <mat-icon color="primary" matSuffix>weight</mat-icon>
+                <mat-error *ngIf="formService.batchForm.controls.qty.hasError('InvalidValue')">Invalid value</mat-error>
+            </mat-form-field>
+            <button mat-flat-button color="primary" (click)="formService.addBatch()">Add</button>
+        </div>
+    </form>
+</div>
+<div class="batch-grid-container">
+    <app-ammr-grid [columns]="formService.columns" [dataSource]="formService.dataSource" [enableEdit]="false"
+        [autoHeight]="true" [allowFilter]="false" [allowPagination]="false"
+        (onDelete)="formService.removeBatch($event)"></app-ammr-grid>
+</div>

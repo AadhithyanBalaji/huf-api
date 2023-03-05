@@ -1,0 +1,105 @@
+<div class="df">
+    <app-amrr-page-header [title]="'Stock Outward'"></app-amrr-page-header>
+    <form *ngIf="formService.form" [formGroup]="formService.form" autocomplete="off">
+        <div class="first-row">
+            <mat-card class="example-card">
+                <mat-card-header>
+                    <mat-card-title>Outward Details</mat-card-title>
+                </mat-card-header>
+                <mat-card-content>
+                    <mat-form-field appearance="outline">
+                        <mat-label>Outward Date</mat-label>
+                        <input matInput formControlName="outwardDate" [matDatepicker]="fromDatePicker">
+                        <mat-datepicker-toggle matIconSuffix [for]="fromDatePicker"></mat-datepicker-toggle>
+                        <mat-datepicker #fromDatePicker> </mat-datepicker>
+                    </mat-form-field>
+                    <mat-form-field appearance="outline">
+                        <mat-label>Outward No.</mat-label>
+                        <input matInput formControlName="outwardNo">
+                    </mat-form-field>
+                </mat-card-content>
+            </mat-card>
+            <mat-card class="example-card">
+                <mat-card-header>
+                    <mat-card-title>Logistic Details</mat-card-title>
+                </mat-card-header>
+                <mat-card-content>
+                    <div class="list-horizontal">
+                        <mat-form-field appearance="outline">
+                            <mat-label>Vehicle Name</mat-label>
+                            <input matInput formControlName="vehicleName">
+                        </mat-form-field>
+                        <mat-form-field appearance="outline">
+                            <mat-label>Reg. No.</mat-label>
+                            <input matInput formControlName="vehicleRegNo" required>
+                        </mat-form-field>
+                    </div>
+                    <mat-form-field appearance="outline">
+                        <mat-label>Party/Mill</mat-label>
+                        <input matInput formControlName="party" required>
+                    </mat-form-field>
+                </mat-card-content>
+            </mat-card>
+        </div>
+        <div class="inward-items-editor-container">
+            <mat-card>
+                <mat-card-header>
+                    <mat-card-title>Outward Items</mat-card-title>
+                </mat-card-header>
+                <mat-card-content>
+                    <app-outward-transaction-batch [batches]="formService.batches"
+                        (onBatchUpdate)="formService.onBatchUpdate($event)"></app-outward-transaction-batch>
+                </mat-card-content>
+            </mat-card>
+        </div>
+        <div class="last-row">
+            <mat-card>
+                <mat-card-content>
+                    <mat-form-field appearance="outline">
+                        <mat-label>Remarks</mat-label>
+                        <input matInput formControlName="remarks">
+                    </mat-form-field>
+                    <mat-form-field appearance="outline">
+                        <mat-label>Verified By</mat-label>
+                        <input matInput formControlName="verifiedBy">
+                    </mat-form-field>
+                </mat-card-content>
+            </mat-card>
+            <div class="display-cards-container">
+                <mat-card class="display-card">
+                    <mat-card-header>
+                        0
+                    </mat-card-header>
+                    <mat-card-content>
+                        <div>
+                            Bags
+                        </div>
+                        <div class="image">
+                            <mat-icon color="primary" matSuffix>shopping_bag</mat-icon>
+                        </div>
+                    </mat-card-content>
+                </mat-card>
+                <mat-card class="display-card">
+                    <mat-card-header>
+                        0
+                    </mat-card-header>
+                    <mat-card-content>
+                        <div>
+                            Bags
+                        </div>
+                        <div class="image">
+                            <mat-icon color="primary" matSuffix>shopping_bag</mat-icon>
+                        </div>
+                    </mat-card-content>
+                </mat-card>
+            </div>
+        </div>
+        <mat-divider></mat-divider>
+        <div class="action-row">
+            <button mat-flat-button color="primary" (click)="formService.addTransaction()">Save</button>
+            <button mat-flat-button color="primary" (click)="formService.addTransactionAndClose()">Save &
+                Continue</button>
+            <button mat-flat-button color="secondary" (click)="formService.cancel()">Close</button>
+        </div>
+    </form>
+</div>

@@ -11,17 +11,16 @@ import { TransactionBatch } from 'src/app/shared/models/transaction-batch.model'
 import { Transaction } from 'src/app/shared/models/transaction.model';
 
 @Injectable()
-export class StockInwardEditorFormService {
+export class StockOutwardEditorFormService {
   transactionId: number;
   batchData: TransactionBatch[];
   batches: TransactionBatch[];
   form: FormGroup<{
-    inwardDate: FormControl<Date | null>;
-    inwardNo: FormControl<string | null>;
-    invoiceNo: FormControl<string | null>;
+    outwardDate: FormControl<Date | null>;
+    outwardNo: FormControl<string | null>;
+    vehicleName: FormControl<string | null>;
     party: FormControl<string | null>;
-    vehicleDetails: FormControl<string | null>;
-    weightMeasureType: FormControl<any>;
+    vehicleRegNo: FormControl<string | null>;
     remarks: FormControl<any>;
     verifiedBy: FormControl<any>;
   }>;
@@ -51,7 +50,7 @@ export class StockInwardEditorFormService {
         this.transactionId = +params['id'];
         combineLatest([
           this.apiBusinessService.post('stock/transaction', {
-            transactionTypeId: 1,
+            transactionTypeId: 2,
             transactionId: this.transactionId,
           }),
           this.apiBusinessService.get(
@@ -88,7 +87,7 @@ export class StockInwardEditorFormService {
           this.displaySuccessToast();
           stayOnPage
             ? this.router.navigate([])
-            : this.router.navigate(['stockInward']);
+            : this.router.navigate(['stockOutward']);
         });
     }
   }
@@ -98,21 +97,20 @@ export class StockInwardEditorFormService {
   }
 
   cancel() {
-    this.router.navigate(['stockInward']);
+    this.router.navigate(['stockOutward']);
   }
 
   private buildForm(transaction: Transaction) {
     this.form = new FormGroup({
-      inwardDate: new FormControl(new Date(transaction.transactionDate)),
-      inwardNo: new FormControl(),
-      invoiceNo: new FormControl(transaction.invoiceNo),
+      outwardDate: new FormControl(new Date(transaction.transactionDate)),
+      outwardNo: new FormControl(),
+      vehicleName: new FormControl(transaction.vehicleName),
       party: new FormControl(transaction.partyName ?? '', [
         Validators.required,
       ]),
-      vehicleDetails: new FormControl(transaction.vehicleName ?? '', [
+      vehicleRegNo: new FormControl(transaction.vehicleRegNo ?? '', [
         Validators.required,
       ]),
-      weightMeasureType: new FormControl(transaction.weightMeasureType),
       remarks: new FormControl(transaction.remarks),
       verifiedBy: new FormControl(transaction.verifiedBy),
     });
@@ -123,15 +121,10 @@ export class StockInwardEditorFormService {
     transaction.transactionId = this.transactionId;
     transaction.batches = this.batchData ?? this.batches;
     transaction.transactionTypeId = 2;
-    transaction.transactionDate = this.form.controls.inwardDate.value!;
-    transaction.invoiceNo = this.form.controls.invoiceNo.value!;
+    transaction.transactionDate = this.form.controls.outwardDate.value!;
+    transaction.vehicleRegNo = this.form.controls.vehicleRegNo.value!;
     transaction.partyName = this.form.controls.party.value!;
-    transaction.vehicleName = this.form.controls.vehicleDetails.value!;
-    transaction.weightMeasureType =
-      Helper.isTruthy(this.form.controls.weightMeasureType.value) &&
-      this.form.controls.weightMeasureType.value !== ''
-        ? this.form.controls.weightMeasureType.value
-        : null;
+    transaction.vehicleName = this.form.controls.vehicleName.value!;
     transaction.remarks = this.form.controls.remarks.value!;
     transaction.verifiedBy = this.form.controls.verifiedBy.value!;
     if (this.transactionId == null) {
