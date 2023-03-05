@@ -3,5 +3,9 @@ export default class Helper {
     return value !== null && value !== undefined;
   }
 
+  public static isValidNumber(value: any) {
+    return value !== null && value !== undefined && value != "" && !isNaN(value);
+  }
+
   public static nameof = <T>(name: keyof T) => name;
 }

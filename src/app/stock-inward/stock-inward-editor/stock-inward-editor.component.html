@@ -1,5 +1,5 @@
 <div class="df">
-    <app-amrr-page-header [title]="'Stock Inward'"></app-amrr-page-header>
+    <app-amrr-page-header [title]="'Stock Inward'" [actionName]="''"></app-amrr-page-header>
     <form *ngIf="formService.form" [formGroup]="formService.form" autocomplete="off">
         <div class="first-row">
             <mat-card class="example-card">
@@ -44,7 +44,8 @@
                         <input matInput formControlName="vehicleDetails" required>
                     </mat-form-field>
                     <div>
-                        <app-amrr-typeahead [title]="'Weight Measured @'" [ctrl]="formService.form.controls.weightMeasureType"
+                        <app-amrr-typeahead [title]="'Weight Measured @'"
+                            [ctrl]="formService.form.controls.weightMeasureType"
                             [options]="formService.weightMeasures"></app-amrr-typeahead>
                     </div>
                 </mat-card-content>

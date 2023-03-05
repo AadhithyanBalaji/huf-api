@@ -91,7 +91,7 @@ export class StockInwardFormService {
     if (this.form.dirty && this.form.valid) {
       this.apiBusinessService
         .post('stock/transactions', {
-          transactionTypeId: 2,
+          transactionTypeId: 1,
           fromDate: this.datePipe.transform(this.form.controls.fromDate.value),
           toDate: this.datePipe.transform(this.form.controls.toDate.value),
           godownId: this.form.controls.goDownId.value,

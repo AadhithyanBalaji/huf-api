@@ -43,7 +43,7 @@ export class AmmrGridComponent implements OnChanges {
       this.dataSource.sort = this.sort;
       if (
         this.enableActionColumn &&
-        this.columns.findIndex((col) => col.key === 'options') === -1 &&
+        this.columns?.findIndex((col) => col.key === 'options') === -1 &&
         !this.readOnly
       ) {
         this.columns.push({

@@ -24,7 +24,8 @@
                                     [routerLink]="['stockInward']">Inward</a></mat-list-item>
                             <mat-list-item role="listitem" routerLinkActive="route-active"><a
                                     [routerLink]="['stockOutward']">Outward</a></mat-list-item>
-                            <mat-list-item role="listitem"><a href="#">Adjustment</a></mat-list-item>
+                            <mat-list-item role="listitem" routerLinkActive="route-active"><a
+                                    [routerLink]="['stockAdjustment']">Adjustment</a></mat-list-item>
                         </mat-selection-list>
                     </mat-expansion-panel>
                     <mat-expansion-panel *ngIf="authService.authData && authService.authData.isAdmin">

@@ -122,7 +122,7 @@ export class StockInwardEditorFormService {
     const transaction = new Transaction();
     transaction.transactionId = this.transactionId;
     transaction.batches = this.batchData ?? this.batches;
-    transaction.transactionTypeId = 2;
+    transaction.transactionTypeId = 1;
     transaction.transactionDate = this.form.controls.inwardDate.value!;
     transaction.invoiceNo = this.form.controls.invoiceNo.value!;
     transaction.partyName = this.form.controls.party.value!;
