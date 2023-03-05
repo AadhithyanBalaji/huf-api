@@ -38,6 +38,9 @@ import { DatePipe } from '@angular/common';
 import { StockOutwardComponent } from './stock-outward/stock-outward.component';
 import { StockOutwardEditorComponent } from './stock-outward/stock-outward-editor/stock-outward-editor.component';
 import { OutwardTransactionBatchComponent } from './stock-outward/outward-transaction-batch/outward-transaction-batch.component';
+import { StockAdjustmentComponent } from './stock-adjustment/stock-adjustment.component';
+import { StockAdjustmentEditorComponent } from './stock-adjustment/stock-adjustment-editor/stock-adjustment-editor.component';
+import { StockAdjustmentTransactionBatchComponent } from './stock-adjustment/stock-adjustment-transaction-batch/stock-adjustment-transaction-batch.component';
 
 @NgModule({
   declarations: [
@@ -67,7 +70,10 @@ import { OutwardTransactionBatchComponent } from './stock-outward/outward-transa
     InwardTransactionBatchComponent,
     StockOutwardComponent,
     StockOutwardEditorComponent,
-    OutwardTransactionBatchComponent
+    OutwardTransactionBatchComponent,
+    StockAdjustmentComponent,
+    StockAdjustmentEditorComponent,
+    StockAdjustmentTransactionBatchComponent
   ],
   imports: [
     BrowserModule,
