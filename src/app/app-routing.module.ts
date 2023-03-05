@@ -13,6 +13,8 @@ import { AmrrItemComponent } from './master/amrr-item/amrr-item.component';
 import { AmrrUserComponent } from './master/amrr-user/amrr-user.component';
 import { StockInwardEditorComponent } from './stock-inward/stock-inward-editor/stock-inward-editor.component';
 import { StockInwardComponent } from './stock-inward/stock-inward.component';
+import { StockOutwardEditorComponent } from './stock-outward/stock-outward-editor/stock-outward-editor.component';
+import { StockOutwardComponent } from './stock-outward/stock-outward.component';
 
 const routes: Routes = [
   { path: 'login', component: AmrrLoginComponent },
@@ -23,6 +25,8 @@ const routes: Routes = [
     children: [
       { path: 'stockInward', component: StockInwardComponent },
       { path: 'stockInward/edit/:id', component: StockInwardEditorComponent },
+      { path: 'stockOutward', component: StockOutwardComponent },
+      { path: 'stockOutward/edit/:id', component: StockOutwardEditorComponent },
       { path: 'itemGroup', component: AmrrItemGroupComponent },
       { path: 'item', component: AmrrItemComponent },
       { path: 'godown', component: AmrrGodownComponent },

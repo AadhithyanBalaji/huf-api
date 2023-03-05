@@ -73,7 +73,7 @@ export class InwardTransactionBatchFormService {
   dataSource: MatTableDataSource<TransactionBatch, MatPaginator>;
   data: TransactionBatch[] = [];
   onBatchUpdate: EventEmitter<any>;
-  errorMessages: string;
+
   constructor(private readonly apiBusinessService: ApiBusinessService) {}
 
   init(onBatchUpdate: EventEmitter<any>, batches: TransactionBatch[]) {
@@ -109,24 +109,7 @@ export class InwardTransactionBatchFormService {
 
   addBatch() {
     if (this.checkIfBatchIsValid()) {
-      const batch = new TransactionBatch();
-      batch.sno = this.dataSource.data.length + 1;
-      batch.godownId = this.batchForm.controls.godownId.value;
-      batch.godown = this.godowns.find((g) => g.id === batch.godownId)!.name;
-      batch.bayId = this.batchForm.controls.bayId.value;
-      batch.bay = this.bays.find((b) => b.id === batch.bayId)!.name;
-      batch.itemId = this.batchForm.controls.itemId.value;
-      batch.itemName = this.items.find((i) => i.id === batch.itemId)!.name;
-      batch.batchId = this.batchForm.controls.batchId.value;
-      batch.batchName =
-        +this.batchForm.controls.batchTypeId.value === 1
-          ? this.batchForm.controls.batchName.value
-          : this.batches.find(
-              (b) => b.id === this.batchForm.controls.batchId.value
-            )?.name;
-      batch.bags = this.batchForm.controls.bags.value;
-      batch.qty = this.batchForm.controls.qty.value;
-      batch.sno = this.dataSource.data.length + 1;
+      const batch = this.buildTransactionBatchData();
       const data = this.dataSource.data;
       data.push(batch);
       this.dataSource.data = data;
@@ -227,5 +210,27 @@ export class InwardTransactionBatchFormService {
     } else {
       this.batches = [];
     }
+  }
+
+  private buildTransactionBatchData() {
+    const batch = new TransactionBatch();
+    batch.sno = this.dataSource.data.length + 1;
+    batch.godownId = this.batchForm.controls.godownId.value;
+    batch.godown = this.godowns.find((g) => g.id === batch.godownId)!.name;
+    batch.bayId = this.batchForm.controls.bayId.value;
+    batch.bay = this.bays.find((b) => b.id === batch.bayId)!.name;
+    batch.itemId = this.batchForm.controls.itemId.value;
+    batch.itemName = this.items.find((i) => i.id === batch.itemId)!.name;
+    batch.batchId = this.batchForm.controls.batchId.value;
+    batch.batchName =
+      +this.batchForm.controls.batchTypeId.value === 1
+        ? this.batchForm.controls.batchName.value
+        : this.batches.find(
+            (b) => b.id === this.batchForm.controls.batchId.value
+          )?.name;
+    batch.bags = this.batchForm.controls.bags.value;
+    batch.qty = this.batchForm.controls.qty.value;
+    batch.sno = this.dataSource.data.length + 1;
+    return batch;
   }
 }

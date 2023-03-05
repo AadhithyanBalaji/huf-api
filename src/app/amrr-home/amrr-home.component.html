@@ -22,7 +22,8 @@
                         <mat-selection-list #shoes [multiple]="false">
                             <mat-list-item role="listitem" routerLinkActive="route-active"><a
                                     [routerLink]="['stockInward']">Inward</a></mat-list-item>
-                            <mat-list-item role="listitem"><a href="#">Outward</a></mat-list-item>
+                            <mat-list-item role="listitem" routerLinkActive="route-active"><a
+                                    [routerLink]="['stockOutward']">Outward</a></mat-list-item>
                             <mat-list-item role="listitem"><a href="#">Adjustment</a></mat-list-item>
                         </mat-selection-list>
                     </mat-expansion-panel>
