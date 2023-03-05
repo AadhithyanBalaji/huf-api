@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, TemplateRef, ViewChild } from '@angular/core';
 import { StockOutwardFormService } from './stock-outward-form.service';
 
 @Component({
@@ -8,9 +8,12 @@ import { StockOutwardFormService } from './stock-outward-form.service';
   providers: [StockOutwardFormService],
 })
 export class StockOutwardComponent implements OnInit {
+  @ViewChild('partyNameTemplate', { static: true })
+  partyNameTemplate: TemplateRef<any>;
+
   constructor(readonly formService: StockOutwardFormService) {}
 
   ngOnInit(): void {
-    this.formService.init();
+    this.formService.init(this.partyNameTemplate);
   }
 }

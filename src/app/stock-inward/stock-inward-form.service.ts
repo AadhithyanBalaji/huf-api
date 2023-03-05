@@ -1,5 +1,5 @@
 import { DatePipe } from '@angular/common';
-import { Injectable } from '@angular/core';
+import { Injectable, TemplateRef } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { MatPaginator } from '@angular/material/paginator';
@@ -50,7 +50,7 @@ export class StockInwardFormService {
     private readonly snackBar: MatSnackBar
   ) {}
 
-  init() {
+  init(invoiceDetailsTemplate: TemplateRef<any>) {
     const today = new Date();
     const tomorrow = new Date();
     tomorrow.setDate(tomorrow.getDate() + 1);
@@ -82,7 +82,7 @@ export class StockInwardFormService {
           itemId: new FormControl(''),
           batchId: new FormControl(''),
         });
-        this.columns = this.getColumns();
+        this.columns = this.getColumns(invoiceDetailsTemplate);
         this.setDataSource(data[5]);
       });
   }
@@ -91,7 +91,7 @@ export class StockInwardFormService {
     if (this.form.dirty && this.form.valid) {
       this.apiBusinessService
         .post('stock/transactions', {
-          transactionTypeId: 1,
+          transactionTypeId: 2,
           fromDate: this.datePipe.transform(this.form.controls.fromDate.value),
           toDate: this.datePipe.transform(this.form.controls.toDate.value),
           godownId: this.form.controls.goDownId.value,
@@ -137,7 +137,7 @@ export class StockInwardFormService {
     this.dataSource = new MatTableDataSource(inwards);
   }
 
-  private getColumns(): IAmmrGridColumn[] {
+  private getColumns(invoiceDetailsTemplate: TemplateRef<any>): IAmmrGridColumn[] {
     return [
       {
         key: Helper.nameof<StockInward>('transactionId'),
@@ -158,8 +158,10 @@ export class StockInwardFormService {
         name: 'Godown',
       },
       {
-        key: Helper.nameof<StockInward>('invoiceDetails'),
+        key: Helper.nameof<StockInward>('partyName'),
         name: 'Invoice Detail',
+        type: GridColumnType.Template,
+        template: invoiceDetailsTemplate
       },
       {
         key: Helper.nameof<StockInward>('items'),

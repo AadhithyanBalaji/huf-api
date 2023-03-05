@@ -4,7 +4,9 @@ export class StockInward {
   inwardDate: Date;
   godown: string;
   items: string;
-  invoiceDetails: string;
+  partyName: string;
+  invoiceNo: string;
+  vehicleName: string;
   bags: string;
   qty: string;
   createdBy: string;

@@ -1,5 +1,5 @@
 import { DatePipe } from '@angular/common';
-import { Injectable } from '@angular/core';
+import { Injectable, TemplateRef } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { MatPaginator } from '@angular/material/paginator';
@@ -50,7 +50,7 @@ export class StockOutwardFormService {
     private readonly snackBar: MatSnackBar
   ) {}
 
-  init() {
+  init(partyNameTemplate: TemplateRef<any>) {
     const today = new Date();
     const tomorrow = new Date();
     tomorrow.setDate(tomorrow.getDate() + 1);
@@ -82,7 +82,7 @@ export class StockOutwardFormService {
           itemId: new FormControl(''),
           batchId: new FormControl(''),
         });
-        this.columns = this.getColumns();
+        this.columns = this.getColumns(partyNameTemplate);
         this.setDataSource(data[5]);
       });
   }
@@ -132,7 +132,7 @@ export class StockOutwardFormService {
     this.dataSource = new MatTableDataSource(data.recordset as StockOutward[]);
   }
 
-  private getColumns(): IAmmrGridColumn[] {
+  private getColumns(partyNameTemplate: TemplateRef<any>): IAmmrGridColumn[] {
     return [
       {
         key: Helper.nameof<StockOutward>('transactionId'),
@@ -155,6 +155,8 @@ export class StockOutwardFormService {
       {
         key: Helper.nameof<StockOutward>('partyName'),
         name: 'Party Name',
+        type: GridColumnType.Template,
+        template: partyNameTemplate
       },
       {
         key: Helper.nameof<StockOutward>('items'),
