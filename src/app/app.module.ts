@@ -34,13 +34,15 @@ import { GlobalErrorHandler } from './shared/global-error-handler';
 import { AmrrAccessLogComponent } from './master/amrr-access-log/amrr-access-log.component';
 import { StockInwardEditorComponent } from './stock-inward/stock-inward-editor/stock-inward-editor.component';
 import { InwardTransactionBatchComponent } from './stock-inward/inward-transaction-batch/inward-transaction-batch.component';
-import { DatePipe } from '@angular/common';
+import { DatePipe, DecimalPipe } from '@angular/common';
 import { StockOutwardComponent } from './stock-outward/stock-outward.component';
 import { StockOutwardEditorComponent } from './stock-outward/stock-outward-editor/stock-outward-editor.component';
 import { OutwardTransactionBatchComponent } from './stock-outward/outward-transaction-batch/outward-transaction-batch.component';
 import { StockAdjustmentComponent } from './stock-adjustment/stock-adjustment.component';
 import { StockAdjustmentEditorComponent } from './stock-adjustment/stock-adjustment-editor/stock-adjustment-editor.component';
 import { StockAdjustmentTransactionBatchComponent } from './stock-adjustment/stock-adjustment-transaction-batch/stock-adjustment-transaction-batch.component';
+import { ConsolidatedStockReportComponent } from './reports/consolidated-stock-report/consolidated-stock-report.component';
+import { StockInfoComponent } from './reports/stock-info/stock-info.component';
 
 @NgModule({
   declarations: [
@@ -73,7 +75,9 @@ import { StockAdjustmentTransactionBatchComponent } from './stock-adjustment/sto
     OutwardTransactionBatchComponent,
     StockAdjustmentComponent,
     StockAdjustmentEditorComponent,
-    StockAdjustmentTransactionBatchComponent
+    StockAdjustmentTransactionBatchComponent,
+    ConsolidatedStockReportComponent,
+    StockInfoComponent
   ],
   imports: [
     BrowserModule,
@@ -85,6 +89,7 @@ import { StockAdjustmentTransactionBatchComponent } from './stock-adjustment/sto
   ],
   providers: [
     DatePipe,
+    DecimalPipe,
     ApiBusinessService,
     AmrrLoadingDialogService,
     // {

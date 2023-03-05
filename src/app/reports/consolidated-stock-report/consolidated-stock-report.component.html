@@ -1,0 +1,90 @@
+<div class="df">
+    <app-amrr-page-header [title]="'Consolidated Stock'" [actionName]="''"></app-amrr-page-header>
+    <div class="grid-container">
+        <div class="grid-filters-container">
+            <form *ngIf="formService.form" [formGroup]="formService.form" autocomplete="off">
+                <div class="form-container">
+                    <mat-form-field appearance="outline" [style.width.px]="212">
+                        <mat-label>From Date</mat-label>
+                        <input matInput formControlName="startDate" [matDatepicker]="fromDatePicker">
+                        <mat-datepicker-toggle matIconSuffix [for]="fromDatePicker"></mat-datepicker-toggle>
+                        <mat-datepicker #fromDatePicker> </mat-datepicker>
+                    </mat-form-field>
+                    <mat-form-field appearance="outline" [style.width.px]="212">
+                        <mat-label>To Date</mat-label>
+                        <input matInput formControlName="endDate" [matDatepicker]="toDatePicker">
+                        <mat-datepicker-toggle matIconSuffix [for]="toDatePicker"></mat-datepicker-toggle>
+                        <mat-datepicker #toDatePicker> </mat-datepicker>
+                    </mat-form-field>
+                    <app-amrr-typeahead [title]="'Godown'" [ctrl]="formService.form.controls.goDownId"
+                        [options]="formService.godowns"></app-amrr-typeahead>
+                    <app-amrr-typeahead [title]="'Bay'" [ctrl]="formService.form.controls.bayId"
+                        [options]="formService.bays"></app-amrr-typeahead>
+                    <app-amrr-typeahead [title]="'Item Group'" [ctrl]="formService.form.controls.itemGroupId"
+                        [options]="formService.itemGroups"></app-amrr-typeahead>
+                    <app-amrr-typeahead [title]="'Item Name'" [ctrl]="formService.form.controls.itemId"
+                        [options]="formService.items"></app-amrr-typeahead>
+                    <app-amrr-typeahead [title]="'Batch No.'" [ctrl]="formService.form.controls.batchId"
+                        [options]="formService.batches"></app-amrr-typeahead>
+                    <button mat-flat-button color="primary" (click)="formService.getData()">View</button>
+                </div>
+            </form>
+        </div>
+        <mat-divider></mat-divider>
+        <div class="report-grid-container">
+            <table mat-table [dataSource]="formService.dataSource" class="mat-elevation-z8">
+                <ng-container matColumnDef="S.No.">
+                    <th mat-header-cell *matHeaderCellDef> S.No. </th>
+                    <td mat-cell *matCellDef="let element"> {{element.sno}} </td>
+                </ng-container>
+                <ng-container matColumnDef="Item Group">
+                    <th mat-header-cell *matHeaderCellDef> Item Group </th>
+                    <td mat-cell *matCellDef="let element"> {{element.itemGroup}} </td>
+                </ng-container>
+                <ng-container matColumnDef="Item Name">
+                    <th mat-header-cell *matHeaderCellDef> Item Name </th>
+                    <td mat-cell *matCellDef="let element"> {{element.itemName}} </td>
+                </ng-container>
+                <ng-container matColumnDef="Opening">
+                    <th mat-header-cell *matHeaderCellDef> Opening </th>
+                    <td mat-cell *matCellDef="let element">
+                        <app-stock-info [bags]="element.openingBags" [qty]="element.openingQty"></app-stock-info>
+                    </td>
+                </ng-container>
+                <ng-container matColumnDef="Inward">
+                    <th mat-header-cell *matHeaderCellDef> Inward </th>
+                    <td mat-cell *matCellDef="let element">
+                        <app-stock-info [bags]="element.inwardBags" [qty]="element.inwardQty"></app-stock-info>
+                    </td>
+                </ng-container>
+                <ng-container matColumnDef="Gain">
+                    <th mat-header-cell *matHeaderCellDef> Gain </th>
+                    <td mat-cell *matCellDef="let element">
+                        <app-stock-info [bags]="element.gainBags" [qty]="element.gainQty"></app-stock-info>
+                    </td>
+                </ng-container>
+                <ng-container matColumnDef="Outward">
+                    <th mat-header-cell *matHeaderCellDef> Outward</th>
+                    <td mat-cell *matCellDef="let element">
+                        <app-stock-info [bags]="element.outwardBags" [qty]="element.outwardQty"></app-stock-info>
+                    </td>
+                </ng-container>
+                <ng-container matColumnDef="Loss">
+                    <th mat-header-cell *matHeaderCellDef> Loss </th>
+                    <td mat-cell *matCellDef="let element">
+                        <app-stock-info [bags]="element.lossBags" [qty]="element.lossQty"></app-stock-info>
+                    </td>
+                </ng-container>
+                <ng-container matColumnDef="Closing">
+                    <th mat-header-cell *matHeaderCellDef> Closing </th>
+                    <td mat-cell *matCellDef="let element">
+                        <app-stock-info [bags]="element.closingBags" [qty]="element.closingQty"></app-stock-info>
+                    </td>
+                </ng-container>
+
+                <tr mat-header-row *matHeaderRowDef="formService.columns"></tr>
+                <tr mat-row *matRowDef="let row; columns: formService.columns;"></tr>
+            </table>
+        </div>
+    </div>
+</div>

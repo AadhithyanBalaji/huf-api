@@ -11,6 +11,7 @@ import { AmrrGodownComponent } from './master/amrr-godown/amrr-godown.component'
 import { AmrrItemGroupComponent } from './master/amrr-item-group/amrr-item-group.component';
 import { AmrrItemComponent } from './master/amrr-item/amrr-item.component';
 import { AmrrUserComponent } from './master/amrr-user/amrr-user.component';
+import { ConsolidatedStockReportComponent } from './reports/consolidated-stock-report/consolidated-stock-report.component';
 import { StockAdjustmentEditorComponent } from './stock-adjustment/stock-adjustment-editor/stock-adjustment-editor.component';
 import { StockAdjustmentComponent } from './stock-adjustment/stock-adjustment.component';
 import { StockInwardEditorComponent } from './stock-inward/stock-inward-editor/stock-inward-editor.component';
@@ -31,6 +32,7 @@ const routes: Routes = [
       { path: 'stockOutward/edit/:id', component: StockOutwardEditorComponent },
       { path: 'stockAdjustment', component: StockAdjustmentComponent },
       { path: 'stockAdjustment/edit/:id', component: StockAdjustmentEditorComponent },
+      { path: 'reports/consolidatedStock', component: ConsolidatedStockReportComponent },
       { path: 'itemGroup', component: AmrrItemGroupComponent },
       { path: 'item', component: AmrrItemComponent },
       { path: 'godown', component: AmrrGodownComponent },

@@ -36,7 +36,7 @@ export class AmrrTypeaheadComponent
   }
   ngOnChanges(changes: SimpleChanges): void {
     if(changes['options']) {
-      this.ctrl.setValue('');
+      this.ctrl.setValue(null);
     }
   }
 

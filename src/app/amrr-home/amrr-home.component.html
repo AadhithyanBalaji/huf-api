@@ -78,7 +78,8 @@
                             </mat-panel-description>
                         </mat-expansion-panel-header>
                         <mat-selection-list #shoes [multiple]="false">
-                            <mat-list-item role="listitem"><a href="#">Consolidated Stock</a></mat-list-item>
+                            <mat-list-item role="listitem" routerLinkActive="route-active"><a
+                                [routerLink]="['reports','consolidatedStock']">Consolidated Stock</a></mat-list-item>
                             <mat-list-item role="listitem"><a href="#">Batchwise Stock</a></mat-list-item>
                             <mat-list-item role="listitem"><a href="#">Item Movement Analysis</a></mat-list-item>
                         </mat-selection-list>
