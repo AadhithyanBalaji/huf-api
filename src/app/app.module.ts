@@ -43,6 +43,7 @@ import { StockAdjustmentEditorComponent } from './stock-adjustment/stock-adjustm
 import { StockAdjustmentTransactionBatchComponent } from './stock-adjustment/stock-adjustment-transaction-batch/stock-adjustment-transaction-batch.component';
 import { ConsolidatedStockReportComponent } from './reports/consolidated-stock-report/consolidated-stock-report.component';
 import { StockInfoComponent } from './reports/stock-info/stock-info.component';
+import { AmrrReportFiltersComponent } from './shared/amrr-report-filters/amrr-report-filters.component';
 
 @NgModule({
   declarations: [
@@ -77,7 +78,8 @@ import { StockInfoComponent } from './reports/stock-info/stock-info.component';
     StockAdjustmentEditorComponent,
     StockAdjustmentTransactionBatchComponent,
     ConsolidatedStockReportComponent,
-    StockInfoComponent
+    StockInfoComponent,
+    AmrrReportFiltersComponent
   ],
   imports: [
     BrowserModule,

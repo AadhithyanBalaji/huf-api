@@ -7,10 +7,6 @@ import { ConsolidatedStockReportFormService } from './consolidated-stock-report-
   styleUrls: ['./consolidated-stock-report.component.css'],
   providers: [ConsolidatedStockReportFormService],
 })
-export class ConsolidatedStockReportComponent implements OnInit {
+export class ConsolidatedStockReportComponent{
   constructor(readonly formService: ConsolidatedStockReportFormService) {}
-
-  ngOnInit(): void {
-    this.formService.init();
-  }
 }

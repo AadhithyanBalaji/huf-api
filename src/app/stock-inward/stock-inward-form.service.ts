@@ -16,6 +16,7 @@ import {
   IAmmrGridColumn,
 } from '../shared/ammr-grid/ammr-grid-column.interface';
 import { AmrrModalComponent } from '../shared/amrr-modal/amrr-modal.component';
+import { AmrrReportFilters } from '../shared/amrr-report-filters/amrr-report-filters.model';
 import { IAmrrTypeahead } from '../shared/amrr-typeahead/amrr-typeahead.interface';
 import { ApiBusinessService } from '../shared/api-business.service';
 import Helper from '../shared/helper';
@@ -25,20 +26,6 @@ import { StockInward } from './stock-inward.model';
 
 @Injectable()
 export class StockInwardFormService {
-  godowns: AmrrGodown[] = [];
-  bays: AmrrBay[] = [];
-  itemGroups: AmrrItemGroup[] = [];
-  items: AmrrItem[] = [];
-  batches: IAmrrTypeahead[];
-  form: FormGroup<{
-    fromDate: FormControl<any>;
-    toDate: FormControl<any>;
-    goDownId: FormControl<any>;
-    bayId: FormControl<any>;
-    itemGroupId: FormControl<any>;
-    itemId: FormControl<any>;
-    batchId: FormControl<any>;
-  }>;
   dataSource: MatTableDataSource<StockInward, MatPaginator>;
   columns: IAmmrGridColumn[];
 
@@ -51,59 +38,16 @@ export class StockInwardFormService {
   ) {}
 
   init(invoiceDetailsTemplate: TemplateRef<any>) {
-    const today = new Date();
-    const tomorrow = new Date();
-    tomorrow.setDate(tomorrow.getDate() + 1);
-    combineLatest([
-      this.apiBusinessService.get('godown'),
-      this.apiBusinessService.get('bay'),
-      this.apiBusinessService.get('itemGroup'),
-      this.apiBusinessService.get('item'),
-      this.apiBusinessService.get('batch'),
-      this.apiBusinessService.post('stock/transactions', {
-        transactionTypeId: 1,
-        fromDate: this.datePipe.transform(today),
-        toDate: this.datePipe.transform(tomorrow),
-      }),
-    ])
-      .pipe(take(1))
-      .subscribe((data: any) => {
-        this.godowns = data[0] as AmrrGodown[];
-        this.bays = data[1] as AmrrBay[];
-        this.itemGroups = data[2] as AmrrItemGroup[];
-        this.items = data[3] as AmrrItem[];
-        this.batches = data[4] as AmrrBatch[];
-        this.form = new FormGroup({
-          fromDate: new FormControl(today),
-          toDate: new FormControl(tomorrow),
-          goDownId: new FormControl(null),
-          bayId: new FormControl(''),
-          itemGroupId: new FormControl(''),
-          itemId: new FormControl(''),
-          batchId: new FormControl(''),
-        });
-        this.columns = this.getColumns(invoiceDetailsTemplate);
-        this.setDataSource(data[5]);
-      });
+    this.columns = this.getColumns(invoiceDetailsTemplate);
   }
 
-  getData() {
-    if (this.form.dirty && this.form.valid) {
+  getData(transactionFilters: AmrrReportFilters) {
+    if (Helper.isTruthy(transactionFilters)) {
+      transactionFilters.transactionTypeId = 1;
       this.apiBusinessService
-        .post('stock/transactions', {
-          transactionTypeId: 1,
-          fromDate: this.datePipe.transform(this.form.controls.fromDate.value),
-          toDate: this.datePipe.transform(this.form.controls.toDate.value),
-          godownId: this.form.controls.goDownId.value,
-          bayId: this.form.controls.bayId.value,
-          itemGroupId: this.form.controls.itemGroupId.value,
-          itemId: this.form.controls.itemId.value,
-          batchId: this.form.controls.batchId.value,
-        })
+        .post('stock/transactions', transactionFilters)
         .pipe(take(1))
-        .subscribe((data: any) => {
-          this.setDataSource(data);
-        });
+        .subscribe((data: any) => this.setDataSource(data));
     }
   }
 
@@ -137,7 +81,9 @@ export class StockInwardFormService {
     this.dataSource = new MatTableDataSource(inwards);
   }
 
-  private getColumns(invoiceDetailsTemplate: TemplateRef<any>): IAmmrGridColumn[] {
+  private getColumns(
+    invoiceDetailsTemplate: TemplateRef<any>
+  ): IAmmrGridColumn[] {
     return [
       {
         key: Helper.nameof<StockInward>('transactionId'),
@@ -161,7 +107,7 @@ export class StockInwardFormService {
         key: Helper.nameof<StockInward>('partyName'),
         name: 'Invoice Detail',
         type: GridColumnType.Template,
-        template: invoiceDetailsTemplate
+        template: invoiceDetailsTemplate,
       },
       {
         key: Helper.nameof<StockInward>('items'),
@@ -192,7 +138,7 @@ export class StockInwardFormService {
       .pipe(take(1))
       .subscribe((_) => {
         this.snackBar.open('Deleted Transaction', '', { duration: 2000 });
-        this.getData();
+        //this.getData();
       });
   }
 }

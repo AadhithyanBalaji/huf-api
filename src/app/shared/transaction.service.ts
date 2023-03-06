@@ -5,10 +5,10 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 import { Router } from '@angular/router';
 import { combineLatest, Observable, of, Subject, take } from 'rxjs';
 import { AmrrModalComponent } from './amrr-modal/amrr-modal.component';
+import { AmrrReportFilters } from './amrr-report-filters/amrr-report-filters.model';
 import { ApiBusinessService } from './api-business.service';
 import Helper from './helper';
 import { Transaction } from './models/transaction.model';
-import { TransactionsRequest } from './transaction-request.model';
 
 @Injectable({
   providedIn: 'root',
@@ -21,15 +21,12 @@ export class TransactionService {
     private readonly apiBusinessService: ApiBusinessService,
     private readonly snackBar: MatSnackBar,
     private readonly router: Router,
-    private readonly dialog: MatDialog,
-    private readonly datePipe: DatePipe
+    private readonly dialog: MatDialog
   ) {}
 
-  getTransactions(transactionRequest: TransactionsRequest) {
-    transactionRequest.toDate =
-      this.datePipe.transform(transactionRequest.toDate) ?? '';
-    transactionRequest.fromDate =
-      this.datePipe.transform(transactionRequest.fromDate) ?? '';
+  getTransactions(transactionRequest: AmrrReportFilters) {
+    transactionRequest.toDate = transactionRequest.toDate;
+    transactionRequest.fromDate = transactionRequest.fromDate;
     this.apiBusinessService
       .post('stock/transactions', transactionRequest)
       .pipe(take(1))

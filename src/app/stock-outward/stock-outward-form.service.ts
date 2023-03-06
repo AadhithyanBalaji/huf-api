@@ -16,6 +16,7 @@ import {
   IAmmrGridColumn,
 } from '../shared/ammr-grid/ammr-grid-column.interface';
 import { AmrrModalComponent } from '../shared/amrr-modal/amrr-modal.component';
+import { AmrrReportFilters } from '../shared/amrr-report-filters/amrr-report-filters.model';
 import { IAmrrTypeahead } from '../shared/amrr-typeahead/amrr-typeahead.interface';
 import { ApiBusinessService } from '../shared/api-business.service';
 import Helper from '../shared/helper';
@@ -25,20 +26,6 @@ import { StockOutward } from './stock-outward.model';
 
 @Injectable()
 export class StockOutwardFormService {
-  godowns: AmrrGodown[] = [];
-  bays: AmrrBay[] = [];
-  itemGroups: AmrrItemGroup[] = [];
-  items: AmrrItem[] = [];
-  batches: IAmrrTypeahead[];
-  form: FormGroup<{
-    fromDate: FormControl<any>;
-    toDate: FormControl<any>;
-    goDownId: FormControl<any>;
-    bayId: FormControl<any>;
-    itemGroupId: FormControl<any>;
-    itemId: FormControl<any>;
-    batchId: FormControl<any>;
-  }>;
   dataSource: MatTableDataSource<StockOutward, MatPaginator>;
   columns: IAmmrGridColumn[];
 
@@ -51,57 +38,21 @@ export class StockOutwardFormService {
   ) {}
 
   init(partyNameTemplate: TemplateRef<any>) {
-    const today = new Date();
-    const tomorrow = new Date();
-    tomorrow.setDate(tomorrow.getDate() + 1);
-    combineLatest([
-      this.apiBusinessService.get('godown'),
-      this.apiBusinessService.get('bay'),
-      this.apiBusinessService.get('itemGroup'),
-      this.apiBusinessService.get('item'),
-      this.apiBusinessService.get('batch'),
-      this.apiBusinessService.post('stock/transactions', {
-        transactionTypeId: 1,
-        fromDate: this.datePipe.transform(today),
-        toDate: this.datePipe.transform(tomorrow),
-      }),
-    ])
-      .pipe(take(1))
-      .subscribe((data: any) => {
-        this.godowns = data[0] as AmrrGodown[];
-        this.bays = data[1] as AmrrBay[];
-        this.itemGroups = data[2] as AmrrItemGroup[];
-        this.items = data[3] as AmrrItem[];
-        this.batches = data[4] as AmrrBatch[];
-        this.form = new FormGroup({
-          fromDate: new FormControl(today),
-          toDate: new FormControl(tomorrow),
-          goDownId: new FormControl(null),
-          bayId: new FormControl(''),
-          itemGroupId: new FormControl(''),
-          itemId: new FormControl(''),
-          batchId: new FormControl(''),
-        });
-        this.columns = this.getColumns(partyNameTemplate);
-        this.setDataSource(data[5]);
-      });
+    this.columns = this.getColumns(partyNameTemplate);
   }
 
-  getData() {
-    if (this.form.dirty && this.form.valid) {
+  getData(transactionFilters: AmrrReportFilters) {
+    if (Helper.isTruthy(transactionFilters)) {
+      transactionFilters.transactionTypeId = 2;
       this.apiBusinessService
-        .post('stock/transactions', {
-          transactionTypeId: 2,
-          fromDate: this.datePipe.transform(this.form.controls.fromDate.value),
-          toDate: this.datePipe.transform(this.form.controls.toDate.value),
-          godownId: this.form.controls.goDownId.value,
-          bayId: this.form.controls.bayId.value,
-          itemGroupId: this.form.controls.itemGroupId.value,
-          itemId: this.form.controls.itemId.value,
-          batchId: this.form.controls.batchId.value,
-        })
+        .post('stock/transactions', transactionFilters)
         .pipe(take(1))
-        .subscribe((data: any) => this.setDataSource(data));
+        .subscribe(
+          (data: any) =>
+            (this.dataSource = new MatTableDataSource(
+              data.recordset as StockOutward[]
+            ))
+        );
     }
   }
 
@@ -128,10 +79,6 @@ export class StockOutwardFormService {
       });
   }
 
-  private setDataSource(data: any) {
-    this.dataSource = new MatTableDataSource(data.recordset as StockOutward[]);
-  }
-
   private getColumns(partyNameTemplate: TemplateRef<any>): IAmmrGridColumn[] {
     return [
       {
@@ -156,7 +103,7 @@ export class StockOutwardFormService {
         key: Helper.nameof<StockOutward>('partyName'),
         name: 'Party Name',
         type: GridColumnType.Template,
-        template: partyNameTemplate
+        template: partyNameTemplate,
       },
       {
         key: Helper.nameof<StockOutward>('items'),
@@ -187,7 +134,7 @@ export class StockOutwardFormService {
       .pipe(take(1))
       .subscribe((_) => {
         this.snackBar.open('Deleted Transaction', '', { duration: 2000 });
-        this.getData();
+        //this.getData();
       });
   }
 }
