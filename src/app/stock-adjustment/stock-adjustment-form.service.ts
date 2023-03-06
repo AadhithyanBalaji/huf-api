@@ -1,7 +1,6 @@
 import { Injectable } from '@angular/core';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatTableDataSource } from '@angular/material/table';
-import { Router } from '@angular/router';
 import {
   GridColumnType,
   IAmmrGridColumn,
@@ -17,10 +16,7 @@ export class StockAdjustmentFormService {
   dataSource: MatTableDataSource<StockAdjustment, MatPaginator>;
   columns: IAmmrGridColumn[];
 
-  constructor(
-    private readonly router: Router,
-    private readonly transactionService: TransactionService
-  ) {
+  constructor(private readonly transactionService: TransactionService) {
     this.transactionService.stockTransactions$.subscribe(
       (data: any) =>
         (this.dataSource = new MatTableDataSource(
@@ -41,15 +37,14 @@ export class StockAdjustmentFormService {
   }
 
   navigateToAddAdjustment() {
-    this.router.navigate(['stockAdjustment', 'edit', 'new']);
+    this.transactionService.navigateToAddScreen('stockAdjustment');
   }
 
   edit(transaction: Transaction) {
-    this.router.navigate([
+    this.transactionService.navigateToEditScreen(
       'stockAdjustment',
-      'edit',
-      +transaction.transactionId,
-    ]);
+      +transaction.transactionId
+    );
   }
 
   delete(transaction: Transaction) {

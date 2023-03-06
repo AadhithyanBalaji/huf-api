@@ -16,6 +16,7 @@ import { Transaction } from './models/transaction.model';
 export class TransactionService {
   transaction$ = new Subject();
   stockTransactions$ = new Subject();
+  transactionRequest: AmrrReportFilters;
 
   constructor(
     private readonly apiBusinessService: ApiBusinessService,
@@ -24,9 +25,16 @@ export class TransactionService {
     private readonly dialog: MatDialog
   ) {}
 
+  navigateToAddScreen(routeKey: string) {
+    this.router.navigate([routeKey, 'edit', 'new']);
+  }
+
+  navigateToEditScreen(routeKey: string, id: number) {
+    this.router.navigate([routeKey, 'edit', +id]);
+  }
+
   getTransactions(transactionRequest: AmrrReportFilters) {
-    transactionRequest.toDate = transactionRequest.toDate;
-    transactionRequest.fromDate = transactionRequest.fromDate;
+    this.transactionRequest = transactionRequest;
     this.apiBusinessService
       .post('stock/transactions', transactionRequest)
       .pipe(take(1))
@@ -76,12 +84,7 @@ export class TransactionService {
       .afterClosed()
       .pipe(take(1))
       .subscribe((result) =>
-        result
-          ? this.deleteTransaction(
-              transaction.transactionId,
-              transaction.transactionTypeId
-            )
-          : null
+        result ? this.deleteTransaction(transaction.transactionId) : null
       );
   }
 
@@ -97,7 +100,7 @@ export class TransactionService {
     );
   }
 
-  private deleteTransaction(transactionId: number, transactionTypeId: number) {
+  private deleteTransaction(transactionId: number) {
     this.apiBusinessService
       .delete('stock', transactionId)
       .pipe(take(1))
@@ -106,11 +109,7 @@ export class TransactionService {
         const today = new Date();
         const tomorrow = new Date();
         tomorrow.setDate(tomorrow.getDate() + 1);
-        this.getTransactions({
-          transactionTypeId: transactionTypeId,
-          fromDate: today,
-          toDate: tomorrow,
-        });
+        this.getTransactions(this.transactionRequest);
       });
   }
 }
