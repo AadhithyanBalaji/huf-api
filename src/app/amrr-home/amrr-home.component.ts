@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { Router } from '@angular/router';
 import { AuthService } from '../auth/auth.service';
 
 @Component({
@@ -11,7 +12,12 @@ export class AmrrHomeComponent {
   showFiller = false;
   panelOpenState = false;
 
-  constructor(readonly authService: AuthService) {}
+  constructor(
+    readonly authService: AuthService,
+    private readonly router: Router
+  ) {
+    this.router.navigate(['stockInward']);
+  }
 
   logOut() {
     this.authService.logOut();
