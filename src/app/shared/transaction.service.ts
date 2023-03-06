@@ -1,13 +1,13 @@
-import { DatePipe } from '@angular/common';
 import { Injectable } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Router } from '@angular/router';
-import { combineLatest, Observable, of, Subject, take } from 'rxjs';
+import { combineLatest, Subject, take } from 'rxjs';
 import { AmrrModalComponent } from './amrr-modal/amrr-modal.component';
 import { AmrrReportFilters } from './amrr-report-filters/amrr-report-filters.model';
 import { ApiBusinessService } from './api-business.service';
 import Helper from './helper';
+import { TransactionBatch } from './models/transaction-batch.model';
 import { Transaction } from './models/transaction.model';
 
 @Injectable({
@@ -33,6 +33,10 @@ export class TransactionService {
     this.router.navigate([routeKey, 'edit', +id]);
   }
 
+  navigateToBrowser(routeKey: string) {
+    this.router.navigate([routeKey]);
+  }
+
   getTransactions(transactionRequest: AmrrReportFilters) {
     this.transactionRequest = transactionRequest;
     this.apiBusinessService
@@ -41,20 +45,27 @@ export class TransactionService {
       .subscribe((data) => this.stockTransactions$.next(data));
   }
 
-  getTransaction(transactionId: number, transactionTypeId: number) {
-    combineLatest([
-      this.apiBusinessService.post('stock/transaction', {
-        transactionTypeId: transactionTypeId,
-        transactionId: transactionId,
-      }),
-      this.apiBusinessService.get(
-        `transactionBatch/transaction/${transactionId}`
-      ),
-    ])
-      .pipe(take(1))
-      .subscribe((data: any) => {
-        this.transaction$.next(data);
-      });
+  requestTransactionInfo(transactionId: number, transactionTypeId: number) {
+    if (!isNaN(transactionId)) {
+      combineLatest([
+        this.apiBusinessService.post('stock/transaction', {
+          transactionTypeId: transactionTypeId,
+          transactionId: transactionId,
+        }),
+        this.apiBusinessService.get(
+          `transactionBatch/transaction/${transactionId}`
+        ),
+      ])
+        .pipe(take(1))
+        .subscribe((data: any) => {
+          this.transaction$.next([
+            data[0].recordset[0],
+            data[1].recordset as TransactionBatch[],
+          ]);
+        });
+    } else {
+      this.transaction$.next([new Transaction(), []]);
+    }
   }
 
   addTransaction(

@@ -9,13 +9,14 @@ import { ApiBusinessService } from 'src/app/shared/api-business.service';
 import Helper from 'src/app/shared/helper';
 import { TransactionBatch } from 'src/app/shared/models/transaction-batch.model';
 import { Transaction } from 'src/app/shared/models/transaction.model';
+import { TransactionService } from 'src/app/shared/transaction.service';
 
 @Injectable()
 export class StockOutwardEditorFormService {
-  transactionId: number;
   batchData: TransactionBatch[];
   batches: TransactionBatch[];
   form: FormGroup<{
+    transactionId: FormControl<number | null>;
     outwardDate: FormControl<Date | null>;
     outwardNo: FormControl<string | null>;
     vehicleName: FormControl<string | null>;
@@ -37,35 +38,22 @@ export class StockOutwardEditorFormService {
   ];
 
   constructor(
-    private readonly router: Router,
     private readonly route: ActivatedRoute,
-    private readonly apiBusinessService: ApiBusinessService,
-    private readonly snackBar: MatSnackBar,
+    private readonly transactionService: TransactionService,
     private readonly authService: AuthService
-  ) {}
+  ) {
+    this.transactionService.transaction$.subscribe((data: any) => {
+      this.buildForm(data[0]);
+      this.batches = data[1];
+    });
+  }
 
   init() {
-    this.route.params.pipe(take(1)).subscribe((params) => {
-      if (!isNaN(params['id'])) {
-        this.transactionId = +params['id'];
-        combineLatest([
-          this.apiBusinessService.post('stock/transaction', {
-            transactionTypeId: 2,
-            transactionId: this.transactionId,
-          }),
-          this.apiBusinessService.get(
-            `transactionBatch/transaction/${this.transactionId}`
-          ),
-        ])
-          .pipe(take(1))
-          .subscribe((data: any) => {
-            this.buildForm(data[0].recordset[0]);
-            this.batches = data[1].recordset as TransactionBatch[];
-          });
-      } else {
-        this.buildForm(new Transaction());
-      }
-    });
+    this.route.params
+      .pipe(take(1))
+      .subscribe((params) =>
+        this.transactionService.requestTransactionInfo(params['id'], 2)
+      );
   }
 
   onBatchUpdate(event: TransactionBatch[]) {
@@ -79,16 +67,11 @@ export class StockOutwardEditorFormService {
         this.batches.length > 0) &&
       this.form.valid
     ) {
-      const transaction = this.buildTransactionData();
-      this.apiBusinessService
-        .post('stock', transaction)
-        .pipe(take(1))
-        .subscribe((_) => {
-          this.displaySuccessToast();
-          stayOnPage
-            ? this.router.navigate([])
-            : this.router.navigate(['stockOutward']);
-        });
+      this.transactionService.addTransaction(
+        'stockOutward',
+        this.buildTransactionData(),
+        stayOnPage
+      );
     }
   }
 
@@ -97,11 +80,12 @@ export class StockOutwardEditorFormService {
   }
 
   cancel() {
-    this.router.navigate(['stockOutward']);
+    this.transactionService.navigateToBrowser('stockOutward');
   }
 
   private buildForm(transaction: Transaction) {
     this.form = new FormGroup({
+      transactionId: new FormControl(transaction.transactionId),
       outwardDate: new FormControl(new Date(transaction.transactionDate)),
       outwardNo: new FormControl(),
       vehicleName: new FormControl(transaction.vehicleName),
@@ -118,7 +102,7 @@ export class StockOutwardEditorFormService {
 
   private buildTransactionData() {
     const transaction = new Transaction();
-    transaction.transactionId = this.transactionId;
+    transaction.transactionId = this.form.controls.transactionId.value!;
     transaction.batches = this.batchData ?? this.batches;
     transaction.transactionTypeId = 2;
     transaction.transactionDate = this.form.controls.outwardDate.value!;
@@ -127,23 +111,11 @@ export class StockOutwardEditorFormService {
     transaction.vehicleName = this.form.controls.vehicleName.value!;
     transaction.remarks = this.form.controls.remarks.value!;
     transaction.verifiedBy = this.form.controls.verifiedBy.value!;
-    if (this.transactionId == null) {
+    if (transaction.transactionId == null) {
       transaction.createdByUserId = this.authService.getUserId();
     } else {
       transaction.updatedByUserId = this.authService.getUserId();
     }
     return transaction;
-  }
-
-  private displaySuccessToast() {
-    this.snackBar.open(
-      Helper.isTruthy(this.transactionId) &&
-        !isNaN(this.transactionId) &&
-        this.transactionId > 0
-        ? 'Updated Transaction'
-        : 'Created Transaction',
-      '',
-      { duration: 2000 }
-    );
   }
 }
