@@ -7,12 +7,7 @@
 }
 
 .first-row mat-card {
-  width: 32vw !important;
-  min-width: 350px;
-}
-
-.inward-items-editor-container {
-  margin: 5px;
+  flex-basis: 33%;
 }
 
 .last-row {
@@ -21,24 +16,4 @@
   justify-content: space-between;
   gap: 5px;
   padding: 15px 0;
-}
-
-.display-cards-container {
-  display: flex;
-  gap: 5px;
-}
-
-.display-card {
-  width: 20vw;
-}
-
-.action-row {
-  display: flex;
-  justify-content: flex-end;
-  gap: 10px;
-  padding: 15px;
-}
-
-mat-card-header{
-    margin-bottom: 15px;
 }

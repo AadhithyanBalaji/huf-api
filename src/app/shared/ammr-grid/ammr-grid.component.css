@@ -2,15 +2,6 @@ table {
   width: 100%;
 }
 
-.mat-mdc-form-field {
-  font-size: 14px;
-}
-
-td,
-th {
-  width: 25%;
-}
-
 .mat-mdc-cell,
 .mat-mdc-header-cell {
   vertical-align: middle;

@@ -29,7 +29,7 @@
   }
 
   .menu-container mat-list-item a, logout-div {
-    color: white;
+    color: rgba(0,0,0,.54);
     font-family: Roboto, sans-serif;
     font-size: 14px;
     font-weight: 500;
