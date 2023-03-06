@@ -51,24 +51,26 @@ export class AmrrItemEditorFormService {
           itemGroupId: new FormControl(data?.itemGroupId, [
             Validators.required,
           ]),
-          itemId: new FormControl(data?.id, [Validators.required]),
+          itemId: new FormControl(data?.id),
           name: new FormControl(data?.name, [Validators.required]),
-          isActive: new FormControl(data?.isActive, [Validators.required]),
+          isActive: new FormControl(data?.isActive ?? true, [Validators.required]),
         });
       });
   }
 
   private saveItem(closeDialog = false) {
-    const item = new AmrrItem();
-    item.id = this.form.controls.itemId.value;
-    item.itemGroupId = this.form.controls.itemGroupId.value;
-    item.name = this.form.controls.name.value;
-    item.isActive = this.form.controls.isActive.value;
-    this.apiBusinessService
-      .post('item', item)
-      .pipe(take(1))
-      .subscribe((_) =>
-        closeDialog ? this.dialogRef.close(new AmrrItem()) : this.form.reset()
-      );
+    if (this.form.dirty && this.form.valid) {
+      const item = new AmrrItem();
+      item.id = this.form.controls.itemId.value;
+      item.itemGroupId = this.form.controls.itemGroupId.value;
+      item.name = this.form.controls.name.value;
+      item.isActive = this.form.controls.isActive.value;
+      this.apiBusinessService
+        .post('item', item)
+        .pipe(take(1))
+        .subscribe((_) =>
+          closeDialog ? this.dialogRef.close(new AmrrItem()) : this.form.reset()
+        );
+    }
   }
 }

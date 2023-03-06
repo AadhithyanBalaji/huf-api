@@ -64,16 +64,18 @@ export class AmrrBayEditorFormService {
   }
 
   private saveBay(closeDialog = false) {
-    const item = new AmrrBay();
-    item.id = this.form.controls.id.value;
-    item.name = this.form.controls.name.value;
-    item.godownIds = this.form.controls.godowns.value;
-    item.isActive = this.form.controls.isActive.value ? '1' : '0';
-    this.apiBusinessService
-      .post('bay', item)
-      .pipe(take(1))
-      .subscribe((_) =>
-        closeDialog ? this.dialogRef.close(new AmrrBay()) : this.form.reset()
-      );
+    if (this.form.dirty && this.form.valid) {
+      const item = new AmrrBay();
+      item.id = this.form.controls.id.value;
+      item.name = this.form.controls.name.value;
+      item.godownIds = this.form.controls.godowns.value;
+      item.isActive = this.form.controls.isActive.value ? '1' : '0';
+      this.apiBusinessService
+        .post('bay', item)
+        .pipe(take(1))
+        .subscribe((_) =>
+          closeDialog ? this.dialogRef.close(new AmrrBay()) : this.form.reset()
+        );
+    }
   }
 }

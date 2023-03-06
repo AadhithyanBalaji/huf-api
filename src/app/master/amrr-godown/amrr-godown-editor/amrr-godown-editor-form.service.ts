@@ -51,19 +51,23 @@ export class AmrrGodownEditorFormService {
   }
 
   private saveGodown(closeDialog = false) {
-    const item = new AmrrGodown();
-    item.id = this.form.controls.id.value;
-    item.name = this.form.controls.name.value;
-    item.capacity = this.form.controls.capacity.value;
-    item.gstInName = this.form.controls.gstInName.value;
-    item.gstInAddress = this.form.controls.gstInAddress.value;
-    item.isActive = this.form.controls.isActive.value ? '1' : '0';
+    if (this.form.dirty && this.form.valid) {
+      const item = new AmrrGodown();
+      item.id = this.form.controls.id.value;
+      item.name = this.form.controls.name.value;
+      item.capacity = this.form.controls.capacity.value;
+      item.gstInName = this.form.controls.gstInName.value;
+      item.gstInAddress = this.form.controls.gstInAddress.value;
+      item.isActive = this.form.controls.isActive.value ? '1' : '0';
 
-    this.apiBusinessService
-      .post('godown', item)
-      .pipe(take(1))
-      .subscribe((_) =>
-        closeDialog ? this.dialogRef.close(new AmrrGodown()) : this.form.reset()
-      );
+      this.apiBusinessService
+        .post('godown', item)
+        .pipe(take(1))
+        .subscribe((_) =>
+          closeDialog
+            ? this.dialogRef.close(new AmrrGodown())
+            : this.form.reset()
+        );
+    }
   }
 }

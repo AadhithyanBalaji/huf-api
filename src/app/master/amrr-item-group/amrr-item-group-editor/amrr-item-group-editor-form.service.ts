@@ -39,14 +39,18 @@ export class AmrrItemGroupEditorFormService {
   }
 
   private saveItemGroup(closeDialog = false) {
-    const itemGroup = new AmrrItemGroup();
-    itemGroup.id = Helper.isTruthy(this.data) ? this.data.id : 0;
-    itemGroup.name = this.name.value!.toString();
-    this.apiBusinessService
-      .post('itemGroup', itemGroup)
-      .pipe(take(1))
-      .subscribe((_) => {
-        closeDialog ? this.dialogRef.close(new AmrrItemGroup()) : this.name.setValue(null);
-      });
+    if (this.name.dirty && this.name.valid) {
+      const itemGroup = new AmrrItemGroup();
+      itemGroup.id = Helper.isTruthy(this.data) ? this.data.id : 0;
+      itemGroup.name = this.name.value!.toString();
+      this.apiBusinessService
+        .post('itemGroup', itemGroup)
+        .pipe(take(1))
+        .subscribe((_) => {
+          closeDialog
+            ? this.dialogRef.close(new AmrrItemGroup())
+            : this.name.setValue(null);
+        });
+    }
   }
 }

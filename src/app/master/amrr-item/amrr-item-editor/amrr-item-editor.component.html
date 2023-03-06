@@ -8,7 +8,7 @@
     <div mat-dialog-content>
         <form *ngIf="formService.form" [formGroup]="formService.form" autocomplete="off">
             <div>
-            <app-amrr-typeahead [title]="'Item Group Name'" [formControl]="formService.form.controls.itemGroupId"
+            <app-amrr-typeahead [title]="'Item Group Name'" [ctrl]="formService.form.controls.itemGroupId"
                 [options]="formService.itemGroups"></app-amrr-typeahead>
             </div>
             <div>
