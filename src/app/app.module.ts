@@ -94,10 +94,10 @@ import { AmrrReportFiltersComponent } from './shared/amrr-report-filters/amrr-re
     DecimalPipe,
     ApiBusinessService,
     AmrrLoadingDialogService,
-    // {
-    //   provide: ErrorHandler,
-    //   useClass: GlobalErrorHandler,
-    // },
+    {
+      provide: ErrorHandler,
+      useClass: GlobalErrorHandler,
+    },
     {
       provide: HTTP_INTERCEPTORS,
       useClass: HttpLoadingInterceptor,
