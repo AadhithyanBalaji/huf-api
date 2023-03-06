@@ -7,13 +7,12 @@
 }
 
 .first-row mat-card {
-  flex-basis: 48%;
+  flex-basis: 49%;
 }
 
 .last-row {
   display: flex;
   flex-wrap: wrap;
   justify-content: space-between;
-  gap: 5px;
-  padding: 15px 0;
+  padding: 0 10px 15px 10px;
 }

@@ -1,4 +1,4 @@
-<div class="df">
+<div class="bg">
     <app-amrr-page-header [title]="'Stock Inward'" [actionName]="''"></app-amrr-page-header>
     <form *ngIf="formService.form" [formGroup]="formService.form" autocomplete="off">
         <div class="first-row">
@@ -76,29 +76,23 @@
                 </mat-card-content>
             </mat-card>
             <div class="display-cards-container">
-                <mat-card class="display-card">
+                <mat-card class="display-card weight-image">
                     <mat-card-header>
-                        0
+                        {{formService.getTotalMetrics().bags}}
                     </mat-card-header>
                     <mat-card-content>
                         <div>
                             Bags
-                        </div>
-                        <div class="image">
-                            <mat-icon color="primary" matSuffix>shopping_bag</mat-icon>
                         </div>
                     </mat-card-content>
                 </mat-card>
-                <mat-card class="display-card">
+                <mat-card class="display-card weight-hanging-image">
                     <mat-card-header>
-                        0
+                        {{formService.getTotalMetrics().qty}}
                     </mat-card-header>
                     <mat-card-content>
                         <div>
-                            Bags
-                        </div>
-                        <div class="image">
-                            <mat-icon color="primary" matSuffix>shopping_bag</mat-icon>
+                            Quintal
                         </div>
                     </mat-card-content>
                 </mat-card>

@@ -82,6 +82,17 @@ export class StockInwardEditorFormService {
     this.transactionService.navigateToBrowser('stockInward');
   }
 
+  getTotalMetrics() {
+    const batches = this.batchData ?? this.batches;
+    let qty = 0,
+      bags = 0;
+    batches.forEach((element) => {
+      qty += +element.qty;
+      bags += +element.bags;
+    });
+    return { qty: qty, bags: bags };
+  }
+
   private buildForm(transaction: Transaction) {
     this.form = new FormGroup({
       transactionId: new FormControl(transaction.transactionId),

@@ -9,6 +9,10 @@ body {
   font-family: Roboto, "Helvetica Neue", sans-serif;
 }
 
+.bg{
+  background-color: #f4f6f9;
+}
+
 .dp {
   padding: 15px;
 }
@@ -25,6 +29,8 @@ body {
 
 .df {
   padding: 15px;
+  background-color: #f4f6f9;
+  height: 93vh;
 }
 
 a {
@@ -40,12 +46,11 @@ a {
   border: 2px solid lightgray;
   padding: 15px;
   border-radius: 5px;
+  background-color: white;
 }
 
 .spinner-dialog {
-  height: 100vh;
-  width: 100vw;
-  background-color: transparent;
+  background-color: rgba(0, 0, 0, 0.32);
 }
 
 form div mat-form-field {
@@ -75,11 +80,19 @@ form div mat-form-field {
   width: 20vw;
 }
 
+.display-card mat-card-header {
+  font-weight: 900;
+  font-size: 35px;
+}
+
 .action-row {
   display: flex;
   justify-content: flex-end;
   gap: 10px;
   padding: 15px;
+  position: sticky;
+  bottom: 0;
+  background-color: white;
 }
 
 mat-card-header {
@@ -87,5 +100,19 @@ mat-card-header {
 }
 
 .inward-items-editor-container {
-  margin: 5px;
+  margin: 15px 10px 15px 10px;
+}
+
+.weight-image {
+  background-image: url("./assets/images/weight-hanging-svgrepo-com.svg");
+  background-size: 12vh 9vw;
+  background-position: 94% 96%;
+  background-repeat: no-repeat;
+}
+
+.weight-hanging-image {
+  background-image: url("./assets/images/weight-svgrepo-com.svg");
+  background-size: 12vh 9vw;
+  background-position: 94% 96%;
+  background-repeat: no-repeat;
 }

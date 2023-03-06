@@ -9,7 +9,7 @@ table {
 
 .amrr-table-container {
   margin-top: 10px;
-  height: calc(100vh - 460px);
+  height: calc(100vh - 395px);
   overflow: auto;
   padding: 0 15px;
 }
