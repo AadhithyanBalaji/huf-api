@@ -12,7 +12,9 @@ import { AmrrItemGroupComponent } from './master/amrr-item-group/amrr-item-group
 import { AmrrItemComponent } from './master/amrr-item/amrr-item.component';
 import { AmrrUserComponent } from './master/amrr-user/amrr-user.component';
 import { PageNotFoundComponent } from './page-not-found/page-not-found.component';
+import { BatchwiseStockComponent } from './reports/batchwise-stock/batchwise-stock.component';
 import { ConsolidatedStockReportComponent } from './reports/consolidated-stock-report/consolidated-stock-report.component';
+import { ItemMovementReportComponent } from './reports/item-movement-report/item-movement-report.component';
 import { StockAdjustmentEditorComponent } from './stock-adjustment/stock-adjustment-editor/stock-adjustment-editor.component';
 import { StockAdjustmentComponent } from './stock-adjustment/stock-adjustment.component';
 import { StockInwardEditorComponent } from './stock-inward/stock-inward-editor/stock-inward-editor.component';
@@ -39,6 +41,14 @@ const routes: Routes = [
       {
         path: 'reports/consolidatedStock',
         component: ConsolidatedStockReportComponent,
+      },
+      {
+        path: 'reports/batchwiseStock',
+        component: BatchwiseStockComponent,
+      },
+      {
+        path: 'reports/itemMovement',
+        component: ItemMovementReportComponent,
       },
       { path: 'itemGroup', component: AmrrItemGroupComponent },
       { path: 'item', component: AmrrItemComponent },

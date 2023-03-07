@@ -1,0 +1,58 @@
+<div class="df">
+    <app-amrr-page-header [title]="'Item Movement Analysis'" [actionName]="''"></app-amrr-page-header>
+    <div class="grid-container">
+        <app-amrr-report-filters (onViewClicked)="formService.getData($event)"></app-amrr-report-filters>
+        <mat-divider></mat-divider>
+        <div class="report-grid-container">
+            <table mat-table [dataSource]="formService.dataSource" class="mat-elevation-z8">
+                <ng-container matColumnDef="S.No.">
+                    <th mat-header-cell *matHeaderCellDef> S.No. </th>
+                    <td mat-cell *matCellDef="let element"> {{element.sno}} </td>
+                </ng-container>
+                <ng-container matColumnDef="Date">
+                    <th mat-header-cell *matHeaderCellDef> Date </th>
+                    <td mat-cell *matCellDef="let element">
+                        <app-stock-info [info_1]="formService.getFormattedDate(element.inwardDate)" [info_2]="element.transactionId"></app-stock-info>
+                    </td>
+                </ng-container>
+                <ng-container matColumnDef="Party/Vehicle Details">
+                    <th mat-header-cell *matHeaderCellDef> Party/Vehicle Details </th>
+                    <td mat-cell *matCellDef="let element">
+                        <app-stock-info [info_1]="element.partyName" [info_2]="element.vehicleName"></app-stock-info>
+                    </td>
+                </ng-container>
+                <ng-container matColumnDef="Godown/Bay">
+                    <th mat-header-cell *matHeaderCellDef> Godown/Bay </th>
+                    <td mat-cell *matCellDef="let element"> {{element.godown}}/{{element.bay}} </td>
+                </ng-container>
+                <ng-container matColumnDef="Invoice/Batch No.">
+                    <th mat-header-cell *matHeaderCellDef> Invoice/Batch No. </th>
+                    <td mat-cell *matCellDef="let element">
+                        <app-stock-info [info_1]="element.invoiceNo ? '#'+element.invoiceNo : ''"
+                            [info_2]="element.partyName" [info_3]="element.batchName"></app-stock-info>
+                    </td>
+                </ng-container>
+                <ng-container matColumnDef="Inward">
+                    <th mat-header-cell *matHeaderCellDef> Inward </th>
+                    <td mat-cell *matCellDef="let element">
+                        <app-stock-info [bags]="element.bags" [qty]="element.qty"
+                            *ngIf="element.transactionTypeId === 1; else naTemplate"></app-stock-info>
+                    </td>
+                </ng-container>
+                <ng-container matColumnDef="Outward">
+                    <th mat-header-cell *matHeaderCellDef> Outward </th>
+                    <td mat-cell *matCellDef="let element">
+                        <app-stock-info [bags]="element.bags" [qty]="element.qty"
+                            *ngIf="element.transactionTypeId === 2; else naTemplate"></app-stock-info>
+                    </td>
+                </ng-container>
+
+                <tr mat-header-row *matHeaderRowDef="formService.columns"></tr>
+                <tr mat-row *matRowDef="let row; columns: formService.columns;"></tr>
+            </table>
+        </div>
+    </div>
+</div>
+<ng-template #naTemplate>
+    -
+</ng-template>
