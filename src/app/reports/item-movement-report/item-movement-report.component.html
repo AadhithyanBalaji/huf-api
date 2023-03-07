@@ -2,6 +2,14 @@
     <app-amrr-page-header [title]="'Item Movement Analysis'" [actionName]="''"></app-amrr-page-header>
     <div class="grid-container">
         <app-amrr-report-filters (onViewClicked)="formService.getData($event)"></app-amrr-report-filters>
+        <div class="cards-container">
+            <app-stock-qty-bags-card [title]="'Opening Stock'"></app-stock-qty-bags-card>
+            <app-stock-qty-bags-card [title]="'Total Inward'" [qty]="formService.getTotalInward().qty"
+                [bags]="formService.getTotalInward().bags"></app-stock-qty-bags-card>
+            <app-stock-qty-bags-card [title]="'Total Outward'" [qty]="formService.getTotalInward(2).qty"
+                [bags]="formService.getTotalInward(2).bags"></app-stock-qty-bags-card>
+            <app-stock-qty-bags-card [title]="'Closing Stock'"></app-stock-qty-bags-card>
+        </div>
         <mat-divider></mat-divider>
         <div class="report-grid-container">
             <table mat-table [dataSource]="formService.dataSource" class="mat-elevation-z8">
@@ -12,7 +20,8 @@
                 <ng-container matColumnDef="Date">
                     <th mat-header-cell *matHeaderCellDef> Date </th>
                     <td mat-cell *matCellDef="let element">
-                        <app-stock-info [info_1]="formService.getFormattedDate(element.inwardDate)" [info_2]="element.transactionId"></app-stock-info>
+                        <app-stock-info [info_1]="formService.getFormattedDate(element.inwardDate)"
+                            [info_2]="element.transactionId"></app-stock-info>
                     </td>
                 </ng-container>
                 <ng-container matColumnDef="Party/Vehicle Details">

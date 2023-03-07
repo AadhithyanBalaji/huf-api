@@ -46,6 +46,7 @@ import { StockInfoComponent } from './reports/stock-info/stock-info.component';
 import { AmrrReportFiltersComponent } from './shared/amrr-report-filters/amrr-report-filters.component';
 import { BatchwiseStockComponent } from './reports/batchwise-stock/batchwise-stock.component';
 import { ItemMovementReportComponent } from './reports/item-movement-report/item-movement-report.component';
+import { StockQtyBagsCardComponent } from './reports/stock-qty-bags-card/stock-qty-bags-card.component';
 
 @NgModule({
   declarations: [
@@ -83,7 +84,8 @@ import { ItemMovementReportComponent } from './reports/item-movement-report/item
     StockInfoComponent,
     AmrrReportFiltersComponent,
     BatchwiseStockComponent,
-    ItemMovementReportComponent
+    ItemMovementReportComponent,
+    StockQtyBagsCardComponent
   ],
   imports: [
     BrowserModule,
