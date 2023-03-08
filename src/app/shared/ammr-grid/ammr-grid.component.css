@@ -7,12 +7,6 @@ table {
   vertical-align: middle;
 }
 
-.amrr-table-container {
-  margin-top: 10px;
-  overflow: auto;
-  padding: 0 15px;
-}
-
 .auto-height {
   height: auto !important;
 }
