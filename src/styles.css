@@ -9,7 +9,7 @@ body {
   font-family: Roboto, "Helvetica Neue", sans-serif;
 }
 
-.bg{
+.bg {
   background-color: #f4f6f9;
 }
 
@@ -80,6 +80,21 @@ form div mat-form-field {
   width: 20vw;
 }
 
+@media (max-width: 870px) {
+  .display-card {
+    width: 100%;
+  }
+  .weight-image {
+    background-size: 5vh 5vw !important;
+    background-position: 90% 60% !important;
+  }
+  
+  .weight-hanging-image {
+    background-size: 5vh 5vw !important;
+    background-position: 90% 60% !important;
+  }
+}
+
 .display-card mat-card-header {
   font-weight: 900;
   font-size: 35px;
@@ -93,6 +108,7 @@ form div mat-form-field {
   position: sticky;
   bottom: 0;
   background-color: white;
+  z-index: 999;
 }
 
 mat-card-header {
@@ -105,14 +121,35 @@ mat-card-header {
 
 .weight-image {
   background-image: url("./assets/images/weight-hanging-svgrepo-com.svg");
-  background-size: 12vh 9vw;
-  background-position: 94% 96%;
+  background-size: 7vh 9vw;
+  background-position: 90% 60%;
   background-repeat: no-repeat;
 }
 
 .weight-hanging-image {
   background-image: url("./assets/images/weight-svgrepo-com.svg");
-  background-size: 12vh 9vw;
-  background-position: 94% 96%;
+  background-size: 7vh 9vw;
+  background-position: 90% 60%;
   background-repeat: no-repeat;
+}
+
+.mdc-icon-button {
+  height: 38px !important;
+  padding: 8px !important;
+}
+
+.mat-mdc-form-field-icon-suffix .mat-icon {
+  padding: 5px !important;
+}
+
+.batch-grid-container {
+  margin-top: -15px;
+}
+
+.batch-card-content {
+  min-height: calc(100vh - 649px) !important;
+}
+
+.last-row mat-card-content {
+  padding-bottom: 0 !important;
 }

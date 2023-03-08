@@ -34,6 +34,5 @@
 </div>
 <div class="batch-grid-container">
     <app-ammr-grid [columns]="formService.columns" [dataSource]="formService.dataSource" [enableEdit]="false"
-        [autoHeight]="true" [allowFilter]="false" [allowPagination]="false"
-        (onDelete)="formService.removeBatch($event)"></app-ammr-grid>
+        [allowFilter]="false" [allowPagination]="false" (onDelete)="formService.removeBatch($event)"></app-ammr-grid>
 </div>

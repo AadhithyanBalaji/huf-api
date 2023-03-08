@@ -25,7 +25,7 @@
                 <mat-card-header>
                     <mat-card-title>Adjustment Items</mat-card-title>
                 </mat-card-header>
-                <mat-card-content>
+                <mat-card-content class="batch-card-content">
                     <app-stock-adjustment-transaction-batch [batches]="formService.batches"
                         (onBatchUpdate)="formService.onBatchUpdate($event)"></app-stock-adjustment-transaction-batch>
                 </mat-card-content>

@@ -10,9 +10,30 @@
   flex-basis: 32%;
 }
 
+@media (max-width: 911px) {
+  .first-row {
+    flex-direction: column;
+    flex-wrap: nowrap;
+    justify-content: unset;
+    margin: 15px;
+  }
+  .first-row mat-card{
+    width: 100%;
+  }
+}
+
 .last-row {
   display: flex;
   flex-wrap: wrap;
   justify-content: space-between;
+  gap: 15px;
   padding: 0 10px 15px 10px;
+}
+
+@media (max-width: 870px) {
+  .last-row {
+    flex-direction: column;
+    flex-wrap: nowrap;
+    justify-content: unset;
+  }
 }

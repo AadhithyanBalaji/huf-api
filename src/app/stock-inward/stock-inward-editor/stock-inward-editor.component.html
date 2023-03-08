@@ -56,7 +56,7 @@
                 <mat-card-header>
                     <mat-card-title>Inward Items</mat-card-title>
                 </mat-card-header>
-                <mat-card-content>
+                <mat-card-content class="batch-card-content">
                     <app-inward-transaction-batch [batches]="formService.batches"
                         (onBatchUpdate)="formService.onBatchUpdate($event)"></app-inward-transaction-batch>
                 </mat-card-content>
