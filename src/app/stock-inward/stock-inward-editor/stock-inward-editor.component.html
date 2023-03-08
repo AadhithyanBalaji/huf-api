@@ -7,13 +7,13 @@
                     <mat-card-title>Inward Details</mat-card-title>
                 </mat-card-header>
                 <mat-card-content>
-                    <mat-form-field appearance="outline">
+                    <mat-form-field>
                         <mat-label>Inward Date</mat-label>
                         <input matInput formControlName="inwardDate" [matDatepicker]="fromDatePicker">
                         <mat-datepicker-toggle matIconSuffix [for]="fromDatePicker"></mat-datepicker-toggle>
                         <mat-datepicker #fromDatePicker> </mat-datepicker>
                     </mat-form-field>
-                    <mat-form-field appearance="outline">
+                    <mat-form-field>
                         <mat-label>Inward No.</mat-label>
                         <input matInput formControlName="inwardNo">
                     </mat-form-field>
@@ -24,11 +24,11 @@
                     <mat-card-title>Invoice Details</mat-card-title>
                 </mat-card-header>
                 <mat-card-content>
-                    <mat-form-field appearance="outline">
+                    <mat-form-field>
                         <mat-label>Invoice No.</mat-label>
                         <input matInput formControlName="invoiceNo">
                     </mat-form-field>
-                    <mat-form-field appearance="outline">
+                    <mat-form-field>
                         <mat-label>Party/Mill</mat-label>
                         <input matInput formControlName="party" required>
                     </mat-form-field>
@@ -39,7 +39,7 @@
                     <mat-card-title>Logistic Details</mat-card-title>
                 </mat-card-header>
                 <mat-card-content>
-                    <mat-form-field appearance="outline">
+                    <mat-form-field>
                         <mat-label>Vehicle Details</mat-label>
                         <input matInput formControlName="vehicleDetails" required>
                     </mat-form-field>
@@ -65,11 +65,11 @@
         <div class="last-row">
             <mat-card>
                 <mat-card-content>
-                    <mat-form-field appearance="outline">
+                    <mat-form-field>
                         <mat-label>Remarks</mat-label>
                         <input matInput formControlName="remarks">
                     </mat-form-field>
-                    <mat-form-field appearance="outline">
+                    <mat-form-field>
                         <mat-label>Verified By</mat-label>
                         <input matInput formControlName="verifiedBy">
                     </mat-form-field>

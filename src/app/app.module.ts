@@ -47,6 +47,7 @@ import { AmrrReportFiltersComponent } from './shared/amrr-report-filters/amrr-re
 import { BatchwiseStockComponent } from './reports/batchwise-stock/batchwise-stock.component';
 import { ItemMovementReportComponent } from './reports/item-movement-report/item-movement-report.component';
 import { StockQtyBagsCardComponent } from './reports/stock-qty-bags-card/stock-qty-bags-card.component';
+import { MAT_FORM_FIELD_DEFAULT_OPTIONS } from '@angular/material/form-field';
 
 @NgModule({
   declarations: [
@@ -85,7 +86,7 @@ import { StockQtyBagsCardComponent } from './reports/stock-qty-bags-card/stock-q
     AmrrReportFiltersComponent,
     BatchwiseStockComponent,
     ItemMovementReportComponent,
-    StockQtyBagsCardComponent
+    StockQtyBagsCardComponent,
   ],
   imports: [
     BrowserModule,
@@ -108,6 +109,10 @@ import { StockQtyBagsCardComponent } from './reports/stock-qty-bags-card/stock-q
       provide: HTTP_INTERCEPTORS,
       useClass: HttpLoadingInterceptor,
       multi: true,
+    },
+    {
+      provide: MAT_FORM_FIELD_DEFAULT_OPTIONS,
+      useValue: { appearance: 'outline' },
     },
   ],
   bootstrap: [AppComponent],

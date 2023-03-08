@@ -4,13 +4,13 @@
     </div>
     <form *ngIf="formService.form" [formGroup]="formService.form" autocomplete="off">
         <div class="form-container">
-                <mat-form-field appearance="outline" [style.width.px]="212">
+                <mat-form-field [style.width.px]="212">
                     <mat-label>From Date</mat-label>
                     <input matInput formControlName="fromDate" [matDatepicker]="fromDatePicker">
                     <mat-datepicker-toggle matIconSuffix [for]="fromDatePicker"></mat-datepicker-toggle>
                     <mat-datepicker #fromDatePicker> </mat-datepicker>
                 </mat-form-field>
-            <mat-form-field appearance="outline" [style.width.px]="212">
+            <mat-form-field [style.width.px]="212">
                 <mat-label>To Date</mat-label>
                 <input matInput formControlName="toDate" [matDatepicker]="toDatePicker">
                 <mat-datepicker-toggle matIconSuffix [for]="toDatePicker"></mat-datepicker-toggle>

@@ -7,13 +7,13 @@
                     <mat-card-title>Transaction Details</mat-card-title>
                 </mat-card-header>
                 <mat-card-content>
-                    <mat-form-field appearance="outline">
+                    <mat-form-field>
                         <mat-label>Transaction Date</mat-label>
                         <input matInput formControlName="outwardDate" [matDatepicker]="fromDatePicker">
                         <mat-datepicker-toggle matIconSuffix [for]="fromDatePicker"></mat-datepicker-toggle>
                         <mat-datepicker #fromDatePicker> </mat-datepicker>
                     </mat-form-field>
-                    <mat-form-field appearance="outline">
+                    <mat-form-field>
                         <mat-label>Transaction No.</mat-label>
                         <input matInput formControlName="outwardNo">
                     </mat-form-field>
@@ -35,11 +35,11 @@
             <mat-card>
                 <mat-card-content>
                     <div class="last-row-controls">
-                        <mat-form-field appearance="outline">
+                        <mat-form-field>
                             <mat-label>Remarks</mat-label>
                             <input matInput formControlName="remarks">
                         </mat-form-field>
-                        <mat-form-field appearance="outline">
+                        <mat-form-field>
                             <mat-label>Verified By</mat-label>
                             <input matInput formControlName="verifiedBy">
                         </mat-form-field>

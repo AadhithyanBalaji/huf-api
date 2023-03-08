@@ -1,4 +1,4 @@
-<div class="batch-selection-container">
+<div>
     <form *ngIf="formService.batchForm" [formGroup]="formService.batchForm">
         <div class="form-container">
             <app-amrr-typeahead [title]="'Destination'" [ctrl]="formService.batchForm.controls.godownId"
@@ -9,14 +9,14 @@
                 [options]="formService.items"></app-amrr-typeahead>
             <app-amrr-typeahead [title]="'Batch No.'" [ctrl]="formService.batchForm.controls.batchId"
                 [options]="formService.batches"></app-amrr-typeahead>
-            <mat-form-field appearance="outline">
+            <mat-form-field>
                 <mat-label>No. of Bags {{formService.getSelectedBatch().bags}}</mat-label>
                 <input matInput [formControl]="formService.batchForm.controls.bags" required>
                 <mat-icon color="primary" matSuffix>shopping_bag</mat-icon>
                 <mat-error *ngIf="formService.batchForm.controls.bags.hasError('InvalidValue')">Invalid
                     value</mat-error>
             </mat-form-field>
-            <mat-form-field appearance="outline">
+            <mat-form-field>
                 <mat-label>Qty {{formService.getSelectedBatch().qty}}</mat-label>
                 <input matInput [formControl]="formService.batchForm.controls.qty" required>
                 <mat-icon color="primary" matSuffix>weight</mat-icon>

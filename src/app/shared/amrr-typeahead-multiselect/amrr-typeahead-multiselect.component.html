@@ -1,4 +1,4 @@
-<mat-form-field appearance="outline" class="typeahead-form-field">
+<mat-form-field class="typeahead-form-field">
     <mat-label>{{title}}</mat-label>
     <mat-chip-grid #chipGrid aria-label="Multi selection">
         <mat-chip-row *ngFor="let chipText of chipsText" (removed)="remove(chipText)">

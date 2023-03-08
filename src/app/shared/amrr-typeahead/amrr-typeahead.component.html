@@ -1,4 +1,4 @@
-    <mat-form-field appearance="outline" *ngIf="ctrl" class="typeahead-form-field">
+    <mat-form-field *ngIf="ctrl" class="typeahead-form-field">
         <mat-label>{{title}}</mat-label>
         <input type="text" aria-label="typeahead" matInput [formControl]="ctrl" [matAutocomplete]="auto">
         <mat-error *ngIf="ctrl.hasError('InvalidValue')">Invalid value</mat-error>
