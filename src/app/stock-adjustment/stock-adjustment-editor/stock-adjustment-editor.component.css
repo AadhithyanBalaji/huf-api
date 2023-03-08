@@ -1,23 +1,14 @@
 .first-row {
   display: flex;
   flex-wrap: wrap;
-  align-items: baseline;
+  justify-content: flex-start;
   margin: 0 0 15px 15px;
 }
 
 .first-row mat-card {
-  width: 30vw !important;
+  width: 30vw;
 }
 
 .inward-items-editor-container {
   margin: 15px !important;
-}
-
-.last-row {
-  padding: 0px 15px 15px 15px !important;
-}
-
-.last-row-controls {
-  display: flex;
-  gap: 5px;
 }

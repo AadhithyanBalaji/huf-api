@@ -1,18 +1,4 @@
-.first-row {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: space-evenly;
-  align-items: baseline;
-  gap: 5px;
-}
-
 .first-row mat-card {
   flex-basis: 49%;
 }
 
-.last-row {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: space-between;
-  padding: 0 10px 15px 10px;
-}

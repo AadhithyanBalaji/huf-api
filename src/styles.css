@@ -3,10 +3,14 @@
 html,
 body {
   height: 100%;
+  background-color: #f4f6f9;
 }
 body {
   margin: 0;
   font-family: Roboto, "Helvetica Neue", sans-serif;
+}
+.main-router-outlet-container {
+  background-color: #f4f6f9;
 }
 
 .bg {
@@ -30,7 +34,7 @@ body {
 .df {
   padding: 15px;
   background-color: #f4f6f9;
-  height: 93vh;
+  height: calc(100vh - 96px);
 }
 
 a {
@@ -88,7 +92,7 @@ form div mat-form-field {
     background-size: 5vh 5vw !important;
     background-position: 90% 60% !important;
   }
-  
+
   .weight-hanging-image {
     background-size: 5vh 5vw !important;
     background-position: 90% 60% !important;
@@ -150,6 +154,42 @@ mat-card-header {
   min-height: calc(100vh - 649px) !important;
 }
 
+.first-row {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-evenly;
+  align-items: baseline;
+  gap: 15px;
+}
+
+@media (max-width: 955px) {
+  .first-row {
+    flex-direction: column !important;
+    flex-wrap: nowrap !important;
+    justify-content: unset !important;
+    margin: -10px 15px 15px 15px !important;
+  }
+  .first-row mat-card {
+    width: 100% !important;
+  }
+}
+
+.last-row {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  gap: 15px;
+  padding: 0 10px 15px 10px;
+}
+
 .last-row mat-card-content {
   padding-bottom: 0 !important;
+}
+
+@media (max-width: 870px) {
+  .last-row {
+    flex-direction: column;
+    flex-wrap: nowrap;
+    justify-content: unset;
+  }
 }
