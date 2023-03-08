@@ -11,8 +11,8 @@
             <app-stock-qty-bags-card [title]="'Closing Stock'"></app-stock-qty-bags-card>
         </div>
         <mat-divider></mat-divider>
-        <div class="report-grid-container">
-            <table mat-table [dataSource]="formService.dataSource" class="mat-elevation-z8">
+        <div class="amrr-table-container">
+            <table mat-table [dataSource]="formService.dataSource">
                 <ng-container matColumnDef="S.No.">
                     <th mat-header-cell *matHeaderCellDef> S.No. </th>
                     <td mat-cell *matCellDef="let element"> {{element.sno}} </td>

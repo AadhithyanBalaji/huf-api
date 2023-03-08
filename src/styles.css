@@ -193,3 +193,9 @@ mat-card-header {
     justify-content: unset;
   }
 }
+
+.amrr-table-container {
+  margin-top: 10px;
+  overflow: auto;
+  padding: 0 15px;
+}
