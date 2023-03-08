@@ -17,9 +17,7 @@ import { IAmrrTypeahead } from './amrr-typeahead.interface';
   templateUrl: './amrr-typeahead.component.html',
   styleUrls: ['./amrr-typeahead.component.css'],
 })
-export class AmrrTypeaheadComponent
-  implements OnInit, OnChanges
-{
+export class AmrrTypeaheadComponent implements OnInit {
   @Input() title: string;
   @Input() options: IAmrrTypeahead[] = [];
 
@@ -27,17 +25,13 @@ export class AmrrTypeaheadComponent
   filteredOptions: Observable<IAmrrTypeahead[]>;
 
   ngOnInit() {
+    this.ctrl.setValue(0);
     this.filteredOptions = this.ctrl.valueChanges.pipe(
       startWith(''),
       map((value) => {
         return this._filter(value);
       })
     );
-  }
-  ngOnChanges(changes: SimpleChanges): void {
-    if(changes['options']) {
-      this.ctrl.setValue(null);
-    }
   }
 
   displayFn(option: number): string {

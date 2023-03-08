@@ -7,6 +7,7 @@ import { AmrrItemGroup } from 'src/app/master/amrr-item-group/amrr-item-group-ed
 import { AmrrItem } from 'src/app/master/amrr-item/amrr-item-editor/amrr-item.model';
 import { IAmrrTypeahead } from '../amrr-typeahead/amrr-typeahead.interface';
 import { ApiBusinessService } from '../api-business.service';
+import Helper from '../helper';
 import { AmrrBatch } from '../models/amrr-batch.model';
 import { AmrrReportFilters } from './amrr-report-filters.model';
 
@@ -45,6 +46,9 @@ export class AmrrReportFiltersFormService {
     ])
       .pipe(take(1))
       .subscribe((data: any) => {
+        for (let i = 0; i < 5; i++) {
+          data[i] = this.addAllOption(data[i]);
+        }
         this.godowns = data[0] as AmrrGodown[];
         this.bays = data[1] as AmrrBay[];
         this.itemGroups = data[2] as AmrrItemGroup[];
@@ -68,12 +72,29 @@ export class AmrrReportFiltersFormService {
     if (isFirstTime || (this.form.dirty && this.form.valid)) {
       filters.fromDate = this.form.controls.fromDate.value!;
       filters.toDate = this.form.controls.toDate.value!;
-      filters.godownId = this.form.controls.goDownId.value;
-      filters.bayId = this.form.controls.bayId.value;
-      filters.itemGroupId = this.form.controls.itemGroupId.value;
-      filters.itemId = this.form.controls.itemId.value;
-      filters.batchId = this.form.controls.batchId.value;
+      filters.godownId = this.checkForAllOption(this.form.controls.goDownId);
+      filters.bayId = this.checkForAllOption(this.form.controls.bayId);
+      filters.itemGroupId = this.checkForAllOption(
+        this.form.controls.itemGroupId
+      );
+      filters.itemId = this.checkForAllOption(this.form.controls.itemId);
+      filters.batchId = this.checkForAllOption(this.form.controls.batchId);
     }
     return this.onViewClicked.emit(filters);
+  }
+
+  checkForAllOption(ctrl: any) {
+    return Helper.isValidNumber(ctrl.value) && ctrl.value > 0
+      ? +ctrl.value
+      : undefined;
+  }
+
+  private addAllOption(options: any) {
+    if (!Helper.isTruthy(options) || options.length <= 0) return options;
+    options.unshift({
+      id: 0,
+      name: 'All',
+    });
+    return options;
   }
 }
