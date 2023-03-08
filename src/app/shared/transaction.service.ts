@@ -64,7 +64,15 @@ export class TransactionService {
           ]);
         });
     } else {
-      this.transaction$.next([new Transaction(), []]);
+      this.apiBusinessService
+        .get(`stock/${transactionTypeId}`)
+        .pipe(take(1))
+        .subscribe((res: any) => {
+          const transaction = new Transaction();
+          transaction.transactionDate = new Date();
+          transaction.transactionId = res[0].transactionId;
+          this.transaction$.next([transaction, []]);
+        });
     }
   }
 
@@ -117,9 +125,6 @@ export class TransactionService {
       .pipe(take(1))
       .subscribe((_) => {
         this.snackBar.open('Deleted Transaction', '', { duration: 2000 });
-        const today = new Date();
-        const tomorrow = new Date();
-        tomorrow.setDate(tomorrow.getDate() + 1);
         this.getTransactions(this.transactionRequest);
       });
   }

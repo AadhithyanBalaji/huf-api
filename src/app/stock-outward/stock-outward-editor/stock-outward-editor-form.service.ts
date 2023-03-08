@@ -18,7 +18,7 @@ export class StockOutwardEditorFormService {
   form: FormGroup<{
     transactionId: FormControl<number | null>;
     outwardDate: FormControl<Date | null>;
-    outwardNo: FormControl<string | null>;
+    runningNo: FormControl<number | null>;
     vehicleName: FormControl<string | null>;
     party: FormControl<string | null>;
     vehicleRegNo: FormControl<string | null>;
@@ -98,7 +98,10 @@ export class StockOutwardEditorFormService {
     this.form = new FormGroup({
       transactionId: new FormControl(transaction.transactionId),
       outwardDate: new FormControl(new Date(transaction.transactionDate)),
-      outwardNo: new FormControl(),
+      runningNo: new FormControl({
+        value: transaction.transactionId,
+        disabled: true,
+      }),
       vehicleName: new FormControl(transaction.vehicleName),
       party: new FormControl(transaction.partyName ?? '', [
         Validators.required,

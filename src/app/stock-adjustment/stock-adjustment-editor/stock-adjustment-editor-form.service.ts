@@ -14,9 +14,9 @@ export class StockAdjustmentEditorFormService {
   form: FormGroup<{
     transactionId: FormControl<number | null>;
     outwardDate: FormControl<Date | null>;
-    outwardNo: FormControl<string | null>;
-    remarks: FormControl<any>;
-    verifiedBy: FormControl<any>;
+    runningNo: FormControl<number | null>;
+    remarks: FormControl<string | null>;
+    verifiedBy: FormControl<string | null>;
   }>;
 
   constructor(
@@ -69,7 +69,10 @@ export class StockAdjustmentEditorFormService {
     this.form = new FormGroup({
       transactionId: new FormControl(transaction.transactionId),
       outwardDate: new FormControl(new Date(transaction.transactionDate)),
-      outwardNo: new FormControl({ value: '', disabled: true }),
+      runningNo: new FormControl({
+        value: transaction.transactionId,
+        disabled: true,
+      }),
       remarks: new FormControl(transaction.remarks),
       verifiedBy: new FormControl(transaction.verifiedBy),
     });

@@ -16,7 +16,7 @@ export class StockInwardEditorFormService {
   form: FormGroup<{
     transactionId: FormControl<number | null>;
     inwardDate: FormControl<Date | null>;
-    inwardNo: FormControl<string | null>;
+    runningNo: FormControl<number | null>;
     invoiceNo: FormControl<string | null>;
     party: FormControl<string | null>;
     vehicleDetails: FormControl<string | null>;
@@ -97,7 +97,10 @@ export class StockInwardEditorFormService {
     this.form = new FormGroup({
       transactionId: new FormControl(transaction.transactionId),
       inwardDate: new FormControl(new Date(transaction.transactionDate)),
-      inwardNo: new FormControl(),
+      runningNo: new FormControl({
+        value: transaction.transactionId,
+        disabled: true,
+      }),
       invoiceNo: new FormControl(transaction.invoiceNo),
       party: new FormControl(transaction.partyName ?? '', [
         Validators.required,
@@ -120,11 +123,11 @@ export class StockInwardEditorFormService {
     transaction.invoiceNo = this.form.controls.invoiceNo.value!;
     transaction.partyName = this.form.controls.party.value!;
     transaction.vehicleName = this.form.controls.vehicleDetails.value!;
-    transaction.weightMeasureType =
-      Helper.isTruthy(this.form.controls.weightMeasureType.value) &&
-      this.form.controls.weightMeasureType.value !== ''
-        ? this.form.controls.weightMeasureType.value
-        : null;
+    transaction.weightMeasureType = Helper.isTruthy(
+      this.form.controls.weightMeasureType.value
+    )
+      ? this.form.controls.weightMeasureType.value
+      : null;
     transaction.remarks = this.form.controls.remarks.value!;
     transaction.verifiedBy = this.form.controls.verifiedBy.value!;
     if (transaction.transactionId == null) {
