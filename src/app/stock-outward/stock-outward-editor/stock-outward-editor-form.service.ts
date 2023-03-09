@@ -99,7 +99,7 @@ export class StockOutwardEditorFormService {
       transactionId: new FormControl(transaction.transactionId),
       outwardDate: new FormControl(new Date(transaction.transactionDate)),
       runningNo: new FormControl({
-        value: transaction.transactionId,
+        value: transaction.runningNo,
         disabled: true,
       }),
       vehicleName: new FormControl(transaction.vehicleName),

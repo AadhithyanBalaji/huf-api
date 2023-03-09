@@ -2,6 +2,7 @@ import { TransactionBatch } from './transaction-batch.model';
 
 export class Transaction {
   batches: TransactionBatch[];
+  runningNo: number;
   transactionId: number;
   transactionTypeId: number;
   invoiceNo: string;

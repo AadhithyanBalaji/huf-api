@@ -98,7 +98,7 @@ export class StockInwardEditorFormService {
       transactionId: new FormControl(transaction.transactionId),
       inwardDate: new FormControl(new Date(transaction.transactionDate)),
       runningNo: new FormControl({
-        value: transaction.transactionId,
+        value: transaction.runningNo,
         disabled: true,
       }),
       invoiceNo: new FormControl(transaction.invoiceNo),

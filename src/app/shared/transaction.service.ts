@@ -70,7 +70,7 @@ export class TransactionService {
         .subscribe((res: any) => {
           const transaction = new Transaction();
           transaction.transactionDate = new Date();
-          transaction.transactionId = res[0].transactionId;
+          transaction.runningNo = res[0].transactionId;
           this.transaction$.next([transaction, []]);
         });
     }

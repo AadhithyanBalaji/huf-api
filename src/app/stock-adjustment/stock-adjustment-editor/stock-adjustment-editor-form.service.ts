@@ -70,7 +70,7 @@ export class StockAdjustmentEditorFormService {
       transactionId: new FormControl(transaction.transactionId),
       outwardDate: new FormControl(new Date(transaction.transactionDate)),
       runningNo: new FormControl({
-        value: transaction.transactionId,
+        value: transaction.runningNo,
         disabled: true,
       }),
       remarks: new FormControl(transaction.remarks),
