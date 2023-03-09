@@ -32,7 +32,7 @@ export class AmrrReportFiltersFormService {
 
   constructor(private readonly apiBusinessService: ApiBusinessService) {}
 
-  init(onViewClicked: EventEmitter<AmrrReportFilters>) {
+  init(onViewClicked: EventEmitter<AmrrReportFilters>, enableAllOptions: boolean) {
     this.onViewClicked = onViewClicked;
     const today = new Date();
     combineLatest([
@@ -44,7 +44,7 @@ export class AmrrReportFiltersFormService {
     ])
       .pipe(take(1))
       .subscribe((data: any) => {
-        for (let i = 0; i < 5; i++) {
+        for (let i = 0; i < 5 && enableAllOptions; i++) {
           data[i] = this.addAllOption(data[i]);
         }
         this.godowns = data[0] as AmrrGodown[];

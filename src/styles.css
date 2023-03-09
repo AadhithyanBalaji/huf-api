@@ -197,5 +197,12 @@ mat-card-header {
 .amrr-table-container {
   margin-top: 10px;
   overflow: auto;
+  max-height: calc(100vh - 447px);
   padding: 0 15px;
+}
+
+@media (min-width: 800px) and (max-width: 870px) {
+  .amrr-table-container {
+    max-height: calc(100vh - 575px);
+  }
 }

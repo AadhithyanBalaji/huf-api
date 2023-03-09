@@ -1,7 +1,8 @@
 <div class="df">
     <app-amrr-page-header [title]="'Item Movement Analysis'" [actionName]="''"></app-amrr-page-header>
     <div class="grid-container">
-        <app-amrr-report-filters (onViewClicked)="formService.getData($event)"></app-amrr-report-filters>
+        <app-amrr-report-filters [enableAllOptions]="false"
+            (onViewClicked)="formService.getData($event)"></app-amrr-report-filters>
         <div class="cards-container">
             <app-stock-qty-bags-card [title]="'Opening Stock'"></app-stock-qty-bags-card>
             <app-stock-qty-bags-card [title]="'Total Inward'" [qty]="formService.getTotalInward().qty"
