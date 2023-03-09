@@ -1,7 +1,7 @@
 export class AmrrReportFilters{
     transactionTypeId: number;
-    fromDate: Date;
-    toDate: Date;
+    fromDate: string;
+    toDate: string;
     godownId?: number;
     bayId?: number;
     itemGroupId?: number;

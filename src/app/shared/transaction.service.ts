@@ -1,3 +1,4 @@
+import { DatePipe } from '@angular/common';
 import { Injectable } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
@@ -22,7 +23,8 @@ export class TransactionService {
     private readonly apiBusinessService: ApiBusinessService,
     private readonly snackBar: MatSnackBar,
     private readonly router: Router,
-    private readonly dialog: MatDialog
+    private readonly dialog: MatDialog,
+    private readonly datePipe: DatePipe
   ) {}
 
   navigateToAddScreen(routeKey: string) {
@@ -39,6 +41,8 @@ export class TransactionService {
 
   getTransactions(transactionRequest: AmrrReportFilters) {
     this.transactionRequest = transactionRequest;
+    this.transactionRequest.fromDate = this.datePipe.transform(new Date(new Date(transactionRequest.fromDate).setHours(0,0,0,0)),'YYYY-MM-dd HH:mm:ss') ?? '';
+    this.transactionRequest.toDate = this.datePipe.transform(new Date(new Date(transactionRequest.toDate).setHours(23,59,59,0)),'YYYY-MM-dd HH:mm:ss') ?? '';
     this.apiBusinessService
       .post('stock/transactions', transactionRequest)
       .pipe(take(1))

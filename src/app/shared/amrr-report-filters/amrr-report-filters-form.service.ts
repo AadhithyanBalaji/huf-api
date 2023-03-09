@@ -1,6 +1,6 @@
 import { EventEmitter, Injectable } from '@angular/core';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
-import { combineLatest, take } from 'rxjs';
+import { combineLatest, from, take } from 'rxjs';
 import { AmrrBay } from 'src/app/master/amrr-bay/amrr-bay-editor/amrr-bay.model';
 import { AmrrGodown } from 'src/app/master/amrr-godown/amrr-godown-editor/amrr-godown.model';
 import { AmrrItemGroup } from 'src/app/master/amrr-item-group/amrr-item-group-editor/amrr-item-group.model';
@@ -21,8 +21,8 @@ export class AmrrReportFiltersFormService {
 
   onViewClicked: EventEmitter<AmrrReportFilters>;
   form: FormGroup<{
-    fromDate: FormControl<Date | null>;
-    toDate: FormControl<Date | null>;
+    fromDate: FormControl<any>;
+    toDate: FormControl<any>;
     goDownId: FormControl<any>;
     bayId: FormControl<any>;
     itemGroupId: FormControl<any>;
@@ -35,8 +35,6 @@ export class AmrrReportFiltersFormService {
   init(onViewClicked: EventEmitter<AmrrReportFilters>) {
     this.onViewClicked = onViewClicked;
     const today = new Date();
-    const tomorrow = new Date();
-    tomorrow.setDate(tomorrow.getDate() + 1);
     combineLatest([
       this.apiBusinessService.get('godown'),
       this.apiBusinessService.get('bay'),
@@ -56,7 +54,7 @@ export class AmrrReportFiltersFormService {
         this.batches = data[4] as AmrrBatch[];
         this.form = new FormGroup({
           fromDate: new FormControl(today, [Validators.required]),
-          toDate: new FormControl(tomorrow, [Validators.required]),
+          toDate: new FormControl(today, [Validators.required]),
           goDownId: new FormControl(),
           bayId: new FormControl(),
           itemGroupId: new FormControl(),
