@@ -1,5 +1,5 @@
 import { EventEmitter, Injectable } from '@angular/core';
-import { FormGroup, FormControl } from '@angular/forms';
+import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { combineLatest, take } from 'rxjs';
 import { AmrrBay } from 'src/app/master/amrr-bay/amrr-bay-editor/amrr-bay.model';
 import { AmrrGodown } from 'src/app/master/amrr-godown/amrr-godown-editor/amrr-godown.model';
@@ -55,21 +55,21 @@ export class AmrrReportFiltersFormService {
         this.items = data[3] as AmrrItem[];
         this.batches = data[4] as AmrrBatch[];
         this.form = new FormGroup({
-          fromDate: new FormControl(today),
-          toDate: new FormControl(tomorrow),
+          fromDate: new FormControl(today, [Validators.required]),
+          toDate: new FormControl(tomorrow, [Validators.required]),
           goDownId: new FormControl(),
           bayId: new FormControl(),
           itemGroupId: new FormControl(),
           itemId: new FormControl(),
           batchId: new FormControl(),
         });
-        this.getData(true);
+        this.getData();
       });
   }
 
-  getData(isFirstTime = false) {
+  getData() {
     const filters = new AmrrReportFilters();
-    if (isFirstTime || (this.form.dirty && this.form.valid)) {
+    if (this.form.valid) {
       filters.fromDate = this.form.controls.fromDate.value!;
       filters.toDate = this.form.controls.toDate.value!;
       filters.godownId = this.checkForAllOption(this.form.controls.goDownId);
