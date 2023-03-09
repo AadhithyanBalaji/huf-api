@@ -43,7 +43,7 @@ export class AmrrBayEditorFormService {
   }
 
   cancel() {
-    this.dialogRef.close();
+    this.dialogRef.close(new AmrrBay());
   }
 
   private populateEditor(data: AmrrBay) {
@@ -64,7 +64,7 @@ export class AmrrBayEditorFormService {
   }
 
   private saveBay(closeDialog = false) {
-    if (this.form.dirty && this.form.valid) {
+    if (this.form.valid) {
       const item = new AmrrBay();
       item.id = this.form.controls.id.value;
       item.name = this.form.controls.name.value;

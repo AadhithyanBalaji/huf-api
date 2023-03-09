@@ -1,4 +1,5 @@
 export class AmrrUser{
+    sno: number;
     id: number;
     name: string;
     mobileNumber: string;

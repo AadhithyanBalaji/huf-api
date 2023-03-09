@@ -87,7 +87,7 @@ export class AmrrBayFormService {
   private getColumns(): IAmmrGridColumn[] {
     return [
       {
-        key: Helper.nameof<AmrrBay>('id'),
+        key: Helper.nameof<AmrrBay>('sno'),
         name: 'S.No.',
       },
       {

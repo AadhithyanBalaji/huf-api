@@ -1,5 +1,6 @@
 import {
   AfterViewInit,
+  ChangeDetectorRef,
   Component,
   ElementRef,
   Input,
@@ -30,6 +31,8 @@ export class AmrrTypeaheadMultiselectComponent implements AfterViewInit {
 
   @ViewChild('multiselectInput') multiselectInput: ElementRef<HTMLInputElement>;
 
+  constructor(private readonly changeDetectorRef: ChangeDetectorRef) {}
+
   ngAfterViewInit() {
     if (Helper.isTruthy(this.ctrl.value)) {
       const selectedValues = (this.ctrl.value as string).split(',');
@@ -46,6 +49,8 @@ export class AmrrTypeaheadMultiselectComponent implements AfterViewInit {
               .slice();
       })
     );
+
+    this.changeDetectorRef.detectChanges();
   }
 
   remove(option: string): void {
@@ -73,11 +78,20 @@ export class AmrrTypeaheadMultiselectComponent implements AfterViewInit {
   }
 
   private _filter = (value: AmrrGodown): IAmrrTypeahead[] => {
-    return this.options.filter(
-      (option) =>
-        option.name.toLowerCase().includes(value.name.toLowerCase()) &&
-        !this.chipsText.includes(option.name)
-    );
+    const options =
+      this.options && this.options.length > 0 && Helper.isTruthy(value)
+        ? this.options.filter(
+            (option) =>
+              option.name
+                .toLowerCase()
+                .includes(
+                  typeof value === 'string'
+                    ? (value as string).toLowerCase()
+                    : value.name.toLowerCase()
+                ) && !this.chipsText.includes(option.name)
+          )
+        : this.options;
+    return options;
   };
 
   private updateCtrl() {

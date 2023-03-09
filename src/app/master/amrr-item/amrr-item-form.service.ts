@@ -86,7 +86,7 @@ export class AmrrItemFormService {
   private getColumns(): IAmmrGridColumn[] {
     return [
       {
-        key: 'itemId',
+        key: 'sno',
         name: 'S.No.',
       },
       {

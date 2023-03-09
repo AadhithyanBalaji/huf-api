@@ -48,6 +48,7 @@ import { BatchwiseStockComponent } from './reports/batchwise-stock/batchwise-sto
 import { ItemMovementReportComponent } from './reports/item-movement-report/item-movement-report.component';
 import { StockQtyBagsCardComponent } from './reports/stock-qty-bags-card/stock-qty-bags-card.component';
 import { MAT_FORM_FIELD_DEFAULT_OPTIONS } from '@angular/material/form-field';
+import { MatDialogConfig, MAT_DIALOG_DEFAULT_OPTIONS } from '@angular/material/dialog';
 
 @NgModule({
   declarations: [
@@ -114,6 +115,14 @@ import { MAT_FORM_FIELD_DEFAULT_OPTIONS } from '@angular/material/form-field';
       provide: MAT_FORM_FIELD_DEFAULT_OPTIONS,
       useValue: { appearance: 'outline' },
     },
+    {
+      provide: MAT_DIALOG_DEFAULT_OPTIONS,
+      useValue: {
+        ...new MatDialogConfig(),
+        disableClose: true,
+        autoFocus: false
+      } as MatDialogConfig,
+    }
   ],
   bootstrap: [AppComponent],
 })

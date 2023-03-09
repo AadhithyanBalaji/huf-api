@@ -35,7 +35,7 @@ export class AmrrItemGroupEditorFormService {
   }
 
   cancel() {
-    this.dialogRef.close();
+    this.dialogRef.close(new AmrrItemGroup());
   }
 
   private saveItemGroup(closeDialog = false) {

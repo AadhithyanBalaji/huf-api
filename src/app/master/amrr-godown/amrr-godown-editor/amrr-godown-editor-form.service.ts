@@ -36,7 +36,7 @@ export class AmrrGodownEditorFormService {
   }
 
   cancel() {
-    this.dialogRef.close();
+    this.dialogRef.close(new AmrrGodown());
   }
 
   private populateEditor(data: AmrrGodown) {

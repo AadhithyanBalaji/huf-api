@@ -47,7 +47,7 @@ export class AmrrUserEditorFormService {
   }
 
   cancel() {
-    this.dialogRef.close();
+    this.dialogRef.close(new AmrrUser());
   }
 
   private populateEditor(data: AmrrUser) {
