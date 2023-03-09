@@ -20,8 +20,7 @@
                 <ng-container matColumnDef="Date">
                     <th mat-header-cell *matHeaderCellDef> Date </th>
                     <td mat-cell *matCellDef="let element">
-                        <app-stock-info [info_1]="formService.getFormattedDate(element.inwardDate)"
-                            [info_2]="element.transactionId"></app-stock-info>
+                        <app-stock-info [date]="element.inwardDate" [info_2]="element.transactionId"></app-stock-info>
                     </td>
                 </ng-container>
                 <ng-container matColumnDef="Party/Vehicle Details">
