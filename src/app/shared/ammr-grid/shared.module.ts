@@ -48,6 +48,7 @@ import { CdkMenuModule } from '@angular/cdk/menu';
 import { DialogModule } from '@angular/cdk/dialog';
 import { AmmrGridComponent } from './ammr-grid.component';
 import { BrowserModule } from '@angular/platform-browser';
+import { NgxMatSelectSearchModule } from 'ngx-mat-select-search';
 
 @NgModule({
   declarations: [AmmrGridComponent],
@@ -101,6 +102,7 @@ import { BrowserModule } from '@angular/platform-browser';
     PortalModule,
     ScrollingModule,
     DialogModule,
+    NgxMatSelectSearchModule
   ],
   exports: [
     A11yModule,
@@ -151,7 +153,8 @@ import { BrowserModule } from '@angular/platform-browser';
     PortalModule,
     ScrollingModule,
     DialogModule,
-    AmmrGridComponent
+    AmmrGridComponent,
+    NgxMatSelectSearchModule
   ],
 })
 export class SharedModule {}

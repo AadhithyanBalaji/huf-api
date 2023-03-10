@@ -60,6 +60,7 @@ import {
   MAT_DATE_LOCALE,
   MAT_DATE_FORMATS,
 } from '@angular/material/core';
+import { AmrrSelectWithSearchComponent } from './shared/amrr-select-with-search/amrr-select-with-search.component';
 
 @NgModule({
   declarations: [
@@ -99,6 +100,7 @@ import {
     BatchwiseStockComponent,
     ItemMovementReportComponent,
     StockQtyBagsCardComponent,
+    AmrrSelectWithSearchComponent,
   ],
   imports: [
     BrowserModule,

@@ -9,12 +9,13 @@ import { AmrrReportFilters } from './amrr-report-filters.model';
   providers: [AmrrReportFiltersFormService],
 })
 export class AmrrReportFiltersComponent implements OnInit {
+  @Input() transactionTypeId: number;
   @Input() enableAllOptions = true;
   @Output() onViewClicked = new EventEmitter<AmrrReportFilters>();
 
   constructor(readonly formService: AmrrReportFiltersFormService) {}
 
   ngOnInit(): void {
-    this.formService.init(this.onViewClicked, this.enableAllOptions);
+    this.formService.init(this.onViewClicked, this.enableAllOptions, this.transactionTypeId);
   }
 }
