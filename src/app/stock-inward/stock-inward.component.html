@@ -2,9 +2,9 @@
     <app-amrr-page-header [title]="'Stock Inward'"
         (onActionClicked)="formService.navigateToAddInward()"></app-amrr-page-header>
     <div class="grid-container">
-        <app-amrr-report-filters (onViewClicked)="formService.getData($event)"></app-amrr-report-filters>
+        <app-amrr-report-filters [transactionTypeId]="1" (onViewClicked)="formService.getData($event)"></app-amrr-report-filters>
         <mat-divider></mat-divider>
-        <app-ammr-grid [columns]="formService.columns" [dataSource]="formService.dataSource"
+        <app-ammr-grid [columns]="formService.columns" [dataSource]="formService.dataSource" [loading]="formService.loading"
             (onEdit)="formService.edit($event)" (onDelete)="formService.delete($event)"></app-ammr-grid>
     </div>
 </div>

@@ -15,14 +15,14 @@ import { StockAdjustment } from './stock-adjustment.model';
 export class StockAdjustmentFormService {
   dataSource: MatTableDataSource<StockAdjustment, MatPaginator>;
   columns: IAmmrGridColumn[];
-
+  loading = false;
   constructor(private readonly transactionService: TransactionService) {
-    this.transactionService.stockTransactions$.subscribe(
-      (data: any) =>
-        (this.dataSource = new MatTableDataSource(
-          data.recordset as StockAdjustment[]
-        ))
-    );
+    this.transactionService.stockTransactions$.subscribe((data: any) => {
+      this.dataSource = new MatTableDataSource(
+        data.recordset as StockAdjustment[]
+      );
+      this.loading = false;
+    });
   }
 
   init() {
@@ -32,6 +32,7 @@ export class StockAdjustmentFormService {
   getData(transactionFilters: AmrrReportFilters) {
     if (Helper.isTruthy(transactionFilters)) {
       transactionFilters.transactionTypeId = 3;
+      this.loading = true;
       this.transactionService.getTransactions(transactionFilters);
     }
   }

@@ -15,14 +15,15 @@ import { StockOutward } from './stock-outward.model';
 export class StockOutwardFormService {
   dataSource: MatTableDataSource<StockOutward, MatPaginator>;
   columns: IAmmrGridColumn[];
+  loading = false;
 
   constructor(private readonly transactionService: TransactionService) {
-    this.transactionService.stockTransactions$.subscribe(
-      (data: any) =>
-        (this.dataSource = new MatTableDataSource(
-          data.recordset as StockOutward[]
-        ))
-    );
+    this.transactionService.stockTransactions$.subscribe((data: any) => {
+      this.dataSource = new MatTableDataSource(
+        data.recordset as StockOutward[]
+      );
+      this.loading = false;
+    });
   }
 
   init(partyNameTemplate: TemplateRef<any>) {
@@ -32,6 +33,7 @@ export class StockOutwardFormService {
   getData(transactionFilters: AmrrReportFilters) {
     if (Helper.isTruthy(transactionFilters)) {
       transactionFilters.transactionTypeId = 2;
+      this.loading = true;
       this.transactionService.getTransactions(transactionFilters);
     }
   }

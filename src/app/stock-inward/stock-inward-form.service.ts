@@ -15,14 +15,13 @@ import { StockInward } from './stock-inward.model';
 export class StockInwardFormService {
   dataSource: MatTableDataSource<StockInward, MatPaginator>;
   columns: IAmmrGridColumn[];
+  loading = false;
 
   constructor(private readonly transactionService: TransactionService) {
-    this.transactionService.stockTransactions$.subscribe(
-      (data: any) =>
-        (this.dataSource = new MatTableDataSource(
-          data.recordset as StockInward[]
-        ))
-    );
+    this.transactionService.stockTransactions$.subscribe((data: any) => {
+      this.dataSource = new MatTableDataSource(data.recordset as StockInward[]);
+      this.loading = false;
+    });
   }
 
   init(invoiceDetailsTemplate: TemplateRef<any>) {
@@ -32,6 +31,7 @@ export class StockInwardFormService {
   getData(transactionFilters: AmrrReportFilters) {
     if (Helper.isTruthy(transactionFilters)) {
       transactionFilters.transactionTypeId = 1;
+      this.loading = true;
       this.transactionService.getTransactions(transactionFilters);
     }
   }
