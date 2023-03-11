@@ -41,9 +41,7 @@ export class TransactionBatchService {
     const transactionBatches = this.dataSource.data;
     let bags = selectedBatch?.bags ?? 0;
     let qty = selectedBatch?.qty ?? 0;
-    console.log(selectedBatch);
     if (Helper.isTruthy(selectedBatch) && transactionBatches?.length > 0) {
-      console.log(selectedBatch);
       transactionBatches.forEach((element) => {
         if (
           element.batchId === selectedBatch.id &&
