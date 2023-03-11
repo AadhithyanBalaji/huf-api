@@ -49,7 +49,7 @@ export class ItemMovementReportFormService {
       (!Helper.isValidNumber(transactionFilters.itemId) ||
         transactionFilters.itemId! <= 0)
     ) {
-      this.snackBar.open('Select an item please', '', { duration: 3000 });
+      this.snackBar.open('Select an item please');
     }
     this.count++;
   }

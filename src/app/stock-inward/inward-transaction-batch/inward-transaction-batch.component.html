@@ -1,29 +1,32 @@
 <div>
     <form *ngIf="formService.batchForm" [formGroup]="formService.batchForm">
         <div class="form-container">
-            <app-amrr-typeahead [title]="'Destination'" [ctrl]="formService.batchForm.controls.godownId"
-                [options]="formService.godowns"></app-amrr-typeahead>
-            <app-amrr-typeahead [title]="'Bay'" [ctrl]="formService.batchForm.controls.bayId"
-                [options]="formService.bays"></app-amrr-typeahead>
-            <app-amrr-typeahead [title]="'Item Name'" [ctrl]="formService.batchForm.controls.itemId"
-                [options]="formService.items"></app-amrr-typeahead>
-            <app-amrr-typeahead [title]="'Batch Type'" [ctrl]="formService.batchForm.controls.batchTypeId"
-                [options]="formService.batchTypes"></app-amrr-typeahead>
-            <app-amrr-typeahead *ngIf="formService.batchForm.controls.batchTypeId.value === 2; else newBatchTemplate"
-                [title]="'Batch No.'" [ctrl]="formService.batchForm.controls.batchId"
-                [options]="formService.batches"></app-amrr-typeahead>
+            <app-amrr-select-with-search [title]="'Destination'" [ctrl]="formService.batchForm.controls.godown"
+                [options]="formService.godowns"></app-amrr-select-with-search>
+            <app-amrr-select-with-search [title]="'Bay'" [ctrl]="formService.batchForm.controls.bay"
+                [options]="formService.bays"></app-amrr-select-with-search>
+            <app-amrr-select-with-search [title]="'Item Name'" [ctrl]="formService.batchForm.controls.item"
+                [options]="formService.items"></app-amrr-select-with-search>
+            <app-amrr-select-with-search [title]="'Batch Type'" [ctrl]="formService.batchForm.controls.batchType"
+                [options]="formService.batchTypes"></app-amrr-select-with-search>
+            <app-amrr-select-with-search
+                *ngIf="formService.batchForm.controls.batchType?.value?.id === 2; else newBatchTemplate"
+                [title]="'Batch No.'" [ctrl]="formService.batchForm.controls.batch"
+                [options]="formService.batches"></app-amrr-select-with-search>
             <ng-template #newBatchTemplate>
                 <mat-form-field>
                     <mat-label>Batch No.</mat-label>
                     <input matInput [formControl]="formService.batchForm.controls.batchName" required>
-                    <mat-error *ngIf="formService.batchForm.controls.batchName.hasError('InvalidValue')">Invalid value</mat-error>
+                    <mat-error *ngIf="formService.batchForm.controls.batchName.hasError('InvalidValue')">Invalid
+                        value</mat-error>
                 </mat-form-field>
             </ng-template>
             <mat-form-field>
                 <mat-label>No. of Bags</mat-label>
                 <input matInput [formControl]="formService.batchForm.controls.bags" required>
                 <mat-icon color="primary" matSuffix>shopping_bag</mat-icon>
-                <mat-error *ngIf="formService.batchForm.controls.bags.hasError('InvalidValue')">Invalid value</mat-error>
+                <mat-error *ngIf="formService.batchForm.controls.bags.hasError('InvalidValue')">Invalid
+                    value</mat-error>
             </mat-form-field>
             <mat-form-field>
                 <mat-label>Qty</mat-label>
@@ -36,7 +39,7 @@
     </form>
 </div>
 <div class="batch-grid-container">
-    <app-ammr-grid [columns]="formService.columns" [dataSource]="formService.dataSource" [enableEdit]="false"
-        [autoHeight]="true" [allowFilter]="false" [allowPagination]="false"
+    <app-ammr-grid [columns]="formService.columns" [dataSource]="formService.transactionBatchService.dataSource"
+        [enableEdit]="false" [autoHeight]="true" [allowFilter]="false" [allowPagination]="false"
         (onDelete)="formService.removeBatch($event)"></app-ammr-grid>
 </div>

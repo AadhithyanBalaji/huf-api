@@ -61,6 +61,7 @@ import {
   MAT_DATE_FORMATS,
 } from '@angular/material/core';
 import { AmrrSelectWithSearchComponent } from './shared/amrr-select-with-search/amrr-select-with-search.component';
+import { MAT_SNACK_BAR_DEFAULT_OPTIONS } from '@angular/material/snack-bar';
 
 @NgModule({
   declarations: [
@@ -155,6 +156,7 @@ import { AmrrSelectWithSearchComponent } from './shared/amrr-select-with-search/
         },
       },
     },
+    { provide: MAT_SNACK_BAR_DEFAULT_OPTIONS, useValue: { duration: 2500 } },
   ],
   bootstrap: [AppComponent],
 })

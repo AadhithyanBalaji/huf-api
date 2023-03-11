@@ -1,32 +1,33 @@
 <div>
     <form *ngIf="formService.batchForm" [formGroup]="formService.batchForm">
         <div class="form-container">
-            <app-amrr-typeahead [title]="'Destination'" [ctrl]="formService.batchForm.controls.godownId"
-                [options]="formService.godowns"></app-amrr-typeahead>
-            <app-amrr-typeahead [title]="'Bay'" [ctrl]="formService.batchForm.controls.bayId"
-                [options]="formService.bays"></app-amrr-typeahead>
-            <app-amrr-typeahead [title]="'Item Name'" [ctrl]="formService.batchForm.controls.itemId"
-                [options]="formService.items"></app-amrr-typeahead>
-            <app-amrr-typeahead [title]="'Batch No.'" [ctrl]="formService.batchForm.controls.batchId"
-                [options]="formService.batches"></app-amrr-typeahead>
+            <app-amrr-select-with-search [title]="'Destination'" [ctrl]="formService.batchForm.controls.godown"
+                [options]="formService.godowns"></app-amrr-select-with-search>
+            <app-amrr-select-with-search [title]="'Bay'" [ctrl]="formService.batchForm.controls.bay"
+                [options]="formService.bays"></app-amrr-select-with-search>
+            <app-amrr-select-with-search [title]="'Item Name'" [ctrl]="formService.batchForm.controls.item"
+                [options]="formService.items"></app-amrr-select-with-search>
+            <app-amrr-select-with-search [title]="'Batch No.'" [ctrl]="formService.batchForm.controls.batch"
+                [options]="formService.batches"></app-amrr-select-with-search>
             <mat-form-field>
                 <mat-label>Type</mat-label>
-                <mat-select [formControl]="formService.batchForm.controls.adjustmentTypeId" name="adjustmentType">
-                    <mat-option *ngFor="let adjType of formService.adjustmentTypes" [value]="adjType.id">
+                <mat-select [formControl]="formService.batchForm.controls.adjustmentType" name="adjustmentType">
+                    <mat-option *ngFor="let adjType of formService.adjustmentTypes" [value]="adjType">
                         {{adjType.name}}
                     </mat-option>
                 </mat-select>
             </mat-form-field>
-
             <mat-form-field>
-                <mat-label>No. of Bags {{formService.getSelectedBatch().bags}}</mat-label>
+                <mat-label>No. of Bags
+                    {{formService.transactionBatchService.getSelectedBatch(formService.batchForm.controls.batch.value).bags}}</mat-label>
                 <input matInput [formControl]="formService.batchForm.controls.bags" required>
                 <mat-icon color="primary" matSuffix>shopping_bag</mat-icon>
                 <mat-error *ngIf="formService.batchForm.controls.bags.hasError('InvalidValue')">Invalid
                     value</mat-error>
             </mat-form-field>
             <mat-form-field>
-                <mat-label>Qty {{formService.getSelectedBatch().qty}}</mat-label>
+                <mat-label>Qty
+                    {{formService.transactionBatchService.getSelectedBatch(formService.batchForm.controls.batch.value).qty}}</mat-label>
                 <input matInput [formControl]="formService.batchForm.controls.qty" required>
                 <mat-icon color="primary" matSuffix>weight</mat-icon>
                 <mat-error *ngIf="formService.batchForm.controls.qty.hasError('InvalidValue')">Invalid value</mat-error>
@@ -40,6 +41,7 @@
     </form>
 </div>
 <div class="batch-grid-container">
-    <app-ammr-grid [columns]="formService.columns" [dataSource]="formService.dataSource" [enableEdit]="false"
-        [allowFilter]="false" [allowPagination]="false" (onDelete)="formService.removeBatch($event)"></app-ammr-grid>
+    <app-ammr-grid [columns]="formService.columns" [dataSource]="formService.transactionBatchService.dataSource"
+        [enableEdit]="false" [allowFilter]="false" [allowPagination]="false"
+        (onDelete)="formService.removeBatch($event)"></app-ammr-grid>
 </div>

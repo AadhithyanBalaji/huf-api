@@ -1,5 +1,4 @@
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
-import { TransactionBatch } from 'src/app/shared/models/transaction-batch.model';
+import { Component, OnInit } from '@angular/core';
 import { OutwardTransactionBatchFormService } from './outward-transaction-batch-form.service';
 
 @Component({
@@ -9,12 +8,9 @@ import { OutwardTransactionBatchFormService } from './outward-transaction-batch-
   providers: [OutwardTransactionBatchFormService],
 })
 export class OutwardTransactionBatchComponent implements OnInit {
-  @Input() batches: TransactionBatch[];
-  @Output() onBatchUpdate = new EventEmitter<any>();
-
   constructor(readonly formService: OutwardTransactionBatchFormService) {}
 
   ngOnInit(): void {
-    this.formService.init(this.onBatchUpdate, this.batches);
+    this.formService.init();
   }
 }

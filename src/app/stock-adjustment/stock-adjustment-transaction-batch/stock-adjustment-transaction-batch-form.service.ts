@@ -1,24 +1,24 @@
-import { EventEmitter, Injectable } from '@angular/core';
+import { Injectable } from '@angular/core';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
-import { MatPaginator } from '@angular/material/paginator';
-import { MatTableDataSource } from '@angular/material/table';
-import { combineLatest, take } from 'rxjs';
+import { debounceTime, take } from 'rxjs';
 import { AmrrBay } from 'src/app/master/amrr-bay/amrr-bay-editor/amrr-bay.model';
 import { AmrrGodown } from 'src/app/master/amrr-godown/amrr-godown-editor/amrr-godown.model';
 import { AmrrItem } from 'src/app/master/amrr-item/amrr-item-editor/amrr-item.model';
 import { IAmmrGridColumn } from 'src/app/shared/ammr-grid/ammr-grid-column.interface';
 import { IAmrrTypeahead } from 'src/app/shared/amrr-typeahead/amrr-typeahead.interface';
-import { ApiBusinessService } from 'src/app/shared/api-business.service';
+import { DataHelperService } from 'src/app/shared/data-helper.service';
 import Helper from 'src/app/shared/helper';
 import { AmrrBatch } from 'src/app/shared/models/amrr-batch.model';
 import { TransactionBatch } from 'src/app/shared/models/transaction-batch.model';
+import { TransactionBatchFormHelperService } from 'src/app/shared/transaction-batch-form-helper.service';
+import { TransactionBatchService } from 'src/app/shared/transaction-batch.service';
 
 @Injectable()
 export class StockAdjustmentTransactionBatchFormService {
-  godowns: AmrrGodown[];
-  items: AmrrItem[];
-  bays: AmrrBay[];
-  batches: AmrrBatch[];
+  godowns: AmrrGodown[] = [];
+  items: AmrrItem[] = [];
+  bays: AmrrBay[] = [];
+  batches: AmrrBatch[] = [];
   adjustmentTypes: IAmrrTypeahead[] = [
     {
       id: 1,
@@ -67,188 +67,145 @@ export class StockAdjustmentTransactionBatchFormService {
       name: 'Reason',
     },
   ];
-  dataSource: MatTableDataSource<TransactionBatch, MatPaginator>;
   data: TransactionBatch[] = [];
-  onBatchUpdate: EventEmitter<any>;
+
   batchForm: FormGroup<{
-    godownId: FormControl<null>;
-    bayId: FormControl<null>;
-    itemId: FormControl<null>;
-    batchId: FormControl<null>;
-    adjustmentTypeId: FormControl<null>;
-    qty: FormControl<null>;
-    bags: FormControl<null>;
-    reason: FormControl<string | null>;
+    godown: FormControl<any>;
+    bay: FormControl<any>;
+    item: FormControl<any>;
+    batch: FormControl<any>;
+    adjustmentType: FormControl<any>;
+    qty: FormControl<any>;
+    bags: FormControl<any>;
+    reason: FormControl<string | any>;
   }>;
 
-  constructor(private readonly apiBusinessService: ApiBusinessService) {}
+  constructor(
+    readonly transactionBatchService: TransactionBatchService,
+    private readonly dataHelperService: DataHelperService,
+    private readonly formHelperService: TransactionBatchFormHelperService
+  ) {}
 
-  init(onBatchUpdate: EventEmitter<any>, batches: TransactionBatch[]) {
-    this.onBatchUpdate = onBatchUpdate;
-    combineLatest([
-      this.apiBusinessService.get('godown'),
-      this.apiBusinessService.get('item'),
-    ])
-      .pipe(take(1))
-      .subscribe((data) => {
-        this.godowns = data[0] as AmrrGodown[];
-        this.items = data[1] as AmrrItem[];
+  init() {
+    this.dataHelperService.batches$.subscribe(
+      (batches) => (this.batches = batches)
+    );
 
-        this.batchForm = new FormGroup({
-          godownId: new FormControl(null, [Validators.required]),
-          bayId: new FormControl(null, [Validators.required]),
-          itemId: new FormControl(null, [Validators.required]),
-          batchId: new FormControl(null, [Validators.required]),
-          adjustmentTypeId: new FormControl(null, [Validators.required]),
-          qty: new FormControl(null, [Validators.required]),
-          bags: new FormControl(null, [Validators.required]),
-          reason: new FormControl('', [Validators.required]),
-        });
-        this.dataSource = new MatTableDataSource();
-        if (Helper.isTruthy(batches) && batches.length > 0) {
-          this.dataSource.data = [...batches];
-        }
-        this.setupFormListeners();
-      });
+    this.dataHelperService.bays$.subscribe((bays) => (this.bays = bays));
+    this.dataHelperService.godownsItems$.subscribe((res) => {
+      this.godowns = res.godowns;
+      this.items = res.items;
+      this.buildForm();
+    });
+
+    this.dataHelperService.getGodownAndItems();
   }
 
   addBatch() {
     if (this.checkIfBatchIsValid()) {
       const batch = this.buildTransactionBatchData();
-      const data = this.dataSource.data;
-      data.push(batch);
-      this.dataSource.data = data;
-      this.onBatchUpdate.emit(data);
-      this.batchForm.reset();
-      this.batchForm.markAsPristine();
-      this.batchForm.markAsUntouched();
-      this.batchForm.updateValueAndValidity();
+      this.transactionBatchService.addToGrid(batch);
+      this.formHelperService.resetForm(this.batchForm);
     }
   }
 
   removeBatch(event: TransactionBatch) {
-    const data = this.dataSource.data;
-    var index = data.findIndex((d) => d.sno === event.sno);
-    if (index !== -1) {
-      data.splice(index, 1);
-      this.dataSource.data = data;
-      this.onBatchUpdate.emit(this.dataSource.data);
-    }
+    this.transactionBatchService.removeFromGrid(event);
   }
 
-  getSelectedBatch() {
-    if (
-      Helper.isTruthy(this.batches) &&
-      this.batches.length > 0 &&
-      Helper.isTruthy(this.batchForm.controls.batchId.value)
-    ) {
-      const selectedBatch = this.batches.find(
-        (b) => b.id === this.batchForm.controls.batchId.value
-      );
-
-      let bags = selectedBatch?.bags ?? 0;
-      let qty = selectedBatch?.qty ?? 0;
-      const transactionBatches = this.dataSource.data;
-      transactionBatches.forEach((element) => {
-        if (element.batchId === this.batchForm.controls.batchId.value) {
-          bags -= element.bags;
-          qty -= element.qty;
-        }
-      });
-
-      return { bags: bags, qty: qty };
-    }
-
-    return { bags: 0, qty: 0 };
+  private buildForm() {
+    this.batchForm = new FormGroup({
+      godown: new FormControl(null, [Validators.required]),
+      bay: new FormControl({ value: null, disabled: true }, [
+        Validators.required,
+      ]),
+      item: new FormControl(null, [Validators.required]),
+      batch: new FormControl(null, [Validators.required]),
+      adjustmentType: new FormControl(null, [Validators.required]),
+      qty: new FormControl(null, [Validators.required, Validators.min(0.0001)]),
+      bags: new FormControl(null, [
+        Validators.required,
+        Validators.min(0.0001),
+      ]),
+      reason: new FormControl('', [Validators.required]),
+    });
+    this.setupFormListeners();
   }
 
   private setupFormListeners() {
-    this.batchForm.controls.godownId.valueChanges.subscribe((godownId) => {
-      if (Helper.isTruthy(godownId) && +godownId! > 0) {
-        this.apiBusinessService
-          .get(`bay/godown/${godownId}`)
-          .pipe(take(1))
-          .subscribe((bays: any) => {
-            this.bays = [...(bays.recordsets[0] as AmrrBay[])];
-          });
+    this.batchForm.controls['godown'].valueChanges.subscribe((godown) => {
+      if (Helper.isTruthy(godown) && +godown.id > 0) {
+        this.dataHelperService.updateBays(godown.id);
+        this.batchForm.get('bay')!.enable();
+      } else {
+        this.batchForm.get('bay')!.disable();
       }
+      this.batchForm.updateValueAndValidity();
     });
 
-    this.batchForm.controls.itemId.valueChanges.subscribe((itemId) =>
-      this.updateBatches(itemId!)
+    this.batchForm.controls['item'].valueChanges.subscribe((item) =>
+      this.dataHelperService.updateBatches(2, item?.id)
     );
   }
 
   private checkIfBatchIsValid() {
     return (
-      this.validateNumberControlValue(this.batchForm.controls.godownId) &&
-      this.validateNumberControlValue(this.batchForm.controls.bayId) &&
-      this.validateNumberControlValue(this.batchForm.controls.itemId) &&
-      this.validateNumberControlValue(
-        this.batchForm.controls.adjustmentTypeId
+      this.formHelperService.validateNumberControlValue(
+        this.batchForm.get('godown'),
+        this.batchForm.get('godown')?.value?.id
+      ) &&
+      this.formHelperService.validateNumberControlValue(
+        this.batchForm.get('bay'),
+        this.batchForm.get('bay')?.value?.id
+      ) &&
+      this.formHelperService.validateNumberControlValue(
+        this.batchForm.get('item'),
+        this.batchForm.get('item')?.value?.id
+      ) &&
+      this.formHelperService.validateNumberControlValue(
+        this.batchForm.get('adjustmentType'),
+        this.batchForm.get('adjustmentType')?.value?.id
       ) &&
       this.validateBatchValue() &&
-      this.validateNumberControlValue(this.batchForm.controls.bags) &&
-      this.validateNumberControlValue(this.batchForm.controls.qty)
+      this.formHelperService.validateNumberControlValue(
+        this.batchForm.get('bags'),
+        this.batchForm.get('bags')?.value
+      ) &&
+      this.formHelperService.validateNumberControlValue(
+        this.batchForm.get('qty'),
+        this.batchForm.get('qty')?.value
+      )
     );
   }
 
-  private validateNumberControlValue(control: FormControl) {
-    const isValid =
-      Helper.isTruthy(control.value) &&
-      !isNaN(+control.value) &&
-      +control.value > 0;
-    isValid
-      ? control.setErrors(null)
-      : control.setErrors({ InvalidValue: true });
-    return isValid;
-  }
-
   private validateBatchValue() {
-    const ctrls = this.batchForm.controls;
-    if (
-      this.batches.length === 0 ||
-      !Helper.isTruthy(ctrls.batchId.value) ||
-      isNaN(+ctrls.batchId.value!)
-    ) {
-      this.batchForm.controls.batchId.setErrors({ InvalidValue: true });
+    const ctrl = this.batchForm.controls.batch;
+    if (!Helper.isTruthy(ctrl.value?.id) || isNaN(+ctrl.value?.id)) {
+      ctrl.setErrors({ InvalidValue: true });
       return false;
-    }
-    return true;
-  }
-
-  private updateBatches(itemId: number) {
-    if (Helper.isValidNumber(itemId)) {
-      this.apiBusinessService
-        .get(`batch/item/${itemId}`)
-        .pipe(take(1))
-        .subscribe(
-          (batches: any) =>
-            (this.batches = [...(batches.recordsets[0] as AmrrBatch[])])
-        );
     } else {
-      this.batches = [];
+      ctrl.setErrors(null);
+      return true;
     }
   }
 
   private buildTransactionBatchData() {
     const batch = new TransactionBatch();
-    batch.sno = this.dataSource.data.length + 1;
-    batch.godownId = this.batchForm.controls.godownId.value!;
-    batch.godown = this.godowns.find((g) => g.id === batch.godownId)!.name;
-    batch.bayId = this.batchForm.controls.bayId.value!;
-    batch.bay = this.bays.find((b) => b.id === batch.bayId)!.name;
-    batch.itemId = this.batchForm.controls.itemId.value!;
-    batch.itemName = this.items.find((i) => i.id === batch.itemId)!.name;
-    batch.adjustmentTypeId = this.batchForm.controls.adjustmentTypeId.value!;
-    batch.adjustmentType = this.adjustmentTypes.find(a => a.id === this.batchForm.controls.adjustmentTypeId.value)?.name!;
-    batch.batchId = this.batchForm.controls.batchId.value!;
-    batch.batchName =
-      this.batches.find((b) => b.id === this.batchForm.controls.batchId.value)
-        ?.name ?? '';
-    batch.bags = this.batchForm.controls.bags.value!;
-    batch.qty = this.batchForm.controls.qty.value!;
-    batch.reason = this.batchForm.controls.reason.value!;
+    batch.sno = this.transactionBatchService.getNextRowSno();
+    batch.id = null;
+    batch.godownId = this.batchForm.controls.godown.value.id;
+    batch.godown = this.batchForm.controls.godown.value.name;
+    batch.bayId = this.batchForm.controls.bay.value.id;
+    batch.bay = this.batchForm.controls.bay.value.name;
+    batch.itemId = this.batchForm.controls.item.value.id;
+    batch.itemName = this.batchForm.controls.item.value.name;
+    batch.adjustmentTypeId = this.batchForm.controls.adjustmentType.value.id;
+    batch.adjustmentType = this.batchForm.controls.adjustmentType.value.name;
+    batch.batchId = this.batchForm.controls.batch.value.id;
+    batch.batchName = this.batchForm.controls.batch.value.name;
+    batch.bags = this.batchForm.controls.bags.value;
+    batch.qty = this.batchForm.controls.qty.value;
+    batch.reason = this.batchForm.controls.reason.value;
     return batch;
   }
 }

@@ -5,14 +5,12 @@ import { take } from 'rxjs';
 import { AuthService } from 'src/app/auth/auth.service';
 import { IAmrrTypeahead } from 'src/app/shared/amrr-typeahead/amrr-typeahead.interface';
 import Helper from 'src/app/shared/helper';
-import { TransactionBatch } from 'src/app/shared/models/transaction-batch.model';
 import { Transaction } from 'src/app/shared/models/transaction.model';
+import { TransactionBatchService } from 'src/app/shared/transaction-batch.service';
 import { TransactionService } from 'src/app/shared/transaction.service';
 
 @Injectable()
 export class StockInwardEditorFormService {
-  batchData: TransactionBatch[];
-  batches: TransactionBatch[];
   form: FormGroup<{
     transactionId: FormControl<number | null>;
     inwardDate: FormControl<Date | null>;
@@ -39,11 +37,12 @@ export class StockInwardEditorFormService {
   constructor(
     private readonly route: ActivatedRoute,
     private readonly transactionService: TransactionService,
-    private readonly authService: AuthService
+    private readonly authService: AuthService,
+    private readonly transactionBatchService: TransactionBatchService
   ) {
     this.transactionService.transaction$.subscribe((data: any) => {
       this.buildForm(data[0]);
-      this.batches = data[1];
+      this.transactionBatchService.setupGrid(data[1]);
     });
   }
 
@@ -55,17 +54,9 @@ export class StockInwardEditorFormService {
       );
   }
 
-  onBatchUpdate(event: TransactionBatch[]) {
-    this.batchData = event;
-  }
-
   addTransaction(stayOnPage = false) {
-    if (
-      (this.form.dirty ||
-        this.batchData?.length > 0 ||
-        this.batches.length > 0) &&
-      this.form.valid
-    ) {
+    const batchData = this.transactionBatchService.dataSource.data;
+    if ((this.form.dirty || batchData?.length > 0) && this.form.valid) {
       this.transactionService.addTransaction(
         'stockInward',
         this.buildTransactionData(),
@@ -83,7 +74,7 @@ export class StockInwardEditorFormService {
   }
 
   getTotalMetrics() {
-    const batches = this.batchData ?? this.batches;
+    const batches = this.transactionBatchService.dataSource.data;
     let qty = 0,
       bags = 0;
     batches.forEach((element) => {
@@ -117,7 +108,7 @@ export class StockInwardEditorFormService {
   private buildTransactionData() {
     const transaction = new Transaction();
     transaction.transactionId = this.form.controls.transactionId.value!;
-    transaction.batches = this.batchData ?? this.batches;
+    transaction.batches = this.transactionBatchService.dataSource.data;
     transaction.transactionTypeId = 1;
     transaction.transactionDate = this.form.controls.inwardDate.value!;
     transaction.invoiceNo = this.form.controls.invoiceNo.value!;

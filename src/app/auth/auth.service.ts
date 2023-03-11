@@ -102,6 +102,6 @@ export class AuthService {
   }
 
   private displaySnackBar(msg: string) {
-    this.snackBar.open(msg, '', { duration: 3000 });
+    this.snackBar.open(msg);
   }
 }

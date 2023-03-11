@@ -1,6 +1,4 @@
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
-import { TransactionBatch } from 'src/app/shared/models/transaction-batch.model';
-import { OutwardTransactionBatchFormService } from 'src/app/stock-outward/outward-transaction-batch/outward-transaction-batch-form.service';
+import { Component, OnInit } from '@angular/core';
 import { StockAdjustmentTransactionBatchFormService } from './stock-adjustment-transaction-batch-form.service';
 
 @Component({
@@ -10,14 +8,11 @@ import { StockAdjustmentTransactionBatchFormService } from './stock-adjustment-t
   providers: [StockAdjustmentTransactionBatchFormService],
 })
 export class StockAdjustmentTransactionBatchComponent implements OnInit {
-  @Input() batches: TransactionBatch[];
-  @Output() onBatchUpdate = new EventEmitter<any>();
-
   constructor(
     readonly formService: StockAdjustmentTransactionBatchFormService
   ) {}
 
   ngOnInit(): void {
-    this.formService.init(this.onBatchUpdate, this.batches);
+    this.formService.init();
   }
 }

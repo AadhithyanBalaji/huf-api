@@ -117,9 +117,7 @@ export class TransactionService {
         !isNaN(transactionId) &&
         transactionId > 0
         ? 'Updated Transaction'
-        : 'Created Transaction',
-      '',
-      { duration: 2000 }
+        : 'Created Transaction'
     );
   }
 
@@ -128,7 +126,7 @@ export class TransactionService {
       .delete('stock', transactionId)
       .pipe(take(1))
       .subscribe((_) => {
-        this.snackBar.open('Deleted Transaction', '', { duration: 2000 });
+        this.snackBar.open('Deleted Transaction');
         this.getTransactions(this.transactionRequest);
       });
   }
