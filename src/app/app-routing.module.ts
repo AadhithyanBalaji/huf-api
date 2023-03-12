@@ -4,6 +4,7 @@ import { AmrrHomeComponent } from './amrr-home/amrr-home.component';
 import { AmrrChangePasswordComponent } from './auth/amrr-change-password/amrr-change-password.component';
 import { AmrrLoginComponent } from './auth/amrr-login/amrr-login.component';
 import { AuthGuard } from './auth/auth.guard';
+import { ChildAuthGuard } from './auth/child-auth.guard';
 import { AmrrAccessLogComponent } from './master/amrr-access-log/amrr-access-log.component';
 
 import { AmrrBayComponent } from './master/amrr-bay/amrr-bay.component';
@@ -28,6 +29,7 @@ const routes: Routes = [
     path: '',
     component: AmrrHomeComponent,
     canActivate: [AuthGuard],
+    canActivateChild: [ChildAuthGuard],
     children: [
       { path: 'stockInward', component: StockInwardComponent },
       { path: 'stockInward/edit/:id', component: StockInwardEditorComponent },

@@ -1,9 +1,11 @@
 import { Injectable } from '@angular/core';
+import { MatDialog } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Router } from '@angular/router';
 import { take } from 'rxjs';
 import { ApiBusinessService } from 'src/app/shared/api-business.service';
 import Helper from 'src/app/shared/helper';
+import { AmrrModalComponent } from '../shared/amrr-modal/amrr-modal.component';
 import { AuthData } from './auth-data.model';
 
 @Injectable({
@@ -16,15 +18,10 @@ export class AuthService {
   constructor(
     private readonly router: Router,
     private readonly apiBusinessService: ApiBusinessService,
-    private readonly snackBar: MatSnackBar
+    private readonly snackBar: MatSnackBar,
+    private readonly dialog: MatDialog
   ) {
-    const authData = localStorage.getItem('authData');
-    const storedIsAuthenticated = localStorage.getItem('isAuthenticated');
-    this.isAuthenticated =
-      Helper.isTruthy(storedIsAuthenticated) && storedIsAuthenticated === '1';
-    if (Helper.isTruthy(authData) && authData != '') {
-      this.authData = JSON.parse(authData!);
-    }
+    this.isLoggedIn();
   }
 
   login(username: string, password: string) {
@@ -53,19 +50,39 @@ export class AuthService {
   }
 
   isLoggedIn() {
+    const authData = localStorage.getItem('authData');
+    const storedIsAuthenticated = localStorage.getItem('isAuthenticated');
+    this.isAuthenticated =
+      Helper.isTruthy(storedIsAuthenticated) && storedIsAuthenticated === '1';
+    if (Helper.isTruthy(authData) && authData != '') {
+      this.authData = JSON.parse(authData!);
+    }
     return this.isAuthenticated;
   }
 
   logOut() {
-    this.apiBusinessService
-      .get(`auth/logout/${this.authData.userId}`)
+    this.dialog
+      .open(AmrrModalComponent, {
+        data: {
+          title: 'Confirm Logout',
+          body: `Are you sure you want to logout?`,
+        },
+      })
+      .afterClosed()
       .pipe(take(1))
-      .subscribe((res: any) => {
-        this.displaySnackBar('Logged out');
+      .subscribe((result) => {
+        if (result) {
+          this.apiBusinessService
+            .get(`auth/logout/${this.authData.userId}`)
+            .pipe(take(1))
+            .subscribe((res: any) => {
+              this.displaySnackBar('Logged out');
+            });
+          this.setIsAuthenticated(false);
+          localStorage.setItem('authData', '');
+          this.router.navigate(['login']);
+        }
       });
-    this.setIsAuthenticated(false);
-    localStorage.setItem('authData', '');
-    this.router.navigate(['login']);
   }
 
   changePwd(loginName: string, password: string, newPassword: string) {
