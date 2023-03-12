@@ -28,7 +28,7 @@
                 [options]="formService.batches"></app-amrr-select-with-search>
             <button mat-flat-button color="primary" (click)="formService.getData()">View</button>
             <p *ngIf="showCheckBox"><mat-checkbox
-                    [formControl]="formService.form.controls.checkBox">{{checkBoxText}}</mat-checkbox></p>
+                    [formControl]="formService.form.controls.checkBox" color="primary">{{checkBoxText}}</mat-checkbox></p>
         </div>
     </form>
 </div>
