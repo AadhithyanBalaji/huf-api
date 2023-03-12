@@ -1,5 +1,6 @@
 import { DatePipe } from '@angular/common';
 import { Injectable } from '@angular/core';
+import { FormGroup } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Router } from '@angular/router';
@@ -10,6 +11,8 @@ import { ApiBusinessService } from './api-business.service';
 import Helper from './helper';
 import { TransactionBatch } from './models/transaction-batch.model';
 import { Transaction } from './models/transaction.model';
+import { TransactionBatchFormHelperService } from './transaction-batch-form-helper.service';
+import { TransactionBatchService } from './transaction-batch.service';
 
 @Injectable({
   providedIn: 'root',
@@ -24,7 +27,9 @@ export class TransactionService {
     private readonly snackBar: MatSnackBar,
     private readonly router: Router,
     private readonly dialog: MatDialog,
-    private readonly datePipe: DatePipe
+    private readonly datePipe: DatePipe,
+    private readonly formHelperService: TransactionBatchFormHelperService,
+    private readonly transactionBatchService: TransactionBatchService
   ) {}
 
   navigateToAddScreen(routeKey: string) {
@@ -41,8 +46,16 @@ export class TransactionService {
 
   getTransactions(transactionRequest: AmrrReportFilters) {
     this.transactionRequest = transactionRequest;
-    this.transactionRequest.fromDate = this.datePipe.transform(new Date(new Date(transactionRequest.fromDate).setHours(0,0,0,0)),'YYYY-MM-dd HH:mm:ss') ?? '';
-    this.transactionRequest.toDate = this.datePipe.transform(new Date(new Date(transactionRequest.toDate).setHours(23,59,59,0)),'YYYY-MM-dd HH:mm:ss') ?? '';
+    this.transactionRequest.fromDate =
+      this.datePipe.transform(
+        new Date(new Date(transactionRequest.fromDate).setHours(0, 0, 0, 0)),
+        'YYYY-MM-dd HH:mm:ss'
+      ) ?? '';
+    this.transactionRequest.toDate =
+      this.datePipe.transform(
+        new Date(new Date(transactionRequest.toDate).setHours(23, 59, 59, 0)),
+        'YYYY-MM-dd HH:mm:ss'
+      ) ?? '';
     this.apiBusinessService
       .post('stock/transactions', transactionRequest)
       .pipe(take(1))
@@ -83,16 +96,21 @@ export class TransactionService {
   addTransaction(
     routeKey: string,
     transaction: Transaction,
-    stayOnPage = false
+    stayOnPage = false,
+    form: FormGroup
   ) {
     this.apiBusinessService
       .post('stock', transaction)
       .pipe(take(1))
       .subscribe((_) => {
         this.displaySuccessToast(transaction.transactionId);
-        stayOnPage
-          ? this.router.navigate([])
-          : this.router.navigate([routeKey]);
+        if (stayOnPage) {
+          this.router.navigate([]);
+          this.formHelperService.resetForm(form);
+          this.transactionBatchService.setupGrid([]);
+        } else {
+          this.router.navigate([routeKey]);
+        }
       });
   }
 

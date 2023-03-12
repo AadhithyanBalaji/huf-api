@@ -62,15 +62,16 @@ export class StockInwardEditorFormService {
       this.transactionService.addTransaction(
         'stockInward',
         this.buildTransactionData(),
-        stayOnPage
+        stayOnPage,
+        this.form
       );
     }
   }
 
   addTransactionAndClose() {
     this.addTransaction(true);
-    this.formHelperService.resetForm(this.form);
-    this.transactionBatchService.setupGrid([]);
+    // this.formHelperService.resetForm(this.form);
+    // this.transactionBatchService.setupGrid([]);
   }
 
   cancel() {

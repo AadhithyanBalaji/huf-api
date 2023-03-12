@@ -45,15 +45,16 @@ export class StockAdjustmentEditorFormService {
       this.transactionService.addTransaction(
         'stockAdjustment',
         this.buildTransactionData(),
-        stayOnPage
+        stayOnPage,
+        this.form
       );
     }
   }
 
   addTransactionAndClose() {
     this.addTransaction(true);
-    this.formHelperService.resetForm(this.form);
-    this.transactionBatchService.setupGrid([]);
+    // this.formHelperService.resetForm(this.form);
+    // this.transactionBatchService.setupGrid([]);
   }
 
   cancel() {
