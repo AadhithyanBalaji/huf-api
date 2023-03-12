@@ -24,6 +24,8 @@
                 <mat-icon color="primary" matSuffix>shopping_bag</mat-icon>
                 <mat-error *ngIf="formService.batchForm.controls.bags.hasError('InvalidValue')">Invalid
                     value</mat-error>
+                <mat-error *ngIf="formService.batchForm.controls.bags.hasError('max')">Value cannot be more than
+                    {{formService.batchForm.controls.bags.getError('max').max}}</mat-error>
             </mat-form-field>
             <mat-form-field>
                 <mat-label>Qty
@@ -31,6 +33,8 @@
                 <input matInput [formControl]="formService.batchForm.controls.qty" required>
                 <mat-icon color="primary" matSuffix>weight</mat-icon>
                 <mat-error *ngIf="formService.batchForm.controls.qty.hasError('InvalidValue')">Invalid value</mat-error>
+                <mat-error *ngIf="formService.batchForm.controls.qty.hasError('max')">Value cannot be more than
+                    {{formService.batchForm.controls.qty.getError('max').max}}</mat-error>
             </mat-form-field>
             <mat-form-field>
                 <mat-label>Reason</mat-label>

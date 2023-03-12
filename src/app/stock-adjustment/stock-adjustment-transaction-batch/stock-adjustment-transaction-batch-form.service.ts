@@ -146,10 +146,29 @@ export class StockAdjustmentTransactionBatchFormService {
     this.batchForm.controls['item'].valueChanges.subscribe((item) =>
       this.dataHelperService.updateBatches(2, item?.id)
     );
+
+    this.batchForm.controls['batch'].valueChanges
+      .pipe(debounceTime(300))
+      .subscribe((batch: AmrrBatch) => {
+        this.updateQtyValidation(
+          this.batchForm.controls.adjustmentType.value.id,
+          batch
+        );
+      });
+
+    this.batchForm.controls['adjustmentType'].valueChanges
+      .pipe(debounceTime(300))
+      .subscribe((adjustmentType: IAmrrTypeahead) => {
+        this.updateQtyValidation(
+          adjustmentType.id,
+          this.batchForm.controls.batch.value
+        );
+      });
   }
 
   private checkIfBatchIsValid() {
     return (
+      this.batchForm.valid &&
       this.formHelperService.validateNumberControlValue(
         this.batchForm.get('godown'),
         this.batchForm.get('godown')?.value?.id
@@ -207,5 +226,19 @@ export class StockAdjustmentTransactionBatchFormService {
     batch.qty = this.batchForm.controls.qty.value;
     batch.reason = this.batchForm.controls.reason.value;
     return batch;
+  }
+
+  private updateQtyValidation(adjustmentTypeId: number, batch: AmrrBatch) {
+    if (adjustmentTypeId === 2) {
+      const qtyCtrl = this.batchForm.controls['qty'];
+      const bagsCtrl = this.batchForm.controls['bags'];
+      if (Helper.isTruthy(batch) && !isNaN(batch.bags) && !isNaN(batch.qty)) {
+        this.formHelperService.setMaxValueForControl(qtyCtrl, batch.qty);
+        this.formHelperService.setMaxValueForControl(bagsCtrl, batch.bags);
+      }
+    } else {
+      this.batchForm.controls.qty.setValidators(Validators.required);
+      this.batchForm.controls.bags.setValidators(Validators.required);
+    }
   }
 }

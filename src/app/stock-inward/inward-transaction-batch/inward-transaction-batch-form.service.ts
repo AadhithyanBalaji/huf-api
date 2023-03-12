@@ -112,10 +112,13 @@ export class InwardTransactionBatchFormService {
       ]),
       item: new FormControl(null, [Validators.required]),
       batchType: new FormControl(null, [Validators.required]),
-      batch: new FormControl(null, [Validators.required]),
-      batchName: new FormControl(null, [Validators.required]),
-      qty: new FormControl(null, [Validators.required]),
-      bags: new FormControl(null, [Validators.required]),
+      batch: new FormControl(null),
+      batchName: new FormControl(null),
+      qty: new FormControl(null, [Validators.required, Validators.min(0.0001)]),
+      bags: new FormControl(null, [
+        Validators.required,
+        Validators.min(0.0001),
+      ]),
     });
 
     this.setupFormListeners();
@@ -132,12 +135,22 @@ export class InwardTransactionBatchFormService {
       this.batchForm.updateValueAndValidity();
     });
 
-    this.batchForm.controls['batchType'].valueChanges.subscribe((batchType) =>
+    this.batchForm.controls['batchType'].valueChanges.subscribe((batchType) => {
       this.dataHelperService.updateBatches(
         batchType?.id,
         this.batchForm.controls['item'].value?.id
-      )
-    );
+      );
+      if (batchType?.id === 1) {
+        this.batchForm.controls.batch.clearValidators();
+        this.batchForm.controls.batchName.setValidators(Validators.required);
+      } else if (batchType?.id === 2) {
+        this.batchForm.controls.batchName.clearValidators();
+        this.batchForm.controls.batch.setValidators(Validators.required);
+      } else {
+        this.batchForm.controls.batch.clearValidators();
+        this.batchForm.controls.batchName.clearValidators();
+      }
+    });
 
     this.batchForm.controls['item'].valueChanges.subscribe((item) =>
       this.dataHelperService.updateBatches(
@@ -149,6 +162,7 @@ export class InwardTransactionBatchFormService {
 
   private checkIfBatchIsValid() {
     return (
+      this.batchForm.valid &&
       this.formHelperService.validateNumberControlValue(
         this.batchForm.get('godown'),
         this.batchForm.get('godown')?.value?.id

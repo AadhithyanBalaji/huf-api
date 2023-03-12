@@ -19,7 +19,6 @@ export class OutwardTransactionBatchFormService {
     bay: FormControl<any>;
     item: FormControl<any>;
     batch: FormControl<any>;
-    batchName: FormControl<any>;
     bags: FormControl<any>;
     qty: FormControl<any>;
   }>;
@@ -73,7 +72,6 @@ export class OutwardTransactionBatchFormService {
       ]),
       item: new FormControl(null, [Validators.required]),
       batch: new FormControl(null, [Validators.required]),
-      batchName: new FormControl(null, [Validators.required]),
       qty: new FormControl(null, [Validators.required, Validators.min(0.0001)]),
       bags: new FormControl(null, [
         Validators.required,
@@ -112,7 +110,7 @@ export class OutwardTransactionBatchFormService {
   }
 
   private checkIfBatchIsValid() {
-    return (
+    return this.batchForm.valid && (
       this.formHelperService.validateNumberControlValue(
         this.batchForm.get('godown'),
         this.batchForm.get('godown')?.value?.id
