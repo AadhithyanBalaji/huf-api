@@ -13,17 +13,18 @@ export class TransactionBatchFormHelperService {
     });
   }
 
-  validateNumberControlValue(control: any, value: any) {
-    const isValid = Helper.isTruthy(value) && !isNaN(value) && +value > 0;
+  validateNumberControlValue(control: any, value: any, allowZeroValue = false) {
+    const isValid =
+      Helper.isTruthy(value) && !isNaN(value) && (allowZeroValue || +value > 0);
     control.setErrors(isValid ? null : { InvalidValue: true });
     return isValid;
   }
 
-  setMaxValueForControl(control: any, max: number) {
+  setMaxValueForControl(control: any, max: number, min?: number) {
     control.setValue(null);
     control.setValidators([
       Validators.required,
-      Validators.min(0.0001),
+      Validators.min(min ?? 0.0001),
       Validators.max(max),
     ]);
   }

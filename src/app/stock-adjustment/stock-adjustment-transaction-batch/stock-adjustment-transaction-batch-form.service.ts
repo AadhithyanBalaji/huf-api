@@ -123,10 +123,7 @@ export class StockAdjustmentTransactionBatchFormService {
       batch: new FormControl(null, [Validators.required]),
       adjustmentType: new FormControl(null, [Validators.required]),
       qty: new FormControl(null, [Validators.required, Validators.min(0.0001)]),
-      bags: new FormControl(null, [
-        Validators.required,
-        Validators.min(0.0001),
-      ]),
+      bags: new FormControl(null, [Validators.required, Validators.min(0)]),
       reason: new FormControl('', [Validators.required]),
     });
     this.setupFormListeners();
@@ -151,7 +148,7 @@ export class StockAdjustmentTransactionBatchFormService {
       .pipe(debounceTime(300))
       .subscribe((batch: AmrrBatch) => {
         this.updateQtyValidation(
-          this.batchForm.controls.adjustmentType.value.id,
+          this.batchForm.controls.adjustmentType.value?.id,
           batch
         );
       });
@@ -160,7 +157,7 @@ export class StockAdjustmentTransactionBatchFormService {
       .pipe(debounceTime(300))
       .subscribe((adjustmentType: IAmrrTypeahead) => {
         this.updateQtyValidation(
-          adjustmentType.id,
+          adjustmentType?.id,
           this.batchForm.controls.batch.value
         );
       });
@@ -188,7 +185,8 @@ export class StockAdjustmentTransactionBatchFormService {
       this.validateBatchValue() &&
       this.formHelperService.validateNumberControlValue(
         this.batchForm.get('bags'),
-        this.batchForm.get('bags')?.value
+        this.batchForm.get('bags')?.value,
+        true
       ) &&
       this.formHelperService.validateNumberControlValue(
         this.batchForm.get('qty'),
@@ -234,7 +232,7 @@ export class StockAdjustmentTransactionBatchFormService {
       const bagsCtrl = this.batchForm.controls['bags'];
       if (Helper.isTruthy(batch) && !isNaN(batch.bags) && !isNaN(batch.qty)) {
         this.formHelperService.setMaxValueForControl(qtyCtrl, batch.qty);
-        this.formHelperService.setMaxValueForControl(bagsCtrl, batch.bags);
+        this.formHelperService.setMaxValueForControl(bagsCtrl, batch.bags, 0);
       }
     } else {
       this.batchForm.controls.qty.setValidators(Validators.required);
