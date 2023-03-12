@@ -68,9 +68,9 @@ export class StockInwardEditorFormService {
   }
 
   addTransactionAndClose() {
+    this.addTransaction(true);
     this.formHelperService.resetForm(this.form);
     this.transactionBatchService.setupGrid([]);
-    this.addTransaction(true);
   }
 
   cancel() {

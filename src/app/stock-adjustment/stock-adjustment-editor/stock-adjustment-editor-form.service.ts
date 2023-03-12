@@ -51,9 +51,9 @@ export class StockAdjustmentEditorFormService {
   }
 
   addTransactionAndClose() {
+    this.addTransaction(true);
     this.formHelperService.resetForm(this.form);
     this.transactionBatchService.setupGrid([]);
-    this.addTransaction(true);
   }
 
   cancel() {
