@@ -1,3 +1,4 @@
+import { DatePipe } from '@angular/common';
 import { EventEmitter, Injectable } from '@angular/core';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { AuthService } from 'src/app/auth/auth.service';
@@ -34,7 +35,8 @@ export class AmrrReportFiltersFormService {
 
   constructor(
     private readonly apiBusinessService: ApiBusinessService,
-    private readonly authService: AuthService
+    private readonly authService: AuthService,
+    private readonly datePipe: DatePipe
   ) {}
 
   init(
@@ -129,8 +131,20 @@ export class AmrrReportFiltersFormService {
     if (this.form.valid) {
       filters.userId = this.authService.getUserId();
       filters.transactionTypeId = this.transactionTypeId;
-      filters.fromDate = this.form.controls.fromDate.value!;
-      filters.toDate = this.form.controls.toDate.value!;
+      filters.fromDate =
+        this.datePipe.transform(
+          new Date(
+            new Date(this.form.controls.fromDate.value).setHours(0, 0, 0, 0)
+          ),
+          'YYYY-MM-dd HH:mm:ss'
+        ) ?? '';
+      filters.toDate =
+        this.datePipe.transform(
+          new Date(
+            new Date(this.form.controls.toDate.value).setHours(23, 59, 59, 0)
+          ),
+          'YYYY-MM-dd HH:mm:ss'
+        ) ?? '';
       filters.godownId = this.checkForAllOption(this.form.controls.goDownId);
       filters.bayId = this.checkForAllOption(this.form.controls.bayId);
       filters.itemGroupId = this.checkForAllOption(
