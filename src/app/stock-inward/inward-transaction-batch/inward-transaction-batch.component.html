@@ -16,7 +16,7 @@
             <ng-template #newBatchTemplate>
                 <mat-form-field>
                     <mat-label>Batch No.</mat-label>
-                    <input matInput [formControl]="formService.batchForm.controls.batchName" required>
+                    <input matInput [formControl]="formService.batchForm.controls.batchName">
                     <mat-error *ngIf="formService.batchForm.controls.batchName.hasError('InvalidValue')">Invalid
                         value</mat-error>
                 </mat-form-field>
