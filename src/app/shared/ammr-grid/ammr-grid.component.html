@@ -1,6 +1,6 @@
 <div>
     <div class="table-actions" *ngIf="allowFilter || allowPagination">
-        <mat-paginator *ngIf="allowPagination" [pageSizeOptions]="[5, 10, 25, 100]"
+        <mat-paginator *ngIf="allowPagination" [pageSize]="100" [pageSizeOptions]="[5, 10, 25, 100]"
             aria-label="Select page of users"></mat-paginator>
         <div *ngIf="allowFilter">
             <mat-form-field>
