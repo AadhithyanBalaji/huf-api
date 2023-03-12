@@ -28,6 +28,7 @@ export class AmrrReportFiltersFormService {
     itemGroupId: FormControl<any>;
     itemId: FormControl<any>;
     batchId: FormControl<any>;
+    checkBox: FormControl<any>;
   }>;
   enableAllOptions: boolean;
   allOption = { id: 0, name: 'All' };
@@ -85,6 +86,7 @@ export class AmrrReportFiltersFormService {
             itemGroupId: new FormControl(this.allOption),
             itemId: new FormControl(this.allOption),
             batchId: new FormControl(this.allOption),
+            checkBox: new FormControl(false),
           });
           this.setupFormListeners();
           this.getData();
@@ -153,6 +155,7 @@ export class AmrrReportFiltersFormService {
       filters.itemId = this.checkForAllOption(this.form.controls.itemId);
       filters.batchId = this.checkForAllOption(this.form.controls.batchId);
       filters.userId = this.authService.getUserId();
+      filters.checkBoxValue = this.form.controls.checkBox.value;
     }
     return filters;
   }

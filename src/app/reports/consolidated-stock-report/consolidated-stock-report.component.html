@@ -1,7 +1,7 @@
 <div class="df">
     <app-amrr-page-header [title]="'Consolidated Stock'" [actionName]="''"></app-amrr-page-header>
     <div class="grid-container">
-        <app-amrr-report-filters (onViewClicked)="formService.getData($event)"></app-amrr-report-filters>
+        <app-amrr-report-filters [showCheckBox]="true" [checkBoxText]="'Show Nil Stock'" (onViewClicked)="formService.getData($event)"></app-amrr-report-filters>
         <mat-divider></mat-divider>
         <div class="amrr-table-container">
             <table mat-table [dataSource]="formService.dataSource" matSort>
