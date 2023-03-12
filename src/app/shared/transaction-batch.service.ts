@@ -14,7 +14,7 @@ export class TransactionBatchService {
     new MatTableDataSource();
 
   setupGrid(batches: TransactionBatch[]) {
-    if (Helper.isTruthy(batches) && batches.length > 0) {
+    if (Helper.isTruthy(batches)) {
       this.dataSource.data = [...batches];
     }
   }
