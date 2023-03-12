@@ -1,6 +1,5 @@
 import { EventEmitter, Injectable } from '@angular/core';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
-import { combineLatest, debounceTime, from, take } from 'rxjs';
 import { AuthService } from 'src/app/auth/auth.service';
 import { AmrrBay } from 'src/app/master/amrr-bay/amrr-bay-editor/amrr-bay.model';
 import { AmrrGodown } from 'src/app/master/amrr-godown/amrr-godown-editor/amrr-godown.model';
@@ -9,7 +8,6 @@ import { AmrrItem } from 'src/app/master/amrr-item/amrr-item-editor/amrr-item.mo
 import { IAmrrTypeahead } from '../amrr-typeahead/amrr-typeahead.interface';
 import { ApiBusinessService } from '../api-business.service';
 import Helper from '../helper';
-import { AmrrBatch } from '../models/amrr-batch.model';
 import { AmrrReportFilters } from './amrr-report-filters.model';
 
 @Injectable()
@@ -140,6 +138,7 @@ export class AmrrReportFiltersFormService {
       );
       filters.itemId = this.checkForAllOption(this.form.controls.itemId);
       filters.batchId = this.checkForAllOption(this.form.controls.batchId);
+      filters.userId = this.authService.getUserId();
     }
     return filters;
   }

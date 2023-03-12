@@ -70,6 +70,9 @@
 
                 <tr mat-header-row *matHeaderRowDef="formService.columns"></tr>
                 <tr mat-row *matRowDef="let row; columns: formService.columns;"></tr>
+                <tr class="mat-row" *matNoDataRow>
+                    <div>No Data found</div>
+                </tr>
             </table>
         </div>
     </div>
