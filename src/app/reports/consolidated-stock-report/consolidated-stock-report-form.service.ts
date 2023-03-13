@@ -21,20 +21,22 @@ export class ConsolidatedStockReportFormService {
     'Loss',
     'Closing',
   ];
+  loading = true;
 
   constructor(private readonly apiBusinessService: ApiBusinessService) {}
 
   getData(transactionFilters: AmrrReportFilters) {
     if (Helper.isTruthy(transactionFilters)) {
+      this.loading = true;
       this.apiBusinessService
         .post('report/consolidatedStock', transactionFilters)
         .pipe(take(1))
-        .subscribe(
-          (data: any) =>
-            (this.dataSource = new MatTableDataSource(
-              data.recordset as ConsolidatedStockReport[]
-            ))
-        );
+        .subscribe((data: any) => {
+          this.dataSource = new MatTableDataSource(
+            data.recordset as ConsolidatedStockReport[]
+          );
+          this.loading = false;
+        });
     }
   }
 }

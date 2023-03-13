@@ -12,7 +12,7 @@ import { ItemMovement } from './item-movement.model';
 @Injectable()
 export class ItemMovementReportFormService {
   count = 0;
-  dataSource: MatTableDataSource<ItemMovement, MatPaginator>;
+  dataSource: MatTableDataSource<ItemMovement, MatPaginator> = new MatTableDataSource();
   columns = [
     'S.No.',
     'Date',
@@ -22,6 +22,7 @@ export class ItemMovementReportFormService {
     'Inward',
     'Outward',
   ];
+  loading = false;
 
   constructor(
     private readonly apiBusinessService: ApiBusinessService,
@@ -35,15 +36,16 @@ export class ItemMovementReportFormService {
       Helper.isValidNumber(transactionFilters.itemId) &&
       transactionFilters.itemId! > 0
     ) {
+      this.loading = true;
       this.apiBusinessService
         .post('report/itemMovement', transactionFilters)
         .pipe(take(1))
-        .subscribe(
-          (data: any) =>
-            (this.dataSource = new MatTableDataSource(
-              data.recordset as ItemMovement[]
-            ))
-        );
+        .subscribe((data: any) => {
+          this.dataSource = new MatTableDataSource(
+            data.recordset as ItemMovement[]
+          );
+          this.loading = false;
+        });
     } else if (
       this.count > 0 &&
       (!Helper.isValidNumber(transactionFilters.itemId) ||

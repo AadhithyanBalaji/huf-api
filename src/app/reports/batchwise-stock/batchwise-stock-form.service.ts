@@ -23,20 +23,22 @@ export class BatchwiseStockFormService {
     'Loss',
     'Closing',
   ];
+  loading = true;
 
   constructor(private readonly apiBusinessService: ApiBusinessService) {}
 
   getData(transactionFilters: AmrrReportFilters) {
     if (Helper.isTruthy(transactionFilters)) {
+      this.loading = true;
       this.apiBusinessService
         .post('report/batchwiseStock', transactionFilters)
         .pipe(take(1))
-        .subscribe(
-          (data: any) =>
-            (this.dataSource = new MatTableDataSource(
-              data.recordset as BatchwiseStock[]
-            ))
-        );
+        .subscribe((data: any) => {
+          this.dataSource = new MatTableDataSource(
+            data.recordset as BatchwiseStock[]
+          );
+          this.loading = false;
+        });
     }
   }
 }

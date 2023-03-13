@@ -206,3 +206,17 @@ mat-card-header {
     max-height: calc(100vh - 575px);
   }
 }
+
+.grid-spinner {
+  height: 100px;
+  position: absolute;
+  z-index: 999;
+  left: 49%;
+  top: 40%;
+}
+
+.no-data-found {
+  position: relative;
+  left: 45vw;
+  padding: 15px;
+}
