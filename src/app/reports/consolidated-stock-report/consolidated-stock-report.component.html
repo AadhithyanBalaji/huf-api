@@ -1,7 +1,8 @@
 <div class="df">
     <app-amrr-page-header [title]="'Consolidated Stock'" [actionName]="''"></app-amrr-page-header>
     <div class="grid-container">
-        <app-amrr-report-filters [showCheckBox]="true" [checkBoxText]="'Show Nil Stock'" (onViewClicked)="formService.getData($event)"></app-amrr-report-filters>
+        <app-amrr-report-filters [showCheckBox]="true" [checkBoxText]="'Show Nil Stock'"
+            (onViewClicked)="formService.getData($event)"></app-amrr-report-filters>
         <mat-divider></mat-divider>
         <div class="amrr-table-container">
             <div *ngIf="formService.loading" class="grid-spinner">
@@ -23,43 +24,43 @@
                 <ng-container matColumnDef="Opening">
                     <th mat-header-cell *matHeaderCellDef> Opening </th>
                     <td mat-cell *matCellDef="let element">
-                        <app-stock-info *ngIf="element.openingBags; else naTemplate" [bags]="element.openingBags"
-                            [qty]="element.openingQty"></app-stock-info>
+                        <app-stock-info *ngIf="element.openingBags || element.openingQty; else naTemplate"
+                            [bags]="element.openingBags" [qty]="element.openingQty"></app-stock-info>
                     </td>
                 </ng-container>
                 <ng-container matColumnDef="Inward">
                     <th mat-header-cell *matHeaderCellDef> Inward </th>
                     <td mat-cell *matCellDef="let element">
-                        <app-stock-info *ngIf="element.inwardBags; else naTemplate" [bags]="element.inwardBags"
-                            [qty]="element.inwardQty"></app-stock-info>
+                        <app-stock-info *ngIf="element.inwardBags || element.inwardQty; else naTemplate"
+                            [bags]="element.inwardBags" [qty]="element.inwardQty"></app-stock-info>
                     </td>
                 </ng-container>
                 <ng-container matColumnDef="Gain">
                     <th mat-header-cell *matHeaderCellDef> Gain </th>
                     <td mat-cell *matCellDef="let element">
-                        <app-stock-info *ngIf="element.gainBags; else naTemplate" [bags]="element.gainBags"
-                            [qty]="element.gainQty"></app-stock-info>
+                        <app-stock-info *ngIf="element.gainBags || element.gainQty; else naTemplate"
+                            [bags]="element.gainBags" [qty]="element.gainQty"></app-stock-info>
                     </td>
                 </ng-container>
                 <ng-container matColumnDef="Outward">
                     <th mat-header-cell *matHeaderCellDef> Outward</th>
                     <td mat-cell *matCellDef="let element">
-                        <app-stock-info *ngIf="element.outwardBags; else naTemplate" [bags]="element.outwardBags"
-                            [qty]="element.outwardQty"></app-stock-info>
+                        <app-stock-info *ngIf="element.outwardBags || element.outwardQty; else naTemplate"
+                            [bags]="element.outwardBags" [qty]="element.outwardQty"></app-stock-info>
                     </td>
                 </ng-container>
                 <ng-container matColumnDef="Loss">
                     <th mat-header-cell *matHeaderCellDef> Loss </th>
                     <td mat-cell *matCellDef="let element">
-                        <app-stock-info *ngIf="element.lossBags; else naTemplate" [bags]="element.lossBags"
-                            [qty]="element.lossQty"></app-stock-info>
+                        <app-stock-info *ngIf="element.lossBags || element.lossQty; else naTemplate"
+                            [bags]="element.lossBags" [qty]="element.lossQty"></app-stock-info>
                     </td>
                 </ng-container>
                 <ng-container matColumnDef="Closing">
                     <th mat-header-cell *matHeaderCellDef> Closing </th>
                     <td mat-cell *matCellDef="let element">
-                        <app-stock-info *ngIf="element.closingBags; else naTemplate" [bags]="element.closingBags"
-                            [qty]="element.closingQty"></app-stock-info>
+                        <app-stock-info *ngIf="element.closingBags || element.closingQty; else naTemplate"
+                            [bags]="element.closingBags" [qty]="element.closingQty"></app-stock-info>
                     </td>
                 </ng-container>
 
