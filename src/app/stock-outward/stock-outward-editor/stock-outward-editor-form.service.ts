@@ -4,6 +4,7 @@ import { ActivatedRoute } from '@angular/router';
 import { take } from 'rxjs';
 import { AuthService } from 'src/app/auth/auth.service';
 import { IAmrrTypeahead } from 'src/app/shared/amrr-typeahead/amrr-typeahead.interface';
+import Helper from 'src/app/shared/helper';
 import { TransactionBatch } from 'src/app/shared/models/transaction-batch.model';
 import { Transaction } from 'src/app/shared/models/transaction.model';
 import { TransactionBatchFormHelperService } from 'src/app/shared/transaction-batch-form-helper.service';
@@ -71,8 +72,6 @@ export class StockOutwardEditorFormService {
 
   addTransactionAndClose() {
     this.addTransaction(true);
-    // this.formHelperService.resetForm(this.form);
-    // this.transactionBatchService.setupGrid([]);
   }
 
   cancel() {
@@ -91,23 +90,31 @@ export class StockOutwardEditorFormService {
   }
 
   private buildForm(transaction: Transaction) {
-    this.form = new FormGroup({
-      transactionId: new FormControl(transaction.transactionId),
-      outwardDate: new FormControl(new Date(transaction.transactionDate)),
-      runningNo: new FormControl({
-        value: transaction.runningNo,
-        disabled: true,
-      }),
-      vehicleName: new FormControl(transaction.vehicleName),
-      party: new FormControl(transaction.partyName ?? '', [
-        Validators.required,
-      ]),
-      vehicleRegNo: new FormControl(transaction.vehicleRegNo ?? '', [
-        Validators.required,
-      ]),
-      remarks: new FormControl(transaction.remarks),
-      verifiedBy: new FormControl(transaction.verifiedBy),
-    });
+    if (!Helper.isTruthy(this.form)) {
+      this.form = new FormGroup({
+        transactionId: new FormControl(transaction.transactionId),
+        outwardDate: new FormControl(new Date(transaction.transactionDate)),
+        runningNo: new FormControl({
+          value: transaction.runningNo,
+          disabled: true,
+        }),
+        vehicleName: new FormControl(transaction.vehicleName),
+        party: new FormControl(transaction.partyName ?? '', [
+          Validators.required,
+        ]),
+        vehicleRegNo: new FormControl(transaction.vehicleRegNo ?? '', [
+          Validators.required,
+        ]),
+        remarks: new FormControl(transaction.remarks),
+        verifiedBy: new FormControl(transaction.verifiedBy),
+      });
+    } else {
+      this.form.patchValue({
+        transactionId: transaction.transactionId,
+        outwardDate: transaction.transactionDate,
+        runningNo: transaction.runningNo,
+      });
+    }
   }
 
   private buildTransactionData() {

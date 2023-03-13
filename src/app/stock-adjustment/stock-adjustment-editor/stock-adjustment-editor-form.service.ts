@@ -3,6 +3,7 @@ import { FormControl, FormGroup } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { take } from 'rxjs';
 import { AuthService } from 'src/app/auth/auth.service';
+import Helper from 'src/app/shared/helper';
 import { Transaction } from 'src/app/shared/models/transaction.model';
 import { TransactionBatchFormHelperService } from 'src/app/shared/transaction-batch-form-helper.service';
 import { TransactionBatchService } from 'src/app/shared/transaction-batch.service';
@@ -53,8 +54,6 @@ export class StockAdjustmentEditorFormService {
 
   addTransactionAndClose() {
     this.addTransaction(true);
-    // this.formHelperService.resetForm(this.form);
-    // this.transactionBatchService.setupGrid([]);
   }
 
   cancel() {
@@ -62,16 +61,24 @@ export class StockAdjustmentEditorFormService {
   }
 
   private buildForm(transaction: Transaction) {
-    this.form = new FormGroup({
-      transactionId: new FormControl(transaction.transactionId),
-      outwardDate: new FormControl(new Date(transaction.transactionDate)),
-      runningNo: new FormControl({
-        value: transaction.runningNo,
-        disabled: true,
-      }),
-      remarks: new FormControl(transaction.remarks),
-      verifiedBy: new FormControl(transaction.verifiedBy),
-    });
+    if (!Helper.isTruthy(this.form)) {
+      this.form = new FormGroup({
+        transactionId: new FormControl(transaction.transactionId),
+        outwardDate: new FormControl(new Date(transaction.transactionDate)),
+        runningNo: new FormControl({
+          value: transaction.runningNo,
+          disabled: true,
+        }),
+        remarks: new FormControl(transaction.remarks),
+        verifiedBy: new FormControl(transaction.verifiedBy),
+      });
+    } else {
+      this.form.patchValue({
+        transactionId: transaction.transactionId,
+        outwardDate: transaction.transactionDate,
+        runningNo: transaction.runningNo,
+      });
+    }
   }
 
   private buildTransactionData() {

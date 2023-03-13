@@ -82,7 +82,7 @@ export class TransactionService {
         });
     } else {
       this.apiBusinessService
-        .get(`stock/${transactionTypeId}`)
+        .get(`stock`)
         .pipe(take(1))
         .subscribe((res: any) => {
           const transaction = new Transaction();
@@ -108,6 +108,7 @@ export class TransactionService {
           this.router.navigate([]);
           this.formHelperService.resetForm(form);
           this.transactionBatchService.setupGrid([]);
+          this.requestTransactionInfo(NaN, transaction.transactionTypeId);
         } else {
           this.router.navigate([routeKey]);
         }

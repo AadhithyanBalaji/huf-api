@@ -70,8 +70,6 @@ export class StockInwardEditorFormService {
 
   addTransactionAndClose() {
     this.addTransaction(true);
-    // this.formHelperService.resetForm(this.form);
-    // this.transactionBatchService.setupGrid([]);
   }
 
   cancel() {
@@ -90,24 +88,32 @@ export class StockInwardEditorFormService {
   }
 
   private buildForm(transaction: Transaction) {
-    this.form = new FormGroup({
-      transactionId: new FormControl(transaction.transactionId),
-      inwardDate: new FormControl(new Date(transaction.transactionDate)),
-      runningNo: new FormControl({
-        value: transaction.runningNo,
-        disabled: true,
-      }),
-      invoiceNo: new FormControl(transaction.invoiceNo),
-      party: new FormControl(transaction.partyName ?? '', [
-        Validators.required,
-      ]),
-      vehicleDetails: new FormControl(transaction.vehicleName ?? '', [
-        Validators.required,
-      ]),
-      weightMeasureType: new FormControl(transaction.weightMeasureType),
-      remarks: new FormControl(transaction.remarks),
-      verifiedBy: new FormControl(transaction.verifiedBy),
-    });
+    if (!Helper.isTruthy(this.form)) {
+      this.form = new FormGroup({
+        transactionId: new FormControl(transaction.transactionId),
+        inwardDate: new FormControl(new Date(transaction.transactionDate)),
+        runningNo: new FormControl({
+          value: transaction.runningNo,
+          disabled: true,
+        }),
+        invoiceNo: new FormControl(transaction.invoiceNo),
+        party: new FormControl(transaction.partyName ?? '', [
+          Validators.required,
+        ]),
+        vehicleDetails: new FormControl(transaction.vehicleName ?? '', [
+          Validators.required,
+        ]),
+        weightMeasureType: new FormControl(transaction.weightMeasureType),
+        remarks: new FormControl(transaction.remarks),
+        verifiedBy: new FormControl(transaction.verifiedBy),
+      });
+    } else {
+      this.form.patchValue({
+        transactionId: transaction.transactionId,
+        inwardDate: transaction.transactionDate,
+        runningNo: transaction.runningNo,
+      });
+    }
   }
 
   private buildTransactionData() {
