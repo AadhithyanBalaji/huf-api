@@ -1,6 +1,6 @@
 <div>
-    <div *ngIf="qty">{{qty | number:'1.4-4'}}</div>
-    <div *ngIf="bags"><i>{{bags}}&nbsp;Bags</i></div>
+    <div *ngIf="qty >= 0">{{qty | number:'1.4-4'}}</div>
+    <div *ngIf="bags >= 0"><i>{{bags}}&nbsp;Bags</i></div>
     <div *ngIf="date">{{date | date: 'dd/MM/yyyy'}}</div>
     <div *ngIf="info_1">{{info_1}}</div>
     <div *ngIf="info_2">{{info_2}}</div>

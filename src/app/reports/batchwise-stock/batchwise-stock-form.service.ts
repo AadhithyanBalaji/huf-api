@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import { MatPaginator } from '@angular/material/paginator';
+import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
 import { take } from 'rxjs';
 import { AmrrReportFilters } from 'src/app/shared/amrr-report-filters/amrr-report-filters.model';
@@ -11,21 +12,26 @@ import { BatchwiseStock } from './batchwise-stock-model';
 export class BatchwiseStockFormService {
   dataSource: MatTableDataSource<BatchwiseStock, MatPaginator>;
   columns = [
-    'S.No.',
-    'Godown/Bay',
-    'Item Group',
-    'Item Name',
-    'Batch',
-    'Opening',
-    'Inward',
-    'Gain',
-    'Outward',
-    'Loss',
-    'Closing',
+    'sno',
+    'godown',
+    'itemGroup',
+    'itemName',
+    'batchName',
+    'openingQty',
+    'inwardQty',
+    'gainQty',
+    'outwardQty',
+    'lossQty',
+    'closingQty',
   ];
   loading = true;
+  sort: MatSort;
 
   constructor(private readonly apiBusinessService: ApiBusinessService) {}
+
+  init(sort: MatSort) {
+    this.sort = sort;
+  }
 
   getData(transactionFilters: AmrrReportFilters) {
     if (Helper.isTruthy(transactionFilters)) {
@@ -37,6 +43,7 @@ export class BatchwiseStockFormService {
           this.dataSource = new MatTableDataSource(
             data.recordset as BatchwiseStock[]
           );
+          this.dataSource.sort = this.sort;
           this.loading = false;
         });
     }

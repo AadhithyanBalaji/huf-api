@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import { MatPaginator } from '@angular/material/paginator';
+import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
 import { take } from 'rxjs';
 import { AmrrReportFilters } from 'src/app/shared/amrr-report-filters/amrr-report-filters.model';
@@ -9,21 +10,27 @@ import { ConsolidatedStockReport } from './consolidated-stock-report.model';
 
 @Injectable()
 export class ConsolidatedStockReportFormService {
-  dataSource: MatTableDataSource<ConsolidatedStockReport, MatPaginator>;
+  dataSource: MatTableDataSource<ConsolidatedStockReport, MatPaginator> =
+    new MatTableDataSource();
   columns = [
-    'S.No.',
-    'Item Group',
-    'Item Name',
-    'Opening',
-    'Inward',
-    'Gain',
-    'Outward',
-    'Loss',
-    'Closing',
+    'sno',
+    'itemGroup',
+    'itemName',
+    'openingQty',
+    'inwardQty',
+    'gainQty',
+    'outwardQty',
+    'lossQty',
+    'closingQty',
   ];
   loading = true;
+  sort: MatSort;
 
   constructor(private readonly apiBusinessService: ApiBusinessService) {}
+
+  init(sort: MatSort) {
+    this.sort = sort;
+  }
 
   getData(transactionFilters: AmrrReportFilters) {
     if (Helper.isTruthy(transactionFilters)) {
@@ -35,6 +42,7 @@ export class ConsolidatedStockReportFormService {
           this.dataSource = new MatTableDataSource(
             data.recordset as ConsolidatedStockReport[]
           );
+          this.dataSource.sort = this.sort;
           this.loading = false;
         });
     }

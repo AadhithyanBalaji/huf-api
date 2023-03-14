@@ -1,4 +1,5 @@
-import { Component, OnInit } from '@angular/core';
+import { AfterViewInit, Component, OnInit, ViewChild } from '@angular/core';
+import { MatSort } from '@angular/material/sort';
 import { ConsolidatedStockReportFormService } from './consolidated-stock-report-form.service';
 
 @Component({
@@ -7,6 +8,12 @@ import { ConsolidatedStockReportFormService } from './consolidated-stock-report-
   styleUrls: ['./consolidated-stock-report.component.css'],
   providers: [ConsolidatedStockReportFormService],
 })
-export class ConsolidatedStockReportComponent{
+export class ConsolidatedStockReportComponent implements AfterViewInit {
+  @ViewChild(MatSort) sort: MatSort;
+
   constructor(readonly formService: ConsolidatedStockReportFormService) {}
+
+  ngAfterViewInit(): void {
+    this.formService.init(this.sort);
+  }
 }

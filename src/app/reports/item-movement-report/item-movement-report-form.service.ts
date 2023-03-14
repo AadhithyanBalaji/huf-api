@@ -2,6 +2,7 @@ import { DatePipe } from '@angular/common';
 import { Injectable } from '@angular/core';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
 import { take } from 'rxjs';
 import { AmrrReportFilters } from 'src/app/shared/amrr-report-filters/amrr-report-filters.model';
@@ -14,21 +15,26 @@ export class ItemMovementReportFormService {
   count = 0;
   dataSource: MatTableDataSource<ItemMovement, MatPaginator> = new MatTableDataSource();
   columns = [
-    'S.No.',
-    'Date',
-    'Party/Vehicle Details',
-    'Godown/Bay',
-    'Invoice/Batch No.',
+    'sno',
+    'inwardDate',
+    'partyName',
+    'godown',
+    'batchName',
     'Inward',
     'Outward',
   ];
   loading = false;
+  sort: MatSort;
 
   constructor(
     private readonly apiBusinessService: ApiBusinessService,
     private readonly datePipe: DatePipe,
     private readonly snackBar: MatSnackBar
   ) {}
+
+  init(sort: MatSort) {
+    this.sort = sort;
+  }
 
   getData(transactionFilters: AmrrReportFilters) {
     if (
@@ -44,6 +50,7 @@ export class ItemMovementReportFormService {
           this.dataSource = new MatTableDataSource(
             data.recordset as ItemMovement[]
           );
+          this.dataSource.sort = this.sort;
           this.loading = false;
         });
     } else if (
