@@ -79,9 +79,18 @@ export class InwardTransactionBatchFormService {
   ) {}
 
   init() {
-    this.dataHelperService.batches$.subscribe(
-      (batches) => (this.batches = batches)
-    );
+    this.dataHelperService.batches$.subscribe((batches) => {
+      this.batches = batches;
+      this.batchForm.controls.batch.setValue(
+        batches.length === 1 ? batches[0] : null
+      );
+    });
+    this.dataHelperService.bays$.subscribe((bays) => {
+      this.bays = bays;
+      this.batchForm.patchValue({
+        bay: bays.length === 1 ? bays[0] : null,
+      });
+    });
 
     this.dataHelperService.bays$.subscribe((bays) => (this.bays = bays));
     this.dataHelperService.godownsItems$.subscribe((res) => {

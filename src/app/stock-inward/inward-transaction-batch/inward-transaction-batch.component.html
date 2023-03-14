@@ -24,14 +24,16 @@
                 </mat-form-field>
             </ng-template>
             <mat-form-field>
-                <mat-label>No. of Bags</mat-label>
+                <mat-label>No. of Bags
+                    {{formService.transactionBatchService.getSelectedBatch(formService.batchForm.controls.batch.value).bags}}</mat-label>
                 <input matInput [formControl]="formService.batchForm.controls.bags" required>
                 <mat-icon color="primary" matSuffix>shopping_bag</mat-icon>
                 <mat-error *ngIf="formService.batchForm.controls.bags.hasError('InvalidValue')">Invalid
                     value</mat-error>
             </mat-form-field>
             <mat-form-field>
-                <mat-label>Qty</mat-label>
+                <mat-label>Qty
+                    {{formService.transactionBatchService.getSelectedBatch(formService.batchForm.controls.batch.value).qty}}</mat-label>
                 <input matInput [formControl]="formService.batchForm.controls.qty" required>
                 <mat-icon color="primary" matSuffix>weight</mat-icon>
                 <mat-error *ngIf="formService.batchForm.controls.qty.hasError('InvalidValue')">Invalid value</mat-error>
