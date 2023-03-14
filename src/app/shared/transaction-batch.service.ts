@@ -62,7 +62,7 @@ export class TransactionBatchService {
   }
 
   validateBatch(name: string, batchNameControl: FormControl) {
-    if (!Helper.isTruthy(name) || name.length > 0) return;
+    if (!Helper.isTruthy(name) || name.length <= 0) return;
     this.apiBusinessService
       .get(`batch/${name}`)
       .pipe(take(1))
