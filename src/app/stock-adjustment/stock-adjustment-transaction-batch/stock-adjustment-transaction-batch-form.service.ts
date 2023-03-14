@@ -87,14 +87,26 @@ export class StockAdjustmentTransactionBatchFormService {
   ) {}
 
   init() {
-    this.dataHelperService.batches$.subscribe(
-      (batches) => (this.batches = batches)
-    );
-
-    this.dataHelperService.bays$.subscribe((bays) => (this.bays = bays));
+    this.dataHelperService.batches$.subscribe((batches) => {
+      this.batches = batches;
+      this.batchForm.controls.batch.setValue(
+        batches.length === 1 ? batches[0] : null
+      );
+    });
+    this.dataHelperService.bays$.subscribe((bays) => {
+      this.bays = bays;
+      this.batchForm.patchValue({
+        bay: bays.length === 1 ? bays[0] : null,
+      });
+    });
+    this.dataHelperService.items$.subscribe((items) => {
+      this.items = items;
+      this.batchForm.controls.item.setValue(
+        items.length === 1 ? items[0] : null
+      );
+    });
     this.dataHelperService.godownsItems$.subscribe((res) => {
       this.godowns = res.godowns;
-      this.items = res.items;
       this.buildForm();
     });
 
@@ -119,7 +131,9 @@ export class StockAdjustmentTransactionBatchFormService {
       bay: new FormControl({ value: null, disabled: true }, [
         Validators.required,
       ]),
-      item: new FormControl(null, [Validators.required]),
+      item: new FormControl({ value: null, disabled: true }, [
+        Validators.required,
+      ]),
       batch: new FormControl(null, [Validators.required]),
       adjustmentType: new FormControl(null, [Validators.required]),
       qty: new FormControl(null, [Validators.required, Validators.min(0.0001)]),
@@ -132,7 +146,7 @@ export class StockAdjustmentTransactionBatchFormService {
   private setupFormListeners() {
     this.batchForm.controls['godown'].valueChanges.subscribe((godown) => {
       if (Helper.isTruthy(godown) && +godown.id > 0) {
-        this.dataHelperService.updateBays(godown.id);
+        this.dataHelperService.updateBays(godown.id, true);
         this.batchForm.get('bay')!.enable();
       } else {
         this.batchForm.get('bay')!.disable();
@@ -140,8 +154,26 @@ export class StockAdjustmentTransactionBatchFormService {
       this.batchForm.updateValueAndValidity();
     });
 
+    this.batchForm.controls['bay'].valueChanges.subscribe((bay) => {
+      if (Helper.isTruthy(bay) && +bay.id > 0) {
+        this.dataHelperService.updateItems(
+          this.batchForm.controls.godown.value?.id,
+          bay?.id
+        );
+        this.batchForm.get('item')!.enable();
+      } else {
+        this.batchForm.get('item')!.disable();
+      }
+      this.batchForm.updateValueAndValidity();
+    });
+
     this.batchForm.controls['item'].valueChanges.subscribe((item) =>
-      this.dataHelperService.updateBatches(2, item?.id)
+      this.dataHelperService.updateBatches(
+        2,
+        this.batchForm.controls['godown'].value?.id,
+        item?.id,
+        this.batchForm.controls['bay'].value?.id
+      )
     );
 
     this.batchForm.controls['batch'].valueChanges

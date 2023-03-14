@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
+import { debounceTime } from 'rxjs';
 import { AmrrBay } from 'src/app/master/amrr-bay/amrr-bay-editor/amrr-bay.model';
 import { AmrrGodown } from 'src/app/master/amrr-godown/amrr-godown-editor/amrr-godown.model';
 import { AmrrItem } from 'src/app/master/amrr-item/amrr-item-editor/amrr-item.model';
@@ -135,27 +136,52 @@ export class InwardTransactionBatchFormService {
       this.batchForm.updateValueAndValidity();
     });
 
+    this.batchForm.controls.bay.valueChanges.subscribe((bay) =>
+      this.dataHelperService.updateBatches(
+        this.batchForm.controls['batchType'].value?.id,
+        this.batchForm.controls['godown'].value?.id,
+        this.batchForm.controls['item'].value?.id,
+        bay?.id
+      )
+    );
+
+    this.batchForm.controls['batchName'].valueChanges
+      .pipe(debounceTime(300))
+      .subscribe((name) => {
+        this.transactionBatchService.validateBatch(
+          name,
+          this.batchForm.controls['batchName']
+        );
+      });
+
     this.batchForm.controls['batchType'].valueChanges.subscribe((batchType) => {
       this.dataHelperService.updateBatches(
         batchType?.id,
-        this.batchForm.controls['item'].value?.id
+        this.batchForm.controls['godown'].value?.id,
+        this.batchForm.controls['item'].value?.id,
+        this.batchForm.controls['bay'].value?.id
       );
       if (batchType?.id === 1) {
-        this.batchForm.controls.batch.clearValidators();
+        this.batchForm.controls.batchName.enable();
+        this.batchForm.controls.batch.disable();
         this.batchForm.controls.batchName.setValidators(Validators.required);
       } else if (batchType?.id === 2) {
-        this.batchForm.controls.batchName.clearValidators();
+        this.batchForm.controls.batch.enable();
+        this.batchForm.controls.batchName.disable();
         this.batchForm.controls.batch.setValidators(Validators.required);
       } else {
-        this.batchForm.controls.batch.clearValidators();
-        this.batchForm.controls.batchName.clearValidators();
+        this.batchForm.controls.batch.enable();
+        this.batchForm.controls.batchName.enable();
       }
+      this.batchForm.updateValueAndValidity();
     });
 
     this.batchForm.controls['item'].valueChanges.subscribe((item) =>
       this.dataHelperService.updateBatches(
         this.batchForm.controls['batchType'].value?.id,
-        item?.id
+        this.batchForm.controls['godown'].value?.id,
+        item?.id,
+        this.batchForm.controls['bay'].value?.id
       )
     );
   }

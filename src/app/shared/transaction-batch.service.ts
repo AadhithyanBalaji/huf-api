@@ -1,7 +1,9 @@
 import { Injectable } from '@angular/core';
-import { FormGroup } from '@angular/forms';
+import { FormControl, FormGroup } from '@angular/forms';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatTableDataSource } from '@angular/material/table';
+import { take } from 'rxjs';
+import { ApiBusinessService } from './api-business.service';
 import Helper from './helper';
 import { AmrrBatch } from './models/amrr-batch.model';
 import { TransactionBatch } from './models/transaction-batch.model';
@@ -13,12 +15,13 @@ export class TransactionBatchService {
   dataSource: MatTableDataSource<TransactionBatch, MatPaginator> =
     new MatTableDataSource();
 
+  constructor(private readonly apiBusinessService: ApiBusinessService) {}
+
   setupGrid(batches: TransactionBatch[]) {
     if (Helper.isTruthy(batches) && batches.length > 0) {
       this.dataSource.data = [...batches];
-    }
-    else {
-      this.dataSource.data = []
+    } else {
+      this.dataSource.data = [];
     }
   }
 
@@ -56,5 +59,19 @@ export class TransactionBatchService {
       });
     }
     return { bags: bags, qty: qty };
+  }
+
+  validateBatch(name: string, batchNameControl: FormControl) {
+    if (!Helper.isTruthy(name) || name.length > 0) return;
+    this.apiBusinessService
+      .get(`batch/${name}`)
+      .pipe(take(1))
+      .subscribe((res: any) =>
+        Helper.isTruthy(res) &&
+        res.recordset?.length > 0 &&
+        +res.recordset[0]?.batchCount > 0
+          ? batchNameControl.setErrors({ BatchExists: true })
+          : batchNameControl.setErrors(null)
+      );
   }
 }

@@ -19,6 +19,8 @@
                     <input matInput [formControl]="formService.batchForm.controls.batchName">
                     <mat-error *ngIf="formService.batchForm.controls.batchName.hasError('InvalidValue')">Invalid
                         value</mat-error>
+                    <mat-error *ngIf="formService.batchForm.controls.batchName.hasError('BatchExists')">Batch already
+                        exists</mat-error>
                 </mat-form-field>
             </ng-template>
             <mat-form-field>
