@@ -39,7 +39,7 @@
                     <th mat-header-cell *matHeaderCellDef mat-sort-header> Gain </th>
                     <td mat-cell *matCellDef="let element">
                         <app-stock-info *ngIf="element.gainBags || element.gainQty; else naTemplate"
-                            [bags]="element.gainBags" [qty]="element.gainQty"></app-stock-info>
+                            [bags]="element.gainBags" [qty]="element.gainQty" [customClass]="'g'"></app-stock-info>
                     </td>
                 </ng-container>
                 <ng-container matColumnDef="outwardQty">
@@ -53,7 +53,7 @@
                     <th mat-header-cell *matHeaderCellDef mat-sort-header> Loss </th>
                     <td mat-cell *matCellDef="let element">
                         <app-stock-info *ngIf="element.lossBags || element.lossQty; else naTemplate"
-                            [bags]="element.lossBags" [qty]="element.lossQty"></app-stock-info>
+                            [bags]="element.lossBags" [qty]="element.lossQty" [customClass]="'r'"></app-stock-info>
                     </td>
                 </ng-container>
                 <ng-container matColumnDef="closingQty">

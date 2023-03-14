@@ -12,4 +12,5 @@ export class StockInfoComponent {
   @Input() info_1: string;
   @Input() info_2: string;
   @Input() info_3: string;
+  @Input() customClass: string;
 }
