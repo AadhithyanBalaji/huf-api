@@ -1,0 +1,9 @@
+<div class="df">
+    <app-amrr-page-header [title]="'All transactions'" [actionName]="''"></app-amrr-page-header>
+    <div class="grid-container">
+        <app-amrr-report-filters [transactionTypeId]="1" (onViewClicked)="getData($event)"></app-amrr-report-filters>
+        <mat-divider></mat-divider>
+        <app-ammr-grid [columns]="columns" [dataSource]="dataSource" [loading]="loading"
+            [readOnly]="true"></app-ammr-grid>
+    </div>
+</div>

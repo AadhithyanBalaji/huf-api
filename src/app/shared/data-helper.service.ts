@@ -82,7 +82,6 @@ export class DataHelperService {
   }
 
   updateItems(godownId: number, bayId: number) {
-    console.log(godownId, bayId);
     if (
       !Helper.isTruthy(godownId) ||
       isNaN(godownId) ||

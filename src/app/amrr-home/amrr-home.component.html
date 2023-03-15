@@ -28,7 +28,7 @@
                                     [routerLink]="['stockAdjustment']">Adjustment</a></mat-list-item>
                         </mat-selection-list>
                     </mat-expansion-panel>
-                    <mat-expansion-panel *ngIf="authService.authData && authService.authData.isAdmin">
+                    <mat-expansion-panel *ngIf="authService.isLoggedInUserAdmin()">
                         <mat-expansion-panel-header>
                             <mat-panel-title>
                                 <mat-icon aria-hidden="false" aria-label="Settings and master data"
@@ -86,6 +86,9 @@
                             <mat-list-item role="listitem" routerLinkActive="route-active"><a
                                     [routerLink]="['reports','itemMovement']">Item Movement
                                     Analysis</a></mat-list-item>
+                            <mat-list-item role="listitem" *ngIf="authService.isLoggedInUserAdmin()"
+                                routerLinkActive="route-active"><a [routerLink]="['reports','allTransactions']">All
+                                    Transactions</a></mat-list-item>
                         </mat-selection-list>
                     </mat-expansion-panel>
                     <mat-expansion-panel [hideToggle]="true" (click)="logOut()">

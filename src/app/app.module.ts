@@ -62,6 +62,7 @@ import {
 } from '@angular/material/core';
 import { AmrrSelectWithSearchComponent } from './shared/amrr-select-with-search/amrr-select-with-search.component';
 import { MAT_SNACK_BAR_DEFAULT_OPTIONS } from '@angular/material/snack-bar';
+import { AllTransactionsReportComponent } from './reports/all-transactions-report/all-transactions-report.component';
 
 @NgModule({
   declarations: [
@@ -102,6 +103,7 @@ import { MAT_SNACK_BAR_DEFAULT_OPTIONS } from '@angular/material/snack-bar';
     ItemMovementReportComponent,
     StockQtyBagsCardComponent,
     AmrrSelectWithSearchComponent,
+    AllTransactionsReportComponent,
   ],
   imports: [
     BrowserModule,

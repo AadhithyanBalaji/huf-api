@@ -1,6 +1,7 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { AmrrHomeComponent } from './amrr-home/amrr-home.component';
+import { AdminGuard } from './auth/admin.guard';
 import { AmrrChangePasswordComponent } from './auth/amrr-change-password/amrr-change-password.component';
 import { AmrrLoginComponent } from './auth/amrr-login/amrr-login.component';
 import { AuthGuard } from './auth/auth.guard';
@@ -13,6 +14,7 @@ import { AmrrItemGroupComponent } from './master/amrr-item-group/amrr-item-group
 import { AmrrItemComponent } from './master/amrr-item/amrr-item.component';
 import { AmrrUserComponent } from './master/amrr-user/amrr-user.component';
 import { PageNotFoundComponent } from './page-not-found/page-not-found.component';
+import { AllTransactionsReportComponent } from './reports/all-transactions-report/all-transactions-report.component';
 import { BatchwiseStockComponent } from './reports/batchwise-stock/batchwise-stock.component';
 import { ConsolidatedStockReportComponent } from './reports/consolidated-stock-report/consolidated-stock-report.component';
 import { ItemMovementReportComponent } from './reports/item-movement-report/item-movement-report.component';
@@ -52,15 +54,37 @@ const routes: Routes = [
         path: 'reports/itemMovement',
         component: ItemMovementReportComponent,
       },
-      { path: 'itemGroup', component: AmrrItemGroupComponent },
-      { path: 'item', component: AmrrItemComponent },
-      { path: 'godown', component: AmrrGodownComponent },
-      { path: 'bay', component: AmrrBayComponent },
-      { path: 'user', component: AmrrUserComponent },
-      { path: 'changePassword', component: AmrrChangePasswordComponent },
-      { path: 'accessLogs', component: AmrrAccessLogComponent },
+      {
+        path: 'reports/allTransactions',
+        component: AllTransactionsReportComponent,
+        canActivate: [AdminGuard],
+      },
+      {
+        path: 'itemGroup',
+        component: AmrrItemGroupComponent,
+        canActivate: [AdminGuard],
+      },
+      { path: 'item', component: AmrrItemComponent, canActivate: [AdminGuard] },
+      {
+        path: 'godown',
+        component: AmrrGodownComponent,
+        canActivate: [AdminGuard],
+      },
+      { path: 'bay', component: AmrrBayComponent, canActivate: [AdminGuard] },
+      { path: 'user', component: AmrrUserComponent, canActivate: [AdminGuard] },
+      {
+        path: 'changePassword',
+        component: AmrrChangePasswordComponent,
+        canActivate: [AdminGuard],
+      },
+      {
+        path: 'accessLogs',
+        component: AmrrAccessLogComponent,
+        canActivate: [AdminGuard],
+      },
     ],
   },
+  { path: 'noAccess', pathMatch: 'full', component: PageNotFoundComponent },
   { path: '**', pathMatch: 'full', component: PageNotFoundComponent },
 ];
 
