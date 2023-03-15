@@ -110,7 +110,7 @@ export class StockAdjustmentTransactionBatchFormService {
       this.buildForm();
     });
 
-    this.dataHelperService.getGodownAndItems();
+    this.dataHelperService.getGodownAndItems(true);
   }
 
   addBatch() {
