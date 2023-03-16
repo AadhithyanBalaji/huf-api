@@ -11,10 +11,7 @@
     </div>
 
     <div class="amrr-table-container" [ngClass]="autoHeight ? 'auto-height': ''">
-        <div *ngIf="loading" class="grid-spinner">
-            <mat-spinner></mat-spinner>
-        </div>
-        <table mat-table [dataSource]="dataSource" matSort>
+        <table *ngIf="!loading" mat-table [dataSource]="dataSource" matSort>
             <ng-container *ngFor="let col of columns">
                 <ng-container
                     *ngTemplateOutlet="col.key !== 'options' ? columnsTemplate : optionsTemplate; context: { $implicit: col }">
@@ -79,5 +76,8 @@
                 <div class="no-data-found">No Data found</div>
             </tr>
         </table>
+        <div *ngIf="loading" class="grid-spinner no-data-found">
+            <mat-spinner></mat-spinner>
+        </div>
     </div>
 </div>
