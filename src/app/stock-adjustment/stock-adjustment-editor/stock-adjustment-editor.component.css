@@ -2,13 +2,8 @@
   display: flex;
   flex-wrap: wrap;
   justify-content: flex-start;
-  margin: 0 0 15px 15px;
 }
 
 .first-row mat-card {
   width: 30vw;
-}
-
-.inward-items-editor-container {
-  margin: 15px !important;
 }
