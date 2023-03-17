@@ -1,0 +1,7 @@
+<div class="export-container">
+    <button mat-flat-button color="primary" [matMenuTriggerFor]="menu">Download</button>
+    <mat-menu #menu="matMenu">
+        <button mat-menu-item (click)="exportAsPdf()">PDF</button>
+        <button mat-menu-item (click)="exportAsExcel()">Excel</button>
+    </mat-menu>
+</div>

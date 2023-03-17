@@ -148,6 +148,7 @@ export class AmrrReportFiltersFormService {
           'YYYY-MM-dd HH:mm:ss'
         ) ?? '';
       filters.godownId = this.checkForAllOption(this.form.controls.goDownId);
+      filters.godown = this.form.controls.goDownId.value?.name;
       filters.bayId = this.checkForAllOption(this.form.controls.bayId);
       filters.itemGroupId = this.checkForAllOption(
         this.form.controls.itemGroupId

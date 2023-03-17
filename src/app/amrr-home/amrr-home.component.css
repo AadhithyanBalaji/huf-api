@@ -15,7 +15,7 @@
     height: 290px !important;
   }
 
-  .menu-container mat-accordion mat-expansion-panel{
+  .menu-container mat-expansion-panel{
     margin: 0 !important;
     box-shadow: none;
   }

@@ -5,7 +5,10 @@ import { MatTableDataSource } from '@angular/material/table';
 import { take } from 'rxjs';
 import { AmrrReportFilters } from 'src/app/shared/amrr-report-filters/amrr-report-filters.model';
 import { ApiBusinessService } from 'src/app/shared/api-business.service';
+import { CSRExportData } from 'src/app/shared/csr-export-data.model';
+import { CSRExportRow } from 'src/app/shared/csr-export-row.model';
 import Helper from 'src/app/shared/helper';
+import { PdfService } from 'src/app/shared/pdf.service';
 import { ConsolidatedStockReport } from './consolidated-stock-report.model';
 
 @Injectable()
@@ -25,8 +28,12 @@ export class ConsolidatedStockReportFormService {
   ];
   loading = true;
   sort: MatSort;
+  filters: AmrrReportFilters;
 
-  constructor(private readonly apiBusinessService: ApiBusinessService) {}
+  constructor(
+    private readonly apiBusinessService: ApiBusinessService,
+    private readonly pdfService: PdfService
+  ) {}
 
   init(sort: MatSort) {
     this.sort = sort;
@@ -43,8 +50,24 @@ export class ConsolidatedStockReportFormService {
             data.recordset as ConsolidatedStockReport[]
           );
           this.dataSource.sort = this.sort;
+          this.filters = transactionFilters;
           this.loading = false;
         });
     }
+  }
+
+  printPdf() {
+    this.apiBusinessService
+      .post('report/consolidatedStock/exportData', this.filters)
+      .pipe(take(1))
+      .subscribe((data: any) => {
+        const exportData = new CSRExportData();
+        exportData.godown = this.filters.godown ?? 'All';
+        exportData.fromDate = this.filters.fromDate;
+        exportData.toDate = this.filters.toDate;
+        exportData.itemRows = data.recordset as CSRExportRow[];
+        exportData.reportData = this.dataSource.data;
+        this.pdfService.exportAsPdf(exportData);
+      });
   }
 }
