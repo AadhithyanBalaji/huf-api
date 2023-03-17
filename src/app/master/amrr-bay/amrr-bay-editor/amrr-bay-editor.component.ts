@@ -1,6 +1,5 @@
 import { Component, ElementRef, Inject, OnInit, ViewChild } from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
-import { AmrrTypeaheadMultiselectComponent } from 'src/app/shared/amrr-typeahead-multiselect/amrr-typeahead-multiselect.component';
 import { AmrrBayEditorFormService } from './amrr-bay-editor-form.service';
 import { AmrrBay } from './amrr-bay.model';
 
@@ -11,7 +10,6 @@ import { AmrrBay } from './amrr-bay.model';
   providers: [AmrrBayEditorFormService],
 })
 export class AmrrBayEditorComponent implements OnInit {
-  @ViewChild('multiselect', {static: false}) typeaheadComponent: AmrrTypeaheadMultiselectComponent;
 
   constructor(
     readonly formService: AmrrBayEditorFormService,
@@ -20,6 +18,6 @@ export class AmrrBayEditorComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    this.formService.init(this.dialogRef, this.data, this.typeaheadComponent);
+    this.formService.init(this.dialogRef, this.data);
   }
 }

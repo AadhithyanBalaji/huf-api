@@ -17,6 +17,7 @@ import { AmrrBay } from './amrr-bay-editor/amrr-bay.model';
 export class AmrrBayFormService {
   columns: IAmmrGridColumn[];
   dataSource: MatTableDataSource<AmrrBay, MatPaginator>;
+  loading = false;
 
   constructor(
     private readonly dialog: MatDialog,
@@ -46,7 +47,7 @@ export class AmrrBayFormService {
         result
           ? setTimeout(() => {
               this.getData();
-            }, 1000)
+            }, 300)
           : null
       );
   }
@@ -69,12 +70,14 @@ export class AmrrBayFormService {
   }
 
   private getData() {
+    this.loading = true;
     this.apiBusinessService
       .get('bay')
       .pipe(take(1))
-      .subscribe(
-        (data) => (this.dataSource = new MatTableDataSource(data as AmrrBay[]))
-      );
+      .subscribe((data) => {
+        this.dataSource = new MatTableDataSource(data as AmrrBay[]);
+        this.loading = false;
+      });
   }
 
   private deleteBay(id: number) {

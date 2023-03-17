@@ -19,7 +19,6 @@ import { ApiBusinessService } from './shared/api-business.service';
 import { AmrrModalComponent } from './shared/amrr-modal/amrr-modal.component';
 import { AmrrItemComponent } from './master/amrr-item/amrr-item.component';
 import { AmrrItemEditorComponent } from './master/amrr-item/amrr-item-editor/amrr-item-editor.component';
-import { AmrrTypeaheadComponent } from './shared/amrr-typeahead/amrr-typeahead.component';
 import { AmrrLoadingComponent } from './shared/amrr-loading/amrr-loading.component';
 import { HttpLoadingInterceptor } from './shared/http-loading.interceptor';
 import { AmrrLoadingDialogService } from './shared/amrr-loading/amrr-loading-dialog.service';
@@ -27,7 +26,6 @@ import { AmrrGodownComponent } from './master/amrr-godown/amrr-godown.component'
 import { AmrrGodownEditorComponent } from './master/amrr-godown/amrr-godown-editor/amrr-godown-editor.component';
 import { AmrrBayComponent } from './master/amrr-bay/amrr-bay.component';
 import { AmrrBayEditorComponent } from './master/amrr-bay/amrr-bay-editor/amrr-bay-editor.component';
-import { AmrrTypeaheadMultiselectComponent } from './shared/amrr-typeahead-multiselect/amrr-typeahead-multiselect.component';
 import { AmrrLoginComponent } from './auth/amrr-login/amrr-login.component';
 import { AmrrHomeComponent } from './amrr-home/amrr-home.component';
 import { AmrrUserComponent } from './master/amrr-user/amrr-user.component';
@@ -65,6 +63,7 @@ import { MAT_SNACK_BAR_DEFAULT_OPTIONS } from '@angular/material/snack-bar';
 import { AllTransactionsReportComponent } from './reports/all-transactions-report/all-transactions-report.component';
 import { AmrrDownloadMenuComponent } from './shared/amrr-download-menu/amrr-download-menu.component';
 import { AmrrActionRowComponent } from './shared/amrr-action-row/amrr-action-row.component';
+import { AmrrMultiSelectWithSearchComponent } from './shared/amrr-multi-select-with-search/amrr-multi-select-with-search.component';
 
 @NgModule({
   declarations: [
@@ -77,13 +76,11 @@ import { AmrrActionRowComponent } from './shared/amrr-action-row/amrr-action-row
     AmrrModalComponent,
     AmrrItemComponent,
     AmrrItemEditorComponent,
-    AmrrTypeaheadComponent,
     AmrrLoadingComponent,
     AmrrGodownComponent,
     AmrrGodownEditorComponent,
     AmrrBayComponent,
     AmrrBayEditorComponent,
-    AmrrTypeaheadMultiselectComponent,
     AmrrLoginComponent,
     AmrrHomeComponent,
     AmrrUserComponent,
@@ -108,6 +105,7 @@ import { AmrrActionRowComponent } from './shared/amrr-action-row/amrr-action-row
     AllTransactionsReportComponent,
     AmrrDownloadMenuComponent,
     AmrrActionRowComponent,
+    AmrrMultiSelectWithSearchComponent,
   ],
   imports: [
     BrowserModule,

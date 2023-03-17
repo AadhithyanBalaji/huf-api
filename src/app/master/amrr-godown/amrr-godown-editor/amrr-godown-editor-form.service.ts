@@ -1,8 +1,10 @@
 import { Injectable } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { MatDialogRef } from '@angular/material/dialog';
+import { MatSnackBar } from '@angular/material/snack-bar';
 import { take } from 'rxjs';
 import { ApiBusinessService } from 'src/app/shared/api-business.service';
+import { TransactionBatchFormHelperService } from 'src/app/shared/transaction-batch-form-helper.service';
 import { AmrrGodownEditorComponent } from './amrr-godown-editor.component';
 import { AmrrGodown } from './amrr-godown.model';
 
@@ -19,7 +21,11 @@ export class AmrrGodownEditorFormService {
     isActive: FormControl<any>;
   }>;
 
-  constructor(private readonly apiBusinessService: ApiBusinessService) {}
+  constructor(
+    private readonly apiBusinessService: ApiBusinessService,
+    private readonly snackBar: MatSnackBar,
+    private readonly formHelper: TransactionBatchFormHelperService
+  ) {}
 
   init(dialogRef: MatDialogRef<AmrrGodownEditorComponent>, data: AmrrGodown) {
     this.dialogRef = dialogRef;
@@ -28,11 +34,11 @@ export class AmrrGodownEditorFormService {
   }
 
   addGodown() {
-    this.saveGodown();
+    this.saveGodown(true);
   }
 
   addGodownAndClose() {
-    this.saveGodown(true);
+    this.saveGodown();
   }
 
   cancel() {
@@ -56,18 +62,23 @@ export class AmrrGodownEditorFormService {
       item.id = this.form.controls.id.value;
       item.name = this.form.controls.name.value;
       item.capacity = this.form.controls.capacity.value;
-      item.gstInName = this.form.controls.gstInName.value;
-      item.gstInAddress = this.form.controls.gstInAddress.value;
+      item.gstInName = this.form.controls.gstInName.value ?? '';
+      item.gstInAddress = this.form.controls.gstInAddress.value ?? '';
       item.isActive = this.form.controls.isActive.value ? '1' : '0';
 
       this.apiBusinessService
         .post('godown', item)
         .pipe(take(1))
-        .subscribe((_) =>
+        .subscribe((_) => {
           closeDialog
             ? this.dialogRef.close(new AmrrGodown())
-            : this.form.reset()
-        );
+            : this.form.reset();
+          this.snackBar.open(
+            `Godown ${isNaN(item.id) ? 'created!' : 'updated'}`
+          );
+          this.formHelper.resetForm(this.form);
+          this.form.controls.isActive.setValue(true);
+        });
     }
   }
 }

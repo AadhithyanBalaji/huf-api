@@ -1,4 +1,4 @@
-import { IAmrrTypeahead } from "../amrr-typeahead/amrr-typeahead.interface";
+import { IAmrrTypeahead } from "../amrr-typeahead.interface";
 
 export class AmrrBatch implements IAmrrTypeahead{
     id: number;

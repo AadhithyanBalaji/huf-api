@@ -5,7 +5,7 @@
         ? 'Edit User'
         : 'Add New User' }}
     </h2>
-    <div mat-dialog-content>
+    <div style="padding: 15px !important" mat-dialog-content>
         <form class="user-form" *ngIf="formService.form" [formGroup]="formService.form" autocomplete="off">
             <div>
                 <mat-form-field>
@@ -44,8 +44,8 @@
                 <mat-slide-toggle formControlName="isAdmin"> Is Admin </mat-slide-toggle>
             </div>
             <div>
-                <app-amrr-typeahead-multiselect [title]="'Godown'" [ctrl]="formService.form.controls.godowns"
-                    [options]="formService.godowns" #multiselect></app-amrr-typeahead-multiselect>
+                <app-amrr-multi-select-with-search [title]="'Godown'" [ctrl]="formService.form.controls.godowns"
+                    [options]="formService.godowns"></app-amrr-multi-select-with-search>
             </div>
             <div>
                 <mat-slide-toggle formControlName="isActive"> Status </mat-slide-toggle>

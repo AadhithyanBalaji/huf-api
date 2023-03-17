@@ -12,11 +12,11 @@ import { ApiBusinessService } from 'src/app/shared/api-business.service';
 import { AmrrGodownEditorComponent } from './amrr-godown-editor/amrr-godown-editor.component';
 import { AmrrGodown } from './amrr-godown-editor/amrr-godown.model';
 
-
 @Injectable()
 export class AmrrGodownFormService {
   columns: IAmmrGridColumn[];
   dataSource: MatTableDataSource<AmrrGodown, MatPaginator>;
+  loading = false;
 
   constructor(
     private readonly dialog: MatDialog,
@@ -46,7 +46,7 @@ export class AmrrGodownFormService {
         result
           ? setTimeout(() => {
               this.getData();
-            }, 1000)
+            }, 300)
           : null
       );
   }
@@ -69,12 +69,14 @@ export class AmrrGodownFormService {
   }
 
   private getData() {
+    this.loading = true;
     this.apiBusinessService
-      .get('godown')
+      .get('godown/list')
       .pipe(take(1))
-      .subscribe(
-        (data) => (this.dataSource = new MatTableDataSource(data as AmrrGodown[]))
-      );
+      .subscribe((data) => {
+        this.dataSource = new MatTableDataSource(data as AmrrGodown[]);
+        this.loading = false;
+      });
   }
 
   private deleteGodown(id: number) {

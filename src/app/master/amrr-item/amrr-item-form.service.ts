@@ -16,6 +16,7 @@ import { AmrrItem } from './amrr-item-editor/amrr-item.model';
 export class AmrrItemFormService {
   columns: IAmmrGridColumn[];
   dataSource: MatTableDataSource<AmrrItem, MatPaginator>;
+  loading = false;
 
   constructor(
     private readonly dialog: MatDialog,
@@ -45,7 +46,7 @@ export class AmrrItemFormService {
         result
           ? setTimeout(() => {
               this.getData();
-            }, 1000)
+            }, 300)
           : null
       );
   }
@@ -68,12 +69,14 @@ export class AmrrItemFormService {
   }
 
   private getData() {
+    this.loading = true;
     this.apiBusinessService
       .get('item')
       .pipe(take(1))
-      .subscribe(
-        (data) => (this.dataSource = new MatTableDataSource(data as AmrrItem[]))
-      );
+      .subscribe((data) => {
+        this.dataSource = new MatTableDataSource(data as AmrrItem[]);
+        this.loading = false;
+      });
   }
 
   private deleteItem(itemId: number) {
@@ -92,7 +95,7 @@ export class AmrrItemFormService {
       {
         key: 'itemGroupId',
         name: 'Item Group Id',
-        hidden: true
+        hidden: true,
       },
       {
         key: 'itemGroup',

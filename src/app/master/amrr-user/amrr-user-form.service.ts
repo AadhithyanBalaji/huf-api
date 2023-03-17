@@ -17,6 +17,7 @@ import { AmrrUser } from './amrr-user-editor/amrr-user.model';
 export class AmrrUserFormService {
   columns: IAmmrGridColumn[];
   dataSource: MatTableDataSource<AmrrUser, MatPaginator>;
+  loading = false;
 
   constructor(
     private readonly dialog: MatDialog,
@@ -46,7 +47,7 @@ export class AmrrUserFormService {
         result
           ? setTimeout(() => {
               this.getData();
-            }, 1000)
+            }, 300)
           : null
       );
   }
@@ -69,12 +70,14 @@ export class AmrrUserFormService {
   }
 
   private getData() {
+    this.loading = true;
     this.apiBusinessService
       .get('user')
       .pipe(take(1))
-      .subscribe(
-        (data) => (this.dataSource = new MatTableDataSource(data as AmrrUser[]))
-      );
+      .subscribe((data) => {
+        this.dataSource = new MatTableDataSource(data as AmrrUser[]);
+        this.loading = false;
+      });
   }
 
   private deleteUser(id: number) {
@@ -105,7 +108,7 @@ export class AmrrUserFormService {
       {
         key: Helper.nameof<AmrrUser>('password'),
         name: 'Password',
-        hidden: true
+        hidden: true,
       },
       {
         key: Helper.nameof<AmrrUser>('userRole'),
@@ -123,7 +126,7 @@ export class AmrrUserFormService {
       {
         key: Helper.nameof<AmrrUser>('isSuperAdmin'),
         name: 'isSuperAdmin',
-        hidden: true
+        hidden: true,
       },
     ];
   }

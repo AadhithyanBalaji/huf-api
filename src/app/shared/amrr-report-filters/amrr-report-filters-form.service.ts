@@ -6,7 +6,7 @@ import { AmrrBay } from 'src/app/master/amrr-bay/amrr-bay-editor/amrr-bay.model'
 import { AmrrGodown } from 'src/app/master/amrr-godown/amrr-godown-editor/amrr-godown.model';
 import { AmrrItemGroup } from 'src/app/master/amrr-item-group/amrr-item-group-editor/amrr-item-group.model';
 import { AmrrItem } from 'src/app/master/amrr-item/amrr-item-editor/amrr-item.model';
-import { IAmrrTypeahead } from '../amrr-typeahead/amrr-typeahead.interface';
+import { IAmrrTypeahead } from '../amrr-typeahead.interface';
 import { ApiBusinessService } from '../api-business.service';
 import Helper from '../helper';
 import { AmrrReportFilters } from './amrr-report-filters.model';

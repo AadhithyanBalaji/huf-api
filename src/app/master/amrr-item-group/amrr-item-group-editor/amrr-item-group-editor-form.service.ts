@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { FormControl, Validators } from '@angular/forms';
 import { MatDialogRef } from '@angular/material/dialog';
+import { MatSnackBar } from '@angular/material/snack-bar';
 import { take } from 'rxjs';
 import { ApiBusinessService } from 'src/app/shared/api-business.service';
 import Helper from 'src/app/shared/helper';
@@ -13,7 +14,10 @@ export class AmrrItemGroupEditorFormService {
   dialogRef: MatDialogRef<AmrrItemGroupEditorComponent, AmrrItemGroup>;
   data: AmrrItemGroup;
 
-  constructor(private readonly apiBusinessService: ApiBusinessService) {}
+  constructor(
+    private readonly apiBusinessService: ApiBusinessService,
+    private readonly snackBar: MatSnackBar
+  ) {}
 
   init(
     dialogRef: MatDialogRef<AmrrItemGroupEditorComponent>,
@@ -27,11 +31,11 @@ export class AmrrItemGroupEditorFormService {
   }
 
   addItemGroup() {
-    this.saveItemGroup();
+    this.saveItemGroup(true);
   }
 
   addItemGroupAndClose() {
-    this.saveItemGroup(true);
+    this.saveItemGroup();
   }
 
   cancel() {
@@ -50,6 +54,11 @@ export class AmrrItemGroupEditorFormService {
           closeDialog
             ? this.dialogRef.close(new AmrrItemGroup())
             : this.name.setValue(null);
+          this.snackBar.open(
+            `Item Group ${
+              isNaN(itemGroup.id) || itemGroup.id <= 0 ? 'created!' : 'updated'
+            }`
+          );
         });
     }
   }

@@ -1,8 +1,10 @@
 import { Injectable } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { MatDialogRef } from '@angular/material/dialog';
+import { MatSnackBar } from '@angular/material/snack-bar';
 import { take } from 'rxjs';
 import { ApiBusinessService } from 'src/app/shared/api-business.service';
+import { TransactionBatchFormHelperService } from 'src/app/shared/transaction-batch-form-helper.service';
 import { AmrrItemGroup } from '../../amrr-item-group/amrr-item-group-editor/amrr-item-group.model';
 import { AmrrItemEditorComponent } from './amrr-item-editor.component';
 import { AmrrItem } from './amrr-item.model';
@@ -12,7 +14,6 @@ export class AmrrItemEditorFormService {
   dialogRef: MatDialogRef<AmrrItemEditorComponent, any>;
   data: AmrrItem;
   itemGroups: AmrrItemGroup[];
-  shouldRefresh = false;
   form: FormGroup<{
     itemGroupId: FormControl<any>;
     itemId: FormControl<any>;
@@ -20,7 +21,11 @@ export class AmrrItemEditorFormService {
     isActive: FormControl<any>;
   }>;
 
-  constructor(private readonly apiBusinessService: ApiBusinessService) {}
+  constructor(
+    private readonly apiBusinessService: ApiBusinessService,
+    private readonly snackBar: MatSnackBar,
+    private readonly formHelper: TransactionBatchFormHelperService
+  ) {}
 
   init(dialogRef: MatDialogRef<AmrrItemEditorComponent>, data: any) {
     this.dialogRef = dialogRef;
@@ -29,16 +34,15 @@ export class AmrrItemEditorFormService {
   }
 
   addItem() {
-    this.shouldRefresh = true;
-    this.saveItem();
-  }
-
-  addItemAndClose() {
     this.saveItem(true);
   }
 
+  addItemAndClose() {
+    this.saveItem();
+  }
+
   cancel() {
-    this.dialogRef.close(this.shouldRefresh);
+    this.dialogRef.close(new AmrrItemGroup());
   }
 
   private populateEditor(data: AmrrItem) {
@@ -47,13 +51,17 @@ export class AmrrItemEditorFormService {
       .pipe(take(1))
       .subscribe((res) => {
         this.itemGroups = res as AmrrItemGroup[];
+        let itemGroup = null;
+        if (data?.itemGroupId) {
+          itemGroup = this.itemGroups.find((x) => x.id == data.itemGroupId);
+        }
         this.form = new FormGroup({
-          itemGroupId: new FormControl(data?.itemGroupId, [
-            Validators.required,
-          ]),
+          itemGroupId: new FormControl(itemGroup, [Validators.required]),
           itemId: new FormControl(data?.id),
           name: new FormControl(data?.name, [Validators.required]),
-          isActive: new FormControl(data?.isActive ?? true, [Validators.required]),
+          isActive: new FormControl(data?.isActive ?? true, [
+            Validators.required,
+          ]),
         });
       });
   }
@@ -62,15 +70,21 @@ export class AmrrItemEditorFormService {
     if (this.form.dirty && this.form.valid) {
       const item = new AmrrItem();
       item.id = this.form.controls.itemId.value;
-      item.itemGroupId = this.form.controls.itemGroupId.value;
+      item.itemGroupId = this.form.controls.itemGroupId.value?.id;
       item.name = this.form.controls.name.value;
       item.isActive = this.form.controls.isActive.value;
       this.apiBusinessService
         .post('item', item)
         .pipe(take(1))
-        .subscribe((_) =>
-          closeDialog ? this.dialogRef.close(new AmrrItem()) : this.form.reset()
-        );
+        .subscribe((_) => {
+          closeDialog
+            ? this.dialogRef.close(new AmrrItem())
+            : this.form.reset();
+          this.snackBar.open(
+            `Item ${isNaN(item.id) || item.id <= 0 ? 'created!' : 'updated'}`
+          );
+          this.formHelper.resetForm(this.form);
+        });
     }
   }
 }

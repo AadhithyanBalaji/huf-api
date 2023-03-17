@@ -1,7 +1,8 @@
 <div class="df">
     <app-amrr-page-header [title]="'User List'" (onActionClicked)="formService.addNewUser()"></app-amrr-page-header>
     <div class="grid-container">
-        <app-ammr-grid [columns]="formService.columns" [dataSource]="formService.dataSource" [hideDeleteActionForColumnKey]="'isSuperAdmin'"
+        <app-ammr-grid [columns]="formService.columns" [dataSource]="formService.dataSource"
+            [hideDeleteActionForColumnKey]="'isSuperAdmin'" [loading]="formService.loading"
             (onEdit)="formService.onEdit($event)" (onDelete)="formService.onDelete($event)"></app-ammr-grid>
     </div>
 </div>

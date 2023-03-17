@@ -2,6 +2,7 @@
     <app-amrr-page-header [title]="'Item List'" (onActionClicked)="formService.addNewItem()"></app-amrr-page-header>
     <div class="grid-container">
         <app-ammr-grid [columns]="formService.columns" [dataSource]="formService.dataSource"
-            (onEdit)="formService.onEdit($event)" (onDelete)="formService.onDelete($event)"></app-ammr-grid>
+            [loading]="formService.loading" (onEdit)="formService.onEdit($event)"
+            (onDelete)="formService.onDelete($event)"></app-ammr-grid>
     </div>
 </div>

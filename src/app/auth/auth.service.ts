@@ -60,29 +60,25 @@ export class AuthService {
     return this.isAuthenticated;
   }
 
-  logOut() {
-    this.dialog
-      .open(AmrrModalComponent, {
-        data: {
-          title: 'Confirm Logout',
-          body: `Are you sure you want to logout?`,
-        },
-      })
-      .afterClosed()
-      .pipe(take(1))
-      .subscribe((result) => {
-        if (result) {
-          this.apiBusinessService
-            .get(`auth/logout/${this.authData.userId}`)
-            .pipe(take(1))
-            .subscribe((res: any) => {
-              this.displaySnackBar('Logged out');
-            });
-          this.setIsAuthenticated(false);
-          localStorage.setItem('authData', '');
-          this.router.navigate(['login']);
-        }
-      });
+  logOut(force = false) {
+    if (force) {
+      this.performLogout();
+    } else {
+      this.dialog
+        .open(AmrrModalComponent, {
+          data: {
+            title: 'Confirm Logout',
+            body: `Are you sure you want to logout?`,
+          },
+        })
+        .afterClosed()
+        .pipe(take(1))
+        .subscribe((result) => {
+          if (result) {
+            this.performLogout();
+          }
+        });
+    }
   }
 
   changePwd(loginName: string, password: string, newPassword: string) {
@@ -98,7 +94,7 @@ export class AuthService {
           this.displaySnackBar(res.Message);
         } else {
           this.displaySnackBar('Successfully changed password');
-          this.logOut();
+          this.logOut(true);
         }
       });
   }
@@ -126,6 +122,18 @@ export class AuthService {
   private setIsAuthenticated(isAuthenticated: boolean) {
     localStorage.setItem('isAuthenticated', isAuthenticated ? '1' : '0');
     this.isAuthenticated = isAuthenticated;
+  }
+
+  private performLogout() {
+    this.apiBusinessService
+      .get(`auth/logout/${this.authData.userId}`)
+      .pipe(take(1))
+      .subscribe((res: any) => {
+        this.displaySnackBar('Logged out');
+      });
+    this.setIsAuthenticated(false);
+    localStorage.setItem('authData', '');
+    this.router.navigate(['login']);
   }
 
   private displaySnackBar(msg: string) {

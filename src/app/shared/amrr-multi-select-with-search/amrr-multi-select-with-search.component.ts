@@ -10,15 +10,15 @@ import {
 } from '@angular/core';
 import { FormControl } from '@angular/forms';
 import { MatSelect } from '@angular/material/select';
-import { ReplaySubject, Subject, take, takeUntil } from 'rxjs';
+import { ReplaySubject, Subject, takeUntil, take } from 'rxjs';
 import { IAmrrTypeahead } from '../amrr-typeahead.interface';
 
 @Component({
-  selector: 'app-amrr-select-with-search',
-  templateUrl: './amrr-select-with-search.component.html',
-  styleUrls: ['./amrr-select-with-search.component.css'],
+  selector: 'app-amrr-multi-select-with-search',
+  templateUrl: './amrr-multi-select-with-search.component.html',
+  styleUrls: ['./amrr-multi-select-with-search.component.css'],
 })
-export class AmrrSelectWithSearchComponent
+export class AmrrMultiSelectWithSearchComponent
   implements OnInit, AfterViewInit, OnDestroy, OnChanges
 {
   @Input() title: string;
@@ -55,6 +55,18 @@ export class AmrrSelectWithSearchComponent
   ngOnDestroy() {
     this._onDestroy.next();
     this._onDestroy.complete();
+  }
+
+  toggleSelectAll(selectAllValue: boolean) {
+    this.filteredOptions
+      .pipe(take(1), takeUntil(this._onDestroy))
+      .subscribe((val) => {
+        if (selectAllValue) {
+          this.ctrl.patchValue(val);
+        } else {
+          this.ctrl.patchValue([]);
+        }
+      });
   }
 
   protected setInitialValue() {
