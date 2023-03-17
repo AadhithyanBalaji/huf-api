@@ -6,7 +6,6 @@ import { AuthService } from 'src/app/auth/auth.service';
 import { IAmrrTypeahead } from 'src/app/shared/amrr-typeahead/amrr-typeahead.interface';
 import Helper from 'src/app/shared/helper';
 import { Transaction } from 'src/app/shared/models/transaction.model';
-import { TransactionBatchFormHelperService } from 'src/app/shared/transaction-batch-form-helper.service';
 import { TransactionBatchService } from 'src/app/shared/transaction-batch.service';
 import { TransactionService } from 'src/app/shared/transaction.service';
 
@@ -36,11 +35,10 @@ export class StockInwardEditorFormService {
   ];
 
   constructor(
-    private readonly route: ActivatedRoute,
-    private readonly transactionService: TransactionService,
+    readonly transactionService: TransactionService,
+    private readonly route: ActivatedRoute,    
     private readonly authService: AuthService,
-    private readonly transactionBatchService: TransactionBatchService,
-    private readonly formHelperService: TransactionBatchFormHelperService
+    private readonly transactionBatchService: TransactionBatchService
   ) {
     this.transactionService.transaction$.subscribe((data: any) => {
       this.buildForm(data[0]);

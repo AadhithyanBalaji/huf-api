@@ -7,7 +7,6 @@ import { IAmrrTypeahead } from 'src/app/shared/amrr-typeahead/amrr-typeahead.int
 import Helper from 'src/app/shared/helper';
 import { TransactionBatch } from 'src/app/shared/models/transaction-batch.model';
 import { Transaction } from 'src/app/shared/models/transaction.model';
-import { TransactionBatchFormHelperService } from 'src/app/shared/transaction-batch-form-helper.service';
 import { TransactionBatchService } from 'src/app/shared/transaction-batch.service';
 import { TransactionService } from 'src/app/shared/transaction.service';
 
@@ -38,11 +37,10 @@ export class StockOutwardEditorFormService {
   ];
 
   constructor(
+    readonly transactionService: TransactionService,
     private readonly route: ActivatedRoute,
-    private readonly transactionService: TransactionService,
     private readonly authService: AuthService,
-    private readonly transactionBatchService: TransactionBatchService,
-    private readonly formHelperService: TransactionBatchFormHelperService
+    private readonly transactionBatchService: TransactionBatchService
   ) {
     this.transactionService.transaction$.subscribe((data: any) => {
       this.buildForm(data[0]);

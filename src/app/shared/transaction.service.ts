@@ -21,6 +21,7 @@ export class TransactionService {
   transaction$ = new Subject();
   stockTransactions$ = new Subject();
   transactionRequest: AmrrReportFilters;
+  saving: boolean;
 
   constructor(
     private readonly apiBusinessService: ApiBusinessService,
@@ -99,6 +100,7 @@ export class TransactionService {
     stayOnPage = false,
     form: FormGroup
   ) {
+    this.saving = true;
     this.apiBusinessService
       .post('stock', transaction)
       .pipe(take(1))
@@ -112,6 +114,7 @@ export class TransactionService {
         } else {
           this.router.navigate([routeKey]);
         }
+        this.saving = false;
       });
   }
 

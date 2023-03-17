@@ -1,5 +1,8 @@
-<div>
-    <form *ngIf="formService.batchForm" [formGroup]="formService.batchForm">
+<div *ngIf="!formService.batchForm" class="grid-spinner">
+    <mat-spinner></mat-spinner>
+</div>
+<div *ngIf="formService.batchForm">
+    <form [formGroup]="formService.batchForm">
         <div class="form-container">
             <app-amrr-select-with-search [title]="'Destination'" [ctrl]="formService.batchForm.controls.godown"
                 [options]="formService.godowns"></app-amrr-select-with-search>
@@ -41,9 +44,9 @@
             <button mat-flat-button color="primary" (click)="formService.addBatch()">Add</button>
         </div>
     </form>
-</div>
-<div class="batch-grid-container">
-    <app-ammr-grid [columns]="formService.columns" [dataSource]="formService.transactionBatchService.dataSource"
-        [enableEdit]="false" [autoHeight]="true" [allowFilter]="false" [allowPagination]="false"
-        (onDelete)="formService.removeBatch($event)"></app-ammr-grid>
+    <div class="batch-grid-container">
+        <app-ammr-grid [columns]="formService.columns" [dataSource]="formService.transactionBatchService.dataSource"
+            [enableEdit]="false" [autoHeight]="true" [allowFilter]="false" [allowPagination]="false"
+            (onDelete)="formService.removeBatch($event)"></app-ammr-grid>
+    </div>
 </div>

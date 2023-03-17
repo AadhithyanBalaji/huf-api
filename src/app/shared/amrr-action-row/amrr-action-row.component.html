@@ -1,0 +1,11 @@
+<div class="action-row">
+    <div class="editor-save-spinner" *ngIf="loading; else actionsTemplate">
+        <mat-spinner [diameter]="30"></mat-spinner> Saving...
+    </div>
+</div>
+<ng-template #actionsTemplate>
+    <button mat-flat-button color="primary" (click)="onAdd()">Save</button>
+    <button mat-flat-button color="primary" (click)="onAddAndClose()">Save &
+        Continue</button>
+    <button mat-flat-button color="secondary" (click)="onClose()">Close</button>
+</ng-template>

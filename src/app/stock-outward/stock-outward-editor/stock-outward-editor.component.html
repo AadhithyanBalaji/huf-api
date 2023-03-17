@@ -88,11 +88,7 @@
             </div>
         </div>
         <mat-divider></mat-divider>
-        <div class="action-row">
-            <button mat-flat-button color="primary" (click)="formService.addTransaction()">Save</button>
-            <button mat-flat-button color="primary" (click)="formService.addTransactionAndClose()">Save &
-                Continue</button>
-            <button mat-flat-button color="secondary" (click)="formService.cancel()">Close</button>
-        </div>
+        <app-amrr-action-row [loading]="formService.transactionService.saving" (add)="formService.addTransaction()"
+            (addAndClose)="formService.addTransactionAndClose()" (close)="formService.cancel()"></app-amrr-action-row>
     </form>
 </div>
