@@ -60,7 +60,8 @@
                 </ng-container>
 
                 <tr mat-header-row *matHeaderRowDef="formService.columns"></tr>
-                <tr mat-row *matRowDef="let row; columns: formService.columns;"></tr>
+                <tr mat-row *matRowDef="let row; let even = even; columns: formService.columns;"
+                    [ngClass]="{gray: even}"></tr>
                 <tr class="mat-row" *matNoDataRow>
                     <div class="no-data-found">No Data found</div>
                 </tr>
