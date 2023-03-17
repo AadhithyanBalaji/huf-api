@@ -76,7 +76,7 @@ export class AmrrUserEditorFormService {
           ]),
           loginName: new FormControl(data?.loginName, [Validators.required]),
           password: new FormControl(data?.password, [Validators.required]),
-          isAdmin: new FormControl(data?.isAdmin, [Validators.required]),
+          isAdmin: new FormControl(data?.isAdmin ?? false, [Validators.required]),
           godowns: new FormControl(userGodowns, [Validators.required]),
           isActive: new FormControl(data?.isActive ?? true, [
             Validators.required,
