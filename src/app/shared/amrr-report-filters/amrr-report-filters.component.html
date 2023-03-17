@@ -3,32 +3,36 @@
         <mat-spinner></mat-spinner>
     </div>
     <form *ngIf="formService.form" [formGroup]="formService.form" autocomplete="off">
-        <div class="form-container">
-            <mat-form-field [style.width.px]="212">
-                <mat-label>From Date</mat-label>
-                <input matInput formControlName="fromDate" [matDatepicker]="fromDatePicker">
-                <mat-datepicker-toggle matIconSuffix [for]="fromDatePicker"></mat-datepicker-toggle>
-                <mat-datepicker #fromDatePicker> </mat-datepicker>
-            </mat-form-field>
-            <mat-form-field [style.width.px]="212">
-                <mat-label>To Date</mat-label>
-                <input matInput formControlName="toDate" [matDatepicker]="toDatePicker">
-                <mat-datepicker-toggle matIconSuffix [for]="toDatePicker"></mat-datepicker-toggle>
-                <mat-datepicker #toDatePicker> </mat-datepicker>
-            </mat-form-field>
-            <app-amrr-select-with-search [title]="'Godown'" [ctrl]="formService.form.controls.goDownId"
-                [options]="formService.godowns"></app-amrr-select-with-search>
-            <app-amrr-select-with-search [title]="'Bay'" [ctrl]="formService.form.controls.bayId"
-                [options]="formService.bays"></app-amrr-select-with-search>
-            <app-amrr-select-with-search [title]="'Item Group'" [ctrl]="formService.form.controls.itemGroupId"
-                [options]="formService.itemGroups"></app-amrr-select-with-search>
-            <app-amrr-select-with-search [title]="'Item Name'" [ctrl]="formService.form.controls.itemId"
-                [options]="formService.items"></app-amrr-select-with-search>
-            <app-amrr-select-with-search [title]="'Batch No.'" [ctrl]="formService.form.controls.batchId"
-                [options]="formService.batches"></app-amrr-select-with-search>
-            <button mat-flat-button color="primary" (click)="formService.getData()">View</button>
-            <p *ngIf="showCheckBox"><mat-checkbox
-                    [formControl]="formService.form.controls.checkBox" color="primary">{{checkBoxText}}</mat-checkbox></p>
+        <div class="filters-form-container">
+            <div>
+                <mat-form-field [style.width.px]="212">
+                    <mat-label>From Date</mat-label>
+                    <input matInput formControlName="fromDate" [matDatepicker]="fromDatePicker">
+                    <mat-datepicker-toggle matIconSuffix [for]="fromDatePicker"></mat-datepicker-toggle>
+                    <mat-datepicker #fromDatePicker> </mat-datepicker>
+                </mat-form-field>
+                <mat-form-field [style.width.px]="212">
+                    <mat-label>To Date</mat-label>
+                    <input matInput formControlName="toDate" [matDatepicker]="toDatePicker">
+                    <mat-datepicker-toggle matIconSuffix [for]="toDatePicker"></mat-datepicker-toggle>
+                    <mat-datepicker #toDatePicker> </mat-datepicker>
+                </mat-form-field>
+            </div>
+            <div>
+                <app-amrr-select-with-search [title]="'Godown'" [ctrl]="formService.form.controls.goDownId"
+                    [options]="formService.godowns"></app-amrr-select-with-search>
+                <app-amrr-select-with-search [title]="'Bay'" [ctrl]="formService.form.controls.bayId"
+                    [options]="formService.bays"></app-amrr-select-with-search>
+                <app-amrr-select-with-search [title]="'Item Group'" [ctrl]="formService.form.controls.itemGroupId"
+                    [options]="formService.itemGroups"></app-amrr-select-with-search>
+                <app-amrr-select-with-search [title]="'Item Name'" [ctrl]="formService.form.controls.itemId"
+                    [options]="formService.items"></app-amrr-select-with-search>
+                <app-amrr-select-with-search [title]="'Batch No.'" [ctrl]="formService.form.controls.batchId"
+                    [options]="formService.batches"></app-amrr-select-with-search>
+                <button mat-flat-button color="primary" (click)="formService.getData()">View</button>
+                <mat-checkbox *ngIf="showCheckBox" [formControl]="formService.form.controls.checkBox"
+                    color="primary">{{checkBoxText}}</mat-checkbox>
+            </div>
         </div>
     </form>
 </div>
