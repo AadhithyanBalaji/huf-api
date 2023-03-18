@@ -70,18 +70,22 @@ export class StockAdjustmentFormService {
       {
         key: Helper.nameof<StockAdjustment>('godown'),
         name: 'Godown',
+        type: GridColumnType.String
       },
       {
         key: Helper.nameof<StockAdjustment>('items'),
         name: 'Items',
+        type: GridColumnType.String
       },
       {
         key: Helper.nameof<StockAdjustment>('createdBy'),
         name: 'Created By',
+        type: GridColumnType.String
       },
       {
         key: Helper.nameof<StockAdjustment>('updatedBy'),
         name: 'Updated By',
+        type: GridColumnType.String
       },
     ];
   }

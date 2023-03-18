@@ -71,6 +71,7 @@ export class StockOutwardFormService {
       {
         key: Helper.nameof<StockOutward>('godown'),
         name: 'Godown',
+        type: GridColumnType.String
       },
       {
         key: Helper.nameof<StockOutward>('partyName'),
@@ -81,22 +82,27 @@ export class StockOutwardFormService {
       {
         key: Helper.nameof<StockOutward>('items'),
         name: 'Items',
+        type: GridColumnType.String
       },
       {
         key: Helper.nameof<StockOutward>('bags'),
         name: 'No. of Bags',
+        type: GridColumnType.Number
       },
       {
         key: Helper.nameof<StockOutward>('qty'),
         name: 'Qty',
+        type: GridColumnType.Number
       },
       {
         key: Helper.nameof<StockOutward>('createdBy'),
         name: 'Created By',
+        type: GridColumnType.String
       },
       {
         key: Helper.nameof<StockOutward>('updatedBy'),
         name: 'Updated By',
+        type: GridColumnType.String
       },
     ];
   }

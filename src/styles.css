@@ -112,9 +112,11 @@ form div mat-form-field {
   display: flex;
   justify-content: flex-end;
   gap: 10px;
+  width: 100%;
   padding: 15px;
-  position: sticky;
+  position: fixed;
   bottom: 0;
+  left: 0;
   background-color: white;
   z-index: 999;
 }
@@ -174,7 +176,7 @@ mat-card-header {
     flex-direction: column !important;
     flex-wrap: nowrap !important;
     justify-content: unset !important;
-    margin: -10px 15px 15px 15px !important;
+    margin: 5px 15px 15px 15px !important;
   }
   .first-row mat-card {
     width: 100% !important;
@@ -197,6 +199,7 @@ mat-card-header {
     flex-direction: column;
     flex-wrap: nowrap;
     justify-content: unset;
+    margin-bottom: 45px;
   }
 }
 
@@ -226,7 +229,7 @@ mat-card-header {
 
 .logo {
   min-width: 50px;
-  min-height: 300px;
+  min-height: 200px;
   height: 27vh;
 }
 

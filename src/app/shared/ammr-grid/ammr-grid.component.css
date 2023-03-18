@@ -44,3 +44,21 @@ table {
     width: 60vw;
   }
 }
+
+.amrr-table-container table,
+.amrr-table-container table thead,
+.amrr-table-container table th,
+.amrr-table-container table td {
+  border: 1px solid #dee2e6;
+  border-collapse: collapse;
+}
+
+.mat-col-string {
+  text-align: left !important;
+  justify-content: flex-start !important;
+}
+
+.mat-col-number {
+  text-align: right !important;
+  justify-content: flex-end !important;
+}
