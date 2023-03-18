@@ -302,8 +302,8 @@ export class PdfService {
           ...rows,
           this.addRow(
             'Closing',
-            openingBags + this.bags,
-            openingQty + this.qty
+            !isInward ? openingBags + this.bags : this.bags,
+            !isInward ? openingQty + this.qty : this.qty
           ),
         ],
       },
