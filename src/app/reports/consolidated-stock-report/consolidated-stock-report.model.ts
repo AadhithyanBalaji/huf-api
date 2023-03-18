@@ -1,5 +1,6 @@
 export class ConsolidatedStockReport{
 sno: number;
+itemId: number;
 itemGroup: string;
 itemName: string;
 openingQty: number;

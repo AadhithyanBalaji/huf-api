@@ -57,8 +57,15 @@ export class ConsolidatedStockReportFormService {
   }
 
   printPdf() {
+    const reportItemIds =
+      Helper.isTruthy(this.dataSource?.data) && this.dataSource?.data.length > 0
+        ? this.dataSource.data.map((x) => x.itemId)?.join(',')
+        : '';
     this.apiBusinessService
-      .post('report/consolidatedStock/exportData', this.filters)
+      .post('report/consolidatedStock/exportData', {
+        ...this.filters,
+        reportItemIds: reportItemIds,
+      })
       .pipe(take(1))
       .subscribe((data: any) => {
         const exportData = new CSRExportData();

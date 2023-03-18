@@ -99,7 +99,7 @@ export class PdfService {
     tableRows.push(this.addRow('Total', totalBags, totalQty));
 
     return {
-      style: 'tableExample',      
+      style: 'tableExample',
       table: {
         keepWithHeaderRows: true,
         dontBreakRows: true,
@@ -152,7 +152,7 @@ export class PdfService {
       keepWithHeaderRows: true,
       dontBreakRows: true,
       style: 'tableExample',
-      
+
       table: {
         widths: ['auto', 50, 50],
         headerRows: 2,
@@ -193,7 +193,8 @@ export class PdfService {
           itemNames[i],
           itemsGroup[itemNames[i]],
           itemNames[i + 1],
-          itemsGroup[itemNames[i + 1]]
+          itemsGroup[itemNames[i + 1]],
+          isInward
         )
       );
     }
@@ -201,7 +202,10 @@ export class PdfService {
       tables.push(
         this.buildColumn(
           itemNames[itemNames.length - 1],
-          itemsGroup[itemNames[itemNames.length - 1]]
+          itemsGroup[itemNames[itemNames.length - 1]],
+          undefined,
+          undefined,
+          isInward
         )
       );
     }
@@ -231,23 +235,38 @@ export class PdfService {
     itemName: string,
     items: CSRExportRow[],
     itemName2?: string,
-    items2?: CSRExportRow[]
+    items2?: CSRExportRow[],
+    isInward = false
   ) {
     return {
       columns: [
-        this.getTransactionsTable(itemName, items),
+        this.getTransactionsTable(itemName, items, isInward),
         itemName2 !== undefined
-          ? this.getTransactionsTable(itemName2!, items2!)
+          ? this.getTransactionsTable(itemName2!, items2!, isInward)
           : {},
       ],
     };
   }
 
-  private getTransactionsTable(item: string, itemData: CSRExportRow[]) {
-    this.bags =
-      this.reportData.find((x) => x.itemName === item)?.openingBags ?? 0;
-    this.qty =
-      this.reportData.find((x) => x.itemName === item)?.openingQty ?? 0;
+  private getTransactionsTable(
+    item: string,
+    itemData: CSRExportRow[],
+    isInward: boolean
+  ) {
+    const reportItem = this.reportData.find((x) => x.itemName === item);
+    let openingBags = reportItem?.openingBags ?? 0;
+    if (!isInward) {
+      openingBags +=
+        (reportItem?.inwardBags ?? 0) + (reportItem?.gainBags ?? 0);
+    }
+
+    let openingQty = reportItem?.openingQty ?? 0;
+    if (!isInward) {
+      openingQty += (reportItem?.inwardQty ?? 0) + (reportItem?.gainQty ?? 0);
+    }
+
+    this.bags = reportItem?.openingBags ?? 0;
+    this.qty = reportItem?.openingQty ?? 0;
 
     const rows = itemData.map((a) => {
       this.bags += a.bags;
@@ -257,7 +276,7 @@ export class PdfService {
 
     return {
       style: 'tableExample',
-      
+
       table: {
         keepWithHeaderRows: true,
         dontBreakRows: true,
@@ -279,13 +298,13 @@ export class PdfService {
             { text: 'Bags', style: 'tableHeader' },
             { text: 'Quantity', style: 'tableHeader' },
           ],
-          this.addRow(
-            'Opening',
-            this.reportData.find((x) => x.itemName === item)?.openingBags ?? 0,
-            this.reportData.find((x) => x.itemName === item)?.openingQty ?? 0
-          ),
+          this.addRow('Opening', openingBags, openingQty),
           ...rows,
-          this.addRow('Closing', this.bags, this.qty),
+          this.addRow(
+            'Closing',
+            openingBags + this.bags,
+            openingQty + this.qty
+          ),
         ],
       },
     };
