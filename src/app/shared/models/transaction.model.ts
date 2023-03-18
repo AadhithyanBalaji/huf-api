@@ -13,6 +13,7 @@ export class Transaction {
   remarks: string;
   verifiedBy: string;
   transactionDate: Date;
+  transactionDateString: string; // to avoid date conversion while passing to API
   createdByUserId: number;
   createdBy: string;
   updatedByUserId:number;

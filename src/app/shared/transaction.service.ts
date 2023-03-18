@@ -101,21 +101,31 @@ export class TransactionService {
     form: FormGroup
   ) {
     this.saving = true;
+    transaction.transactionDateString =
+      this.datePipe.transform(
+        new Date(new Date(transaction.transactionDate).setHours(0, 0, 0, 0)),
+        'YYYY-MM-dd HH:mm:ss'
+      ) ?? '';
     this.apiBusinessService
       .post('stock', transaction)
       .pipe(take(1))
-      .subscribe((_) => {
-        this.displaySuccessToast(transaction.transactionId);
-        if (stayOnPage) {
-          this.router.navigate([]);
-          this.formHelperService.resetForm(form);
-          this.transactionBatchService.setupGrid([]);
-          this.requestTransactionInfo(NaN, transaction.transactionTypeId);
-        } else {
-          this.router.navigate([routeKey]);
+      .subscribe(
+        (_) => {
+          this.displaySuccessToast(transaction.transactionId);
+          if (stayOnPage) {
+            this.router.navigate([]);
+            this.formHelperService.resetForm(form);
+            this.transactionBatchService.setupGrid([]);
+            this.requestTransactionInfo(NaN, transaction.transactionTypeId);
+          } else {
+            this.router.navigate([routeKey]);
+          }
+          this.saving = false;
+        },
+        (error) => {
+          this.saving = false;
         }
-        this.saving = false;
-      });
+      );
   }
 
   delete(transaction: Transaction) {
