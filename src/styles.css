@@ -46,7 +46,7 @@ a {
 }
 
 .route-active {
-  background-color: lightgray;
+  background-color: lightgray !important;
 }
 
 .grid-container {
@@ -238,4 +238,14 @@ mat-card-header {
   align-items: center;
   gap: 15px;
   margin: 0 15px;
+}
+
+mat-list-item span {
+  font-size: 16px !important;
+  font-weight: 500 !important;
+  color: rgba(0, 0, 0, 0.54) !important;
+}
+
+.mat-expansion-panel-header-description {
+  font-size: 16px !important;
 }

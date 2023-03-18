@@ -19,12 +19,12 @@
                         </mat-panel-description>
                     </mat-expansion-panel-header>
                     <mat-selection-list #shoes [multiple]="false">
-                        <mat-list-item role="listitem" routerLinkActive="route-active"><a
-                                [routerLink]="['stockInward']">Inward</a></mat-list-item>
-                        <mat-list-item role="listitem" routerLinkActive="route-active"><a
-                                [routerLink]="['stockOutward']">Outward</a></mat-list-item>
-                        <mat-list-item role="listitem" routerLinkActive="route-active"><a
-                                [routerLink]="['stockAdjustment']">Adjustment</a></mat-list-item>
+                        <a [routerLink]="['stockInward']"><mat-list-item role="listitem"
+                                routerLinkActive="route-active">Inward</mat-list-item></a>
+                        <a [routerLink]="['stockOutward']"><mat-list-item role="listitem"
+                                routerLinkActive="route-active">Outward</mat-list-item></a>
+                        <a [routerLink]="['stockAdjustment']"><mat-list-item role="listitem"
+                                routerLinkActive="route-active">Adjustment</mat-list-item></a>
                     </mat-selection-list>
                 </mat-expansion-panel>
                 <mat-expansion-panel *ngIf="authService.isLoggedInUserAdmin()">
@@ -45,26 +45,26 @@
                                     <mat-panel-description> Masters </mat-panel-description>
                                 </mat-expansion-panel-header>
                                 <mat-selection-list>
-                                    <mat-list-item role="listitem" routerLinkActive="route-active"><a
-                                            [routerLink]="['itemGroup']">Item
-                                            Group</a></mat-list-item>
-                                    <mat-list-item role="listitem" routerLinkActive="route-active"><a
-                                            [routerLink]="['item']">Item</a></mat-list-item>
-                                    <mat-list-item role="listitem" routerLinkActive="route-active"><a
-                                            [routerLink]="['godown']">Godown</a></mat-list-item>
-                                    <mat-list-item role="listitem" routerLinkActive="route-active"><a
-                                            [routerLink]="['bay']">Bay</a></mat-list-item>
-                                    <mat-list-item role="listitem" routerLinkActive="route-active"><a
-                                            [routerLink]="['user']">User
-                                            Management</a></mat-list-item>
-                                    <mat-list-item role="listitem" routerLinkActive="route-active"><a
-                                            [routerLink]="['accessLogs']">Access logs</a></mat-list-item>
+                                    <a [routerLink]="['itemGroup']">
+                                        <mat-list-item role="listitem" routerLinkActive="route-active">Item
+                                            Group</mat-list-item></a>
+                                    <a [routerLink]="['item']"><mat-list-item role="listitem"
+                                            routerLinkActive="route-active">Item</mat-list-item></a>
+                                    <a [routerLink]="['godown']"><mat-list-item role="listitem"
+                                            routerLinkActive="route-active">Godown</mat-list-item></a>
+                                    <a [routerLink]="['bay']"><mat-list-item role="listitem"
+                                            routerLinkActive="route-active">Bay</mat-list-item></a>
+                                    <a [routerLink]="['user']"><mat-list-item role="listitem"
+                                            routerLinkActive="route-active">User
+                                            Management</mat-list-item></a>
+                                    <a [routerLink]="['accessLogs']"><mat-list-item role="listitem"
+                                            routerLinkActive="route-active">Access logs</mat-list-item></a>
                                 </mat-selection-list>
                             </mat-expansion-panel>
                         </mat-list-item>
-                        <mat-list-item role="listitem" routerLinkActive="route-active"><a
-                                [routerLink]="['changePassword']">Change Password</a></mat-list-item>
-                        <mat-list-item role="listitem"><a href="#">Settings</a></mat-list-item>
+                        <a [routerLink]="['changePassword']"><mat-list-item role="listitem"
+                                routerLinkActive="route-active">Change Password</mat-list-item></a>
+                        <a href="#"><mat-list-item role="listitem">Settings</mat-list-item></a>
                     </mat-selection-list>
                 </mat-expansion-panel>
                 <mat-expansion-panel>
@@ -77,17 +77,17 @@
                         </mat-panel-description>
                     </mat-expansion-panel-header>
                     <mat-selection-list #shoes [multiple]="false">
-                        <mat-list-item role="listitem" routerLinkActive="route-active"><a
-                                [routerLink]="['reports','consolidatedStock']">Consolidated
-                                Stock</a></mat-list-item>
-                        <mat-list-item role="listitem" routerLinkActive="route-active"><a
-                                [routerLink]="['reports','batchwiseStock']">Batchwise Stock</a></mat-list-item>
-                        <mat-list-item role="listitem" routerLinkActive="route-active"><a
-                                [routerLink]="['reports','itemMovement']">Item Movement
-                                Analysis</a></mat-list-item>
-                        <mat-list-item role="listitem" *ngIf="authService.isLoggedInUserAdmin()"
-                            routerLinkActive="route-active"><a [routerLink]="['reports','allTransactions']">All
-                                Transactions</a></mat-list-item>
+                        <a [routerLink]="['reports','consolidatedStock']"><mat-list-item role="listitem"
+                                routerLinkActive="route-active">Consolidated
+                                Stock</mat-list-item></a>
+                        <a [routerLink]="['reports','batchwiseStock']"><mat-list-item role="listitem"
+                                routerLinkActive="route-active">Batchwise Stock</mat-list-item></a>
+                        <a [routerLink]="['reports','itemMovement']"><mat-list-item role="listitem"
+                                routerLinkActive="route-active">Item Movement
+                                Analysis</mat-list-item></a>
+                        <a [routerLink]="['reports','allTransactions']"><mat-list-item role="listitem"
+                                *ngIf="authService.isLoggedInUserAdmin()" routerLinkActive="route-active">All
+                                Transactions</mat-list-item></a>
                     </mat-selection-list>
                 </mat-expansion-panel>
                 <mat-expansion-panel [hideToggle]="true" (click)="logOut()">
