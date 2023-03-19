@@ -370,7 +370,7 @@ export class PdfService {
         alignment: 'right',
       },
       {
-        text: this.decimalPipe.transform(Math.abs(qty), '1.4-4'),
+        text: this.decimalPipe.transform(Math.abs(qty), '1.2-2'),
         style:
           col1 === 'Opening' || col1 === 'Closing' ? 'closingCell' : 'dataCell',
         alignment: 'right',

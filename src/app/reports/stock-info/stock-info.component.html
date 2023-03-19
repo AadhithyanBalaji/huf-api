@@ -1,6 +1,6 @@
 <div>
     <div [ngClass]="{'green': customClass === 'g', 'red': customClass === 'r'}">
-        <div *ngIf="qty >= 0">{{qty | number:'1.4-4'}}</div>
+        <div *ngIf="qty >= 0">{{qty | number:'1.2-2'}}</div>
         <div *ngIf="bags >= 0"><i>{{bags}}&nbsp;Bags</i></div>
     </div>
     <div *ngIf="date">{{date | date: 'dd/MM/yyyy'}}</div>

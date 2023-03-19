@@ -1,3 +1,4 @@
+import { DecimalPipe } from '@angular/common';
 import {
   Component,
   EventEmitter,
@@ -37,6 +38,8 @@ export class AmmrGridComponent implements OnChanges {
 
   GridColumnType = GridColumnType;
 
+  constructor(private readonly decimalPipe: DecimalPipe) {}
+
   ngOnChanges() {
     if (this.dataSource) {
       this.dataSource.paginator = this.paginator;
@@ -58,6 +61,12 @@ export class AmmrGridComponent implements OnChanges {
     return Helper.isTruthy(this.columns) && this.columns.length > 0
       ? this.columns.filter((col) => !col.hidden).map((col) => col.key)
       : this.columns;
+  }
+
+  getFormattedNumber(col: IAmmrGridColumn, row: any) {
+    return col.key === 'qty'
+      ? this.decimalPipe.transform(row[col.key], '1.2-2')
+      : row[col.key];
   }
 
   onEditClicked(event: any) {
