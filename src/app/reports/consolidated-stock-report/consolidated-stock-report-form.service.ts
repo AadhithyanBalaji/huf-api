@@ -31,8 +31,8 @@ export class ConsolidatedStockReportFormService {
   filters: AmrrReportFilters;
 
   constructor(
-    private readonly apiBusinessService: ApiBusinessService,
-    private readonly pdfService: PdfService
+    readonly pdfService: PdfService,
+    private readonly apiBusinessService: ApiBusinessService
   ) {}
 
   init(sort: MatSort) {
@@ -61,6 +61,7 @@ export class ConsolidatedStockReportFormService {
       Helper.isTruthy(this.dataSource?.data) && this.dataSource?.data.length > 0
         ? this.dataSource.data.map((x) => x.itemId)?.join(',')
         : '';
+    this.pdfService.exporting = true;
     this.apiBusinessService
       .post('report/consolidatedStock/exportData', {
         ...this.filters,

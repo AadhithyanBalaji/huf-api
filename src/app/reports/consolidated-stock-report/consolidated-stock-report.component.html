@@ -3,7 +3,7 @@
     <div class="grid-container">
         <app-amrr-report-filters [showCheckBox]="true" [checkBoxText]="'Show Nil Stock'"
             (onViewClicked)="formService.getData($event)"></app-amrr-report-filters>
-        <app-amrr-download-menu (onPdfClicked)="formService.printPdf()"></app-amrr-download-menu>
+        <app-amrr-download-menu [loading]="formService.pdfService.exporting" (onPdfClicked)="formService.printPdf()"></app-amrr-download-menu>
         <mat-divider></mat-divider>
         <div class="amrr-table-container">
             <div *ngIf="formService.loading" class="grid-spinner">

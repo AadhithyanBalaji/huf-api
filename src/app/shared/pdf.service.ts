@@ -15,6 +15,7 @@ export class PdfService {
   itemGroups: any[] = [];
   bags = 0;
   qty = 0;
+  exporting = false;
 
   constructor(
     private readonly decimalPipe: DecimalPipe,
@@ -28,9 +29,11 @@ export class PdfService {
       Helper.isTruthy(data.reportData) &&
       data.reportData.length > 0
     ) {
+      this.exporting = true;
       this.reportData = data.reportData;
       const documentDefinition = this.getCSRContent(data);
       pdfMake.createPdf(documentDefinition as any).open();
+      this.exporting = false;
     } else {
       this.snackBar.open('No data to export');
     }
@@ -153,10 +156,10 @@ export class PdfService {
             {
               text: 'Item Group',
               style: 'tableHeader',
-              alignment: 'center',
+              alignment: 'left',
             },
-            { text: 'Bags', style: 'tableHeader' },
-            { text: 'Qty', style: 'tableHeader' },
+            { text: 'Bags', style: 'tableHeader', alignment: 'right' },
+            { text: 'Qty', style: 'tableHeader', alignment: 'right' },
           ],
           ...tableRows,
         ],
@@ -213,10 +216,10 @@ export class PdfService {
             {
               text: 'Item',
               style: 'tableHeader',
-              alignment: 'center',
+              alignment: 'left',
             },
-            { text: 'Bags', style: 'tableHeader' },
-            { text: 'Qty', style: 'tableHeader' },
+            { text: 'Bags', style: 'tableHeader', alignment: 'right' },
+            { text: 'Qty', style: 'tableHeader', alignment: 'right' },
           ],
           ...tableRows,
         ],
@@ -337,8 +340,8 @@ export class PdfService {
           ],
           [
             { text: '', style: 'tableHeader' },
-            { text: 'Bags', style: 'tableHeader' },
-            { text: 'Quantity', style: 'tableHeader' },
+            { text: 'Bags', style: 'tableHeader', alignment: 'right' },
+            { text: 'Quantity', style: 'tableHeader', alignment: 'right' },
           ],
           this.addRow('Opening', openingBags, openingQty),
           ...rows,
@@ -358,7 +361,7 @@ export class PdfService {
         text: col1,
         style:
           col1 === 'Opening' || col1 === 'Closing' ? 'closingCell' : 'dataCell',
-        alignment: 'center',
+        alignment: 'left',
       },
       {
         text: this.decimalPipe.transform(Math.abs(bags), '1.0-0'),

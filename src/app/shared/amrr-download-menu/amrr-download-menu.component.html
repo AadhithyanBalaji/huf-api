@@ -1,7 +1,9 @@
 <div class="export-container">
-    <button mat-flat-button color="primary" [matMenuTriggerFor]="menu">Download</button>
+    <button mat-flat-button color="primary" [matMenuTriggerFor]="menu" [disabled]="loading"> Download
+    </button>
     <mat-menu #menu="matMenu">
         <button mat-menu-item (click)="exportAsPdf()">PDF</button>
         <button mat-menu-item (click)="exportAsExcel()">Excel</button>
     </mat-menu>
+    <mat-spinner *ngIf="loading" [diameter]="30"></mat-spinner>
 </div>

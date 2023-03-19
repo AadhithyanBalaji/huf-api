@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Output } from '@angular/core';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
 
 @Component({
   selector: 'app-amrr-download-menu',
@@ -6,6 +6,7 @@ import { Component, EventEmitter, Output } from '@angular/core';
   styleUrls: ['./amrr-download-menu.component.css'],
 })
 export class AmrrDownloadMenuComponent {
+  @Input() loading = false;
   @Output() onPdfClicked = new EventEmitter<any>();
   @Output() onExcelClicked = new EventEmitter<any>();
 
