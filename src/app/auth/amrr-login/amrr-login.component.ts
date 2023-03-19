@@ -15,8 +15,12 @@ export class AmrrLoginComponent {
       Validators.maxLength(20),
     ]),
   });
+  isAutoLogout: boolean;
 
-  constructor(private readonly authService: AuthService) {}
+  constructor(private readonly authService: AuthService) {
+    this.isAutoLogout = localStorage.getItem('autoLogOff') === 'true' ?? false;
+    localStorage.setItem('autoLogOff', 'false');
+  }
 
   login() {
     if (this.loginForm.dirty && this.loginForm.valid) {

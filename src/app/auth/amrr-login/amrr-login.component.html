@@ -13,6 +13,8 @@
                         <mat-icon color="primary" matSuffix>lock</mat-icon>
                     </mat-form-field>
                 </div>
+                <div *ngIf="isAutoLogout" class="display: flex; justify-content: center">You have been logged out
+                    automatically due to inactivity!</div>
             </mat-card-content>
             <div class="actions-container">
                 <button mat-raised-button color="primary" (click)="login()">Log in</button>

@@ -5,7 +5,7 @@
                 <img class="logo" src="../assets/images/amrr-logo.jpg" alt="company-logo">
             </div>
             <div class="welcome-message center-align dp">
-                <h3>Welcome, {{authService.authData && authService.authData.userName!}}!</h3>
+                <h3>Welcome, {{authService.getUserName()}}!</h3>
             </div>
             <div class="menu-container">
                 <mat-expansion-panel>

@@ -7,19 +7,18 @@ import { ApiBusinessService } from 'src/app/shared/api-business.service';
 import Helper from 'src/app/shared/helper';
 import { AmrrModalComponent } from '../shared/amrr-modal/amrr-modal.component';
 import { AuthData } from './auth-data.model';
+import { AutoLogoutService } from './auto-logout.service';
 
 @Injectable({
   providedIn: 'root',
 })
 export class AuthService {
-  authData: AuthData;
-  isAuthenticated = false;
-
   constructor(
     private readonly router: Router,
     private readonly apiBusinessService: ApiBusinessService,
     private readonly snackBar: MatSnackBar,
-    private readonly dialog: MatDialog
+    private readonly dialog: MatDialog,
+    private readonly autoLogoutService: AutoLogoutService
   ) {
     this.isLoggedIn();
   }
@@ -32,16 +31,17 @@ export class AuthService {
         (res: any) => {
           if (res.success) {
             this.setIsAuthenticated(true);
-            this.authData = new AuthData();
-            this.authData.userId = +res.data.userId;
-            this.authData.isAdmin =
+            const authData = new AuthData();
+            authData.userId = +res.data.userId;
+            authData.isAdmin =
               Helper.isTruthy(res.data.isAdmin) && res.data.isAdmin === '1';
-            this.authData.userName = res.data.userName;
-            localStorage.setItem('authData', JSON.stringify(this.authData));
+            authData.userName = res.data.userName;
+            localStorage.setItem('authData', JSON.stringify(authData));
             this.router.navigate(['stockInward']);
           } else {
             this.router.navigate(['login']);
           }
+          this.autoLogoutService.init();
         },
         (error) => {
           this.displaySnackBar(error?.error?.message);
@@ -50,19 +50,16 @@ export class AuthService {
   }
 
   isLoggedIn() {
-    const authData = localStorage.getItem('authData');
     const storedIsAuthenticated = localStorage.getItem('isAuthenticated');
-    this.isAuthenticated =
-      Helper.isTruthy(storedIsAuthenticated) && storedIsAuthenticated === '1';
-    if (Helper.isTruthy(authData) && authData != '') {
-      this.authData = JSON.parse(authData!);
-    }
-    return this.isAuthenticated;
+    return (
+      Helper.isTruthy(storedIsAuthenticated) && storedIsAuthenticated === '1'
+    );
   }
 
   logOut(force = false) {
     if (force) {
       this.performLogout();
+      this.autoLogoutService.clearTimers();
     } else {
       this.dialog
         .open(AmrrModalComponent, {
@@ -100,40 +97,41 @@ export class AuthService {
   }
 
   getUserId(): number {
-    if (Helper.isTruthy(this.authData.userId)) return this.authData.userId;
-    const authData = localStorage.getItem('authData');
-    if (Helper.isTruthy(authData) && authData != '') {
-      const data = JSON.parse(authData!) as AuthData;
-      return data?.userId;
-    }
-    throw new Error('User Id not found in cache');
+    return this.getUser()?.userId ?? 0;
+  }
+
+  getUserName(): string {
+    return this.getUser()?.userName ?? '';
   }
 
   isLoggedInUserAdmin(): boolean {
-    if (Helper.isTruthy(this.authData.userId)) return this.authData.isAdmin;
+    return this.getUser()?.isAdmin ?? false;
+  }
+
+  private getUser() {
     const authData = localStorage.getItem('authData');
     if (Helper.isTruthy(authData) && authData != '') {
-      const data = JSON.parse(authData!) as AuthData;
-      return data?.isAdmin;
+      return JSON.parse(authData!) as AuthData;
     }
-    throw new Error('User Id not found in cache');
+    this.logOut(true);
+    return null;
   }
 
   private setIsAuthenticated(isAuthenticated: boolean) {
     localStorage.setItem('isAuthenticated', isAuthenticated ? '1' : '0');
-    this.isAuthenticated = isAuthenticated;
   }
 
   private performLogout() {
+    const userId = this.getUserId();
     this.apiBusinessService
-      .get(`auth/logout/${this.authData.userId}`)
+      .get(`auth/logout/${userId}`)
       .pipe(take(1))
       .subscribe((res: any) => {
         this.displaySnackBar('Logged out');
+        this.setIsAuthenticated(false);
+        localStorage.setItem('authData', '');
+        this.router.navigate(['login']);
       });
-    this.setIsAuthenticated(false);
-    localStorage.setItem('authData', '');
-    this.router.navigate(['login']);
   }
 
   private displaySnackBar(msg: string) {
