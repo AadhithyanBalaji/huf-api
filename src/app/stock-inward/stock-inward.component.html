@@ -2,10 +2,12 @@
     <app-amrr-page-header [title]="'Stock Inward'"
         (onActionClicked)="formService.navigateToAddInward()"></app-amrr-page-header>
     <div class="grid-container">
-        <app-amrr-report-filters [transactionTypeId]="1" (onViewClicked)="formService.getData($event)"></app-amrr-report-filters>
+        <app-amrr-report-filters [transactionTypeId]="1"
+            (onViewClicked)="formService.getData($event)"></app-amrr-report-filters>
         <mat-divider></mat-divider>
-        <app-ammr-grid [columns]="formService.columns" [dataSource]="formService.dataSource" [loading]="formService.loading"
-            (onEdit)="formService.edit($event)" (onDelete)="formService.delete($event)"></app-ammr-grid>
+        <app-ammr-grid [columns]="formService.columns" [dataSource]="formService.dataSource"
+            [loading]="formService.loading" (onEdit)="formService.edit($event)"
+            (onDelete)="formService.delete($event)"></app-ammr-grid>
     </div>
 </div>
 <ng-template #invoiceDetailsTemplate let-row="row">
@@ -13,5 +15,11 @@
         <div> {{row['partyName']}} </div>
         <div> {{row['invoiceNo'] ? '#' + row['invoiceNo'] : row['invoiceNo']}} </div>
         <div> {{row['vehicleName']}} </div>
+    </div>
+</ng-template>
+<ng-template #dateTemplate let-row="row">
+    <div>
+        <div> {{row['inwardDate'] | date : 'dd/MM/yyyy'}} </div>
+        <div> {{row['transactionId'] ? '#' + row['transactionId'] : row['transactionId']}} </div>
     </div>
 </ng-template>

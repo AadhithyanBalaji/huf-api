@@ -24,8 +24,11 @@ export class StockInwardFormService {
     });
   }
 
-  init(invoiceDetailsTemplate: TemplateRef<any>) {
-    this.columns = this.getColumns(invoiceDetailsTemplate);
+  init(
+    invoiceDetailsTemplate: TemplateRef<any>,
+    dateTemplate: TemplateRef<any>
+  ) {
+    this.columns = this.getColumns(invoiceDetailsTemplate, dateTemplate);
   }
 
   getData(transactionFilters: AmrrReportFilters) {
@@ -52,7 +55,8 @@ export class StockInwardFormService {
   }
 
   private getColumns(
-    invoiceDetailsTemplate: TemplateRef<any>
+    invoiceDetailsTemplate: TemplateRef<any>,
+    dateTemplate: TemplateRef<any>
   ): IAmmrGridColumn[] {
     return [
       {
@@ -60,18 +64,15 @@ export class StockInwardFormService {
         name: 'S.No.',
       },
       {
-        key: Helper.nameof<StockInward>('transactionId'),
-        name: 'Transaction No.',
-      },
-      {
         key: Helper.nameof<StockInward>('inwardDate'),
         name: 'Inward Date',
-        type: GridColumnType.Date,
+        template: dateTemplate,
+        type: GridColumnType.Template,
       },
       {
         key: Helper.nameof<StockInward>('godown'),
         name: 'Godown',
-        type: GridColumnType.String
+        type: GridColumnType.String,
       },
       {
         key: Helper.nameof<StockInward>('partyName'),
@@ -82,27 +83,27 @@ export class StockInwardFormService {
       {
         key: Helper.nameof<StockInward>('items'),
         name: 'Items',
-        type: GridColumnType.String
+        type: GridColumnType.String,
       },
       {
         key: Helper.nameof<StockInward>('bags'),
         name: 'No. of Bags',
-        type: GridColumnType.Number
+        type: GridColumnType.Number,
       },
       {
         key: Helper.nameof<StockInward>('qty'),
         name: 'Qty',
-        type: GridColumnType.Number
+        type: GridColumnType.Number,
       },
       {
         key: Helper.nameof<StockInward>('createdBy'),
         name: 'Created By',
-        type: GridColumnType.String
+        type: GridColumnType.String,
       },
       {
         key: Helper.nameof<StockInward>('updatedBy'),
         name: 'Updated By',
-        type: GridColumnType.String
+        type: GridColumnType.String,
       },
     ];
   }

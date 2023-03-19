@@ -1,7 +1,4 @@
 import { Component, OnInit, TemplateRef, ViewChild } from '@angular/core';
-import { FormGroup, FormControl } from '@angular/forms';
-import { MatTableDataSource } from '@angular/material/table';
-import { map, Observable, startWith } from 'rxjs';
 import { StockInwardFormService } from './stock-inward-form.service';
 
 @Component({
@@ -13,10 +10,12 @@ import { StockInwardFormService } from './stock-inward-form.service';
 export class StockInwardComponent implements OnInit {
   @ViewChild('invoiceDetailsTemplate', { static: true })
   invoiceDetailsTemplate: TemplateRef<any>;
+  @ViewChild('dateTemplate', { static: true })
+  dateTemplate: TemplateRef<any>;
 
   constructor(readonly formService: StockInwardFormService) {}
 
   ngOnInit(): void {
-    this.formService.init(this.invoiceDetailsTemplate);
+    this.formService.init(this.invoiceDetailsTemplate, this.dateTemplate);
   }
 }

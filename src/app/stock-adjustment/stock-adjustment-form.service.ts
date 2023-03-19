@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { Injectable, TemplateRef } from '@angular/core';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatTableDataSource } from '@angular/material/table';
 import {
@@ -25,8 +25,8 @@ export class StockAdjustmentFormService {
     });
   }
 
-  init() {
-    this.columns = this.getColumns();
+  init(dateTemplate: TemplateRef<any>) {
+    this.columns = this.getColumns(dateTemplate);
   }
 
   getData(transactionFilters: AmrrReportFilters) {
@@ -52,20 +52,17 @@ export class StockAdjustmentFormService {
     this.transactionService.delete(transaction);
   }
 
-  private getColumns(): IAmmrGridColumn[] {
+  private getColumns(dateTemplate: TemplateRef<any>): IAmmrGridColumn[] {
     return [
       {
         key: Helper.nameof<StockAdjustment>('sno'),
         name: 'S.No.',
       },
       {
-        key: Helper.nameof<StockAdjustment>('transactionId'),
-        name: 'Transaction No',
-      },
-      {
         key: Helper.nameof<StockAdjustment>('inwardDate'),
         name: 'Transaction Date',
-        type: GridColumnType.Date,
+        template: dateTemplate,
+        type: GridColumnType.Template,
       },
       {
         key: Helper.nameof<StockAdjustment>('godown'),

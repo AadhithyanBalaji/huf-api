@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, TemplateRef, ViewChild } from '@angular/core';
 import { StockAdjustmentFormService } from './stock-adjustment-form.service';
 
 @Component({
@@ -8,9 +8,11 @@ import { StockAdjustmentFormService } from './stock-adjustment-form.service';
   providers: [StockAdjustmentFormService],
 })
 export class StockAdjustmentComponent implements OnInit {
+  @ViewChild('dateTemplate', { static: true })
+  dateTemplate: TemplateRef<any>;
   constructor(readonly formService: StockAdjustmentFormService) {}
 
   ngOnInit(): void {
-    this.formService.init();
+    this.formService.init(this.dateTemplate);
   }
 }
