@@ -47,7 +47,9 @@
             </mat-card>
         </div>
         <mat-divider></mat-divider>
-        <app-amrr-action-row [loading]="formService.transactionService.saving" (add)="formService.addTransaction()"
-            (addAndClose)="formService.addTransactionAndClose()" (close)="formService.cancel()"></app-amrr-action-row>
+        <app-amrr-action-row [loading]="formService.transactionService.saving"
+            [isUpdateMode]="(formService.form.controls.transactionId.value ?? 0)> 0"
+            (add)="formService.addTransaction()" (addAndClose)="formService.addTransactionAndClose()"
+            (close)="formService.cancel()"></app-amrr-action-row>
     </form>
 </div>

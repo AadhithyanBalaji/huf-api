@@ -237,7 +237,7 @@ mat-card-header {
   display: flex;
   align-items: center;
   gap: 15px;
-  margin: 0 15px;
+  margin: 0 50px;
 }
 
 mat-list-item span {

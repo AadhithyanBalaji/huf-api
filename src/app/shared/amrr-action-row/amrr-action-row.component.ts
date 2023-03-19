@@ -6,7 +6,8 @@ import { Component, EventEmitter, Input, Output } from '@angular/core';
   styleUrls: ['./amrr-action-row.component.css'],
 })
 export class AmrrActionRowComponent {
-  @Input() loading = false;
+  @Input() loading = true;
+  @Input() isUpdateMode = false;
   @Output() add = new EventEmitter<any>();
   @Output() addAndClose = new EventEmitter<any>();
   @Output() close = new EventEmitter<any>();
