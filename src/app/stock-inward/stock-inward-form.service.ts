@@ -26,9 +26,14 @@ export class StockInwardFormService {
 
   init(
     invoiceDetailsTemplate: TemplateRef<any>,
-    dateTemplate: TemplateRef<any>
+    dateTemplate: TemplateRef<any>,
+    userTemplate: TemplateRef<any>
   ) {
-    this.columns = this.getColumns(invoiceDetailsTemplate, dateTemplate);
+    this.columns = this.getColumns(
+      invoiceDetailsTemplate,
+      dateTemplate,
+      userTemplate
+    );
   }
 
   getData(transactionFilters: AmrrReportFilters) {
@@ -56,7 +61,8 @@ export class StockInwardFormService {
 
   private getColumns(
     invoiceDetailsTemplate: TemplateRef<any>,
-    dateTemplate: TemplateRef<any>
+    dateTemplate: TemplateRef<any>,
+    userTemplate: TemplateRef<any>
   ): IAmmrGridColumn[] {
     return [
       {
@@ -98,13 +104,9 @@ export class StockInwardFormService {
       },
       {
         key: Helper.nameof<StockInward>('createdBy'),
-        name: 'Created By',
-        type: GridColumnType.String,
-      },
-      {
-        key: Helper.nameof<StockInward>('updatedBy'),
-        name: 'Updated By',
-        type: GridColumnType.String,
+        name: 'User',
+        type: GridColumnType.Template,
+        template: userTemplate,
       },
     ];
   }

@@ -25,8 +25,8 @@ export class StockAdjustmentFormService {
     });
   }
 
-  init(dateTemplate: TemplateRef<any>) {
-    this.columns = this.getColumns(dateTemplate);
+  init(dateTemplate: TemplateRef<any>, userTemplate: TemplateRef<any>) {
+    this.columns = this.getColumns(dateTemplate, userTemplate);
   }
 
   getData(transactionFilters: AmrrReportFilters) {
@@ -52,7 +52,7 @@ export class StockAdjustmentFormService {
     this.transactionService.delete(transaction);
   }
 
-  private getColumns(dateTemplate: TemplateRef<any>): IAmmrGridColumn[] {
+  private getColumns(dateTemplate: TemplateRef<any>, userTemplate: TemplateRef<any>): IAmmrGridColumn[] {
     return [
       {
         key: Helper.nameof<StockAdjustment>('sno'),
@@ -77,14 +77,10 @@ export class StockAdjustmentFormService {
       },
       {
         key: Helper.nameof<StockAdjustment>('createdBy'),
-        name: 'Created By',
-        type: GridColumnType.String
-      },
-      {
-        key: Helper.nameof<StockAdjustment>('updatedBy'),
-        name: 'Updated By',
-        type: GridColumnType.String
-      },
+        name: 'User',
+        type: GridColumnType.Template,
+        template: userTemplate
+      }
     ];
   }
 }

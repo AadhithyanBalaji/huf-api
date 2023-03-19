@@ -15,3 +15,9 @@
         <div> {{row['transactionId'] ? '#' + row['transactionId'] : row['transactionId']}} </div>
     </div>
 </ng-template>
+<ng-template #userTemplate let-row="row">
+    <div class="user-info-div">
+        <div class="user-chip bg-green">{{row['createdBy']}}</div>
+        <div class="user-chip bg-blue" *ngIf="row['updatedBy']">{{row['updatedBy']}}</div>
+    </div>
+</ng-template>

@@ -12,10 +12,16 @@ export class StockInwardComponent implements OnInit {
   invoiceDetailsTemplate: TemplateRef<any>;
   @ViewChild('dateTemplate', { static: true })
   dateTemplate: TemplateRef<any>;
+  @ViewChild('userTemplate', { static: true })
+  userTemplate: TemplateRef<any>;
 
   constructor(readonly formService: StockInwardFormService) {}
 
   ngOnInit(): void {
-    this.formService.init(this.invoiceDetailsTemplate, this.dateTemplate);
+    this.formService.init(
+      this.invoiceDetailsTemplate,
+      this.dateTemplate,
+      this.userTemplate
+    );
   }
 }

@@ -10,9 +10,12 @@ import { StockAdjustmentFormService } from './stock-adjustment-form.service';
 export class StockAdjustmentComponent implements OnInit {
   @ViewChild('dateTemplate', { static: true })
   dateTemplate: TemplateRef<any>;
+  @ViewChild('userTemplate', { static: true })
+  userTemplate: TemplateRef<any>;
+
   constructor(readonly formService: StockAdjustmentFormService) {}
 
   ngOnInit(): void {
-    this.formService.init(this.dateTemplate);
+    this.formService.init(this.dateTemplate, this.userTemplate);
   }
 }

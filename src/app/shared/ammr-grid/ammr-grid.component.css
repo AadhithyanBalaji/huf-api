@@ -54,3 +54,19 @@ table {
   text-align: right !important;
   justify-content: flex-end !important;
 }
+
+.editBtn {
+  color: #393399;
+}
+
+.deleteBtn {
+  color: #ff0000;
+}
+
+.mat-column-options {
+  width: 20px;
+}
+
+.mat-column-createdBy {
+  max-width: 200px;
+}

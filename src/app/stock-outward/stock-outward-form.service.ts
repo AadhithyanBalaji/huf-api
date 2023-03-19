@@ -26,8 +26,16 @@ export class StockOutwardFormService {
     });
   }
 
-  init(partyNameTemplate: TemplateRef<any>, dateTemplate: TemplateRef<any>) {
-    this.columns = this.getColumns(partyNameTemplate, dateTemplate);
+  init(
+    partyNameTemplate: TemplateRef<any>,
+    dateTemplate: TemplateRef<any>,
+    userTemplate: TemplateRef<any>
+  ) {
+    this.columns = this.getColumns(
+      partyNameTemplate,
+      dateTemplate,
+      userTemplate
+    );
   }
 
   getData(transactionFilters: AmrrReportFilters) {
@@ -55,7 +63,8 @@ export class StockOutwardFormService {
 
   private getColumns(
     partyNameTemplate: TemplateRef<any>,
-    dateTemplate: TemplateRef<any>
+    dateTemplate: TemplateRef<any>,
+    userTemplate: TemplateRef<any>
   ): IAmmrGridColumn[] {
     return [
       {
@@ -97,13 +106,9 @@ export class StockOutwardFormService {
       },
       {
         key: Helper.nameof<StockOutward>('createdBy'),
-        name: 'Created By',
-        type: GridColumnType.String,
-      },
-      {
-        key: Helper.nameof<StockOutward>('updatedBy'),
-        name: 'Updated By',
-        type: GridColumnType.String,
+        name: 'User',
+        type: GridColumnType.Template,
+        template: userTemplate,
       },
     ];
   }

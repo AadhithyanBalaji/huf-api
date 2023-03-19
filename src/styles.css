@@ -250,10 +250,40 @@ mat-list-item span {
   font-size: 16px !important;
 }
 
+.amrr-table-container table th {
+  font-weight: bold !important;
+}
+
 .amrr-table-container table,
 .amrr-table-container table thead,
 .amrr-table-container table th,
 .amrr-table-container table td {
   border: 1px solid #dee2e6;
   border-collapse: collapse;
+  font-size: 15px;
+}
+
+.user-info-div {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+  padding: 15px 0;
+  max-width: 100px;
+}
+
+.user-chip {
+  border-radius: 20px;
+  color: white;
+  padding: 4px;
+  text-align: center;
+  font-size: 15px;
+  word-break: break-word;
+}
+
+.bg-green {
+  background-color: #28a745;
+}
+
+.bg-blue {
+  background-color: #0043ff;
 }
