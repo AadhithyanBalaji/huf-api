@@ -9,9 +9,10 @@ export class IAmmrGridColumn {
 }
 
 export enum GridColumnType {
-  Number = 1,
-  String = 2,
-  Template = 3,
-  Boolean = 4,
-  Date = 5,
+  Sno = 1,
+  Number = 2,
+  String = 3,
+  Template = 4,
+  Boolean = 5,
+  Date = 6,
 }

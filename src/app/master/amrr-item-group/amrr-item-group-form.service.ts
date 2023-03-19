@@ -3,7 +3,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatTableDataSource } from '@angular/material/table';
 import { take } from 'rxjs';
-import { IAmmrGridColumn } from 'src/app/shared/ammr-grid/ammr-grid-column.interface';
+import { GridColumnType, IAmmrGridColumn } from 'src/app/shared/ammr-grid/ammr-grid-column.interface';
 import { AmrrModalComponent } from 'src/app/shared/amrr-modal/amrr-modal.component';
 import { ApiBusinessService } from 'src/app/shared/api-business.service';
 import { AmrrItem } from '../amrr-item/amrr-item-editor/amrr-item.model';
@@ -96,6 +96,7 @@ export class AmrrItemGroupFormService {
       {
         key: 'sno',
         name: 'S.No.',
+        type: GridColumnType.Sno,
       },
       {
         key: 'name',

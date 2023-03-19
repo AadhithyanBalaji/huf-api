@@ -91,6 +91,7 @@ export class AmrrItemFormService {
       {
         key: 'sno',
         name: 'S.No.',
+        type: GridColumnType.Sno,
       },
       {
         key: 'itemGroupId',

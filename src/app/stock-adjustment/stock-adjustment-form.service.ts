@@ -57,6 +57,7 @@ export class StockAdjustmentFormService {
       {
         key: Helper.nameof<StockAdjustment>('sno'),
         name: 'S.No.',
+        type: GridColumnType.Sno,
       },
       {
         key: Helper.nameof<StockAdjustment>('inwardDate'),

@@ -61,6 +61,7 @@ export class StockOutwardFormService {
       {
         key: Helper.nameof<StockOutward>('sno'),
         name: 'S.No.',
+        type: GridColumnType.Sno,
       },
       {
         key: Helper.nameof<StockOutward>('inwardDate'),

@@ -91,6 +91,7 @@ export class AmrrGodownFormService {
       {
         key: 'sno',
         name: 'S.No.',
+        type: GridColumnType.Sno,
       },
       {
         key: 'name',

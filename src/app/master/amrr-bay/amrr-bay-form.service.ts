@@ -92,6 +92,7 @@ export class AmrrBayFormService {
       {
         key: Helper.nameof<AmrrBay>('sno'),
         name: 'S.No.',
+        type: GridColumnType.Sno,
       },
       {
         key: Helper.nameof<AmrrBay>('name'),

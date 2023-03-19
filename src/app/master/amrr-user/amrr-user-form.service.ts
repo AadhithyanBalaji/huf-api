@@ -92,6 +92,7 @@ export class AmrrUserFormService {
       {
         key: Helper.nameof<AmrrUser>('sno'),
         name: 'S.No.',
+        type: GridColumnType.Sno,
       },
       {
         key: Helper.nameof<AmrrUser>('name'),

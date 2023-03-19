@@ -4,7 +4,7 @@ import { debounceTime, take } from 'rxjs';
 import { AmrrBay } from 'src/app/master/amrr-bay/amrr-bay-editor/amrr-bay.model';
 import { AmrrGodown } from 'src/app/master/amrr-godown/amrr-godown-editor/amrr-godown.model';
 import { AmrrItem } from 'src/app/master/amrr-item/amrr-item-editor/amrr-item.model';
-import { IAmmrGridColumn } from 'src/app/shared/ammr-grid/ammr-grid-column.interface';
+import { GridColumnType, IAmmrGridColumn } from 'src/app/shared/ammr-grid/ammr-grid-column.interface';
 import { IAmrrTypeahead } from 'src/app/shared/amrr-typeahead.interface';
 import { DataHelperService } from 'src/app/shared/data-helper.service';
 import Helper from 'src/app/shared/helper';
@@ -33,6 +33,7 @@ export class StockAdjustmentTransactionBatchFormService {
     {
       key: Helper.nameof<TransactionBatch>('sno'),
       name: 'S.No.',
+      type: GridColumnType.Sno,
     },
     {
       key: Helper.nameof<TransactionBatch>('godown'),
