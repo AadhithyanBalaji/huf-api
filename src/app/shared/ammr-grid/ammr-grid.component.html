@@ -11,7 +11,7 @@
     </div>
 
     <div class="amrr-table-container" [ngClass]="autoHeight ? 'auto-height': ''">
-        <table *ngIf="!loading" mat-table [dataSource]="dataSource" matSort>
+        <table mat-table [dataSource]="dataSource" matSort>
             <ng-container *ngFor="let col of columns">
                 <ng-container
                     *ngTemplateOutlet="col.key !== 'options' ? columnsTemplate : optionsTemplate; context: { $implicit: col }">
