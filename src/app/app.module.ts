@@ -120,10 +120,10 @@ import { AmrrMultiSelectWithSearchComponent } from './shared/amrr-multi-select-w
     DecimalPipe,
     ApiBusinessService,
     AmrrLoadingDialogService,
-    {
-      provide: ErrorHandler,
-      useClass: GlobalErrorHandler,
-    },
+    // {
+    //   provide: ErrorHandler,
+    //   useClass: GlobalErrorHandler,
+    // },
     {
       provide: HTTP_INTERCEPTORS,
       useClass: HttpLoadingInterceptor,

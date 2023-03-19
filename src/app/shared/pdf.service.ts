@@ -1,41 +1,58 @@
-import { style } from '@angular/animations';
 import { DatePipe, DecimalPipe } from '@angular/common';
 import { Injectable } from '@angular/core';
+import { MatSnackBar } from '@angular/material/snack-bar';
 import * as pdfMake from 'pdfmake/build/pdfmake';
 import * as pdfFonts from 'pdfmake/build/vfs_fonts';
 import { ConsolidatedStockReport } from '../reports/consolidated-stock-report/consolidated-stock-report.model';
 import { CSRExportData } from './csr-export-data.model';
 import { CSRExportRow } from './csr-export-row.model';
+import Helper from './helper';
 (pdfMake as any).vfs = pdfFonts.pdfMake.vfs;
 
 @Injectable()
 export class PdfService {
   reportData: ConsolidatedStockReport[] = [];
+  itemGroups: any[] = [];
   bags = 0;
   qty = 0;
 
   constructor(
     private readonly decimalPipe: DecimalPipe,
-    private readonly datePipe: DatePipe
+    private readonly datePipe: DatePipe,
+    private readonly snackBar: MatSnackBar
   ) {}
 
   exportAsPdf(data: CSRExportData) {
-    this.reportData = data.reportData;
-    const documentDefinition = this.getCSRContent(data);
-    pdfMake.createPdf(documentDefinition as any).open();
+    if (
+      Helper.isTruthy(data) &&
+      Helper.isTruthy(data.reportData) &&
+      data.reportData.length > 0
+    ) {
+      this.reportData = data.reportData;
+      const documentDefinition = this.getCSRContent(data);
+      pdfMake.createPdf(documentDefinition as any).open();
+    } else {
+      this.snackBar.open('No data to export');
+    }
   }
 
   exportAsExcel() {}
 
   private getCSRContent(data: CSRExportData) {
-    const inwardData = data.itemRows.filter(
+    const itemGroupwiseTable = this.getItemGroupwiseTable();
+    const itemwiseTable = this.getItemwiseTable();
+    const unsortedInwardData = data.itemRows.filter(
       (x) =>
         x.transactionTypeId === 1 || (x.transactionTypeId === 3 && x.qty > 0)
     );
-    const outwardData = data.itemRows.filter(
+    const inwardData = this.sortByItemGroup(unsortedInwardData);
+
+    const unsortedOutwardData = data.itemRows.filter(
       (x) =>
         x.transactionTypeId === 2 || (x.transactionTypeId === 3 && x.qty < 0)
     );
+    const outwardData = this.sortByItemGroup(unsortedOutwardData);
+
     return {
       info: {
         title: `Consolidated_StockReport_${
@@ -53,7 +70,7 @@ export class PdfService {
         },
         {
           alignment: 'justify',
-          columns: [this.getItemwiseTable(), this.getItemGroupwiseTable()],
+          columns: [itemwiseTable, itemGroupwiseTable],
         },
         inwardData.length > 0 ? this.getStockTable(true, inwardData) : {},
         outwardData.length > 0 ? this.getStockTable(false, outwardData) : {},
@@ -64,6 +81,18 @@ export class PdfService {
         color: 'black',
       },
     };
+  }
+
+  private sortByItemGroup(unsortedData: CSRExportRow[]) {
+    let data: CSRExportRow[] = [];
+    this.itemGroups.forEach((itemGroup) => {
+      data.push(
+        ...unsortedData.filter(
+          (x: CSRExportRow) => x.itemGroup === itemGroup.key
+        )
+      );
+    });
+    return data;
   }
 
   private buildPdfTitle(data: CSRExportData) {
@@ -82,9 +111,9 @@ export class PdfService {
 
   private getItemGroupwiseTable() {
     const groups = this.groupBy(this.reportData, 'itemGroup');
-    const tableRows = [];
     let totalQty = 0,
       totalBags = 0;
+    this.itemGroups = [];
     Object.keys(groups).forEach((key) => {
       const bags = groups[key].reduce(function (acc: any, obj: any) {
         return acc + obj.closingBags;
@@ -94,8 +123,12 @@ export class PdfService {
       }, 0);
       totalBags += bags;
       totalQty += qty;
-      tableRows.push(this.addRow(key, bags, qty));
+      this.itemGroups.push({ key: key, bags: bags, qty: qty });
     });
+    this.itemGroups.sort((a: any, b: any) => b.qty - a.qty);
+    const tableRows = this.itemGroups.map((tableRow: any) =>
+      this.addRow(tableRow.key, tableRow.bags, tableRow.qty)
+    );
     tableRows.push(this.addRow('Total', totalBags, totalQty));
 
     return {
@@ -103,7 +136,7 @@ export class PdfService {
       table: {
         keepWithHeaderRows: true,
         dontBreakRows: true,
-        widths: ['*', 50, 50],
+        widths: ['*', 60, 60],
         headerRows: 2,
         body: [
           [
@@ -135,17 +168,26 @@ export class PdfService {
     const tableRows = [];
     let totalBags = 0,
       totalQty = 0;
-    this.reportData.forEach((reportRow) => {
-      totalBags += reportRow.closingBags;
-      totalQty += reportRow.closingQty;
-      tableRows.push(
-        this.addRow(
-          reportRow.itemName,
-          reportRow.closingBags,
-          reportRow.closingQty
+    this.itemGroups.forEach((element) => {
+      this.reportData
+        .filter((x: any) => x.itemGroup === element.key)
+        .sort(
+          (a: ConsolidatedStockReport, b: ConsolidatedStockReport) =>
+            b.closingQty - a.closingQty
         )
-      );
+        .forEach((reportRow) => {
+          totalBags += reportRow.closingBags;
+          totalQty += reportRow.closingQty;
+          tableRows.push(
+            this.addRow(
+              reportRow.itemName,
+              reportRow.closingBags,
+              reportRow.closingQty
+            )
+          );
+        });
     });
+
     tableRows.push(this.addRow('Total', totalBags, totalQty));
 
     return {
@@ -154,7 +196,7 @@ export class PdfService {
       style: 'tableExample',
 
       table: {
-        widths: ['auto', 50, 50],
+        widths: ['auto', 60, 60],
         headerRows: 2,
         body: [
           [
@@ -280,7 +322,7 @@ export class PdfService {
       table: {
         keepWithHeaderRows: true,
         dontBreakRows: true,
-        widths: ['*', 50, 50],
+        widths: ['*', 60, 60],
         headerRows: 2,
         body: [
           [

@@ -37,7 +37,7 @@ export class ApiBusinessService {
   }
 
   private getBaseUrl() {
-    const isDev = false;
+    const isDev = true;
     return isDev
       ? 'http://localhost:3000'
       : 'https://amrr-api.azurewebsites.net';
