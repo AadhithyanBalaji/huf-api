@@ -3,7 +3,8 @@
     <div class="grid-container">
         <app-amrr-report-filters [showCheckBox]="true" [checkBoxText]="'Show Nil Stock'"
             (onViewClicked)="formService.getData($event)"></app-amrr-report-filters>
-        <app-amrr-download-menu [loading]="formService.pdfService.exporting" (onPdfClicked)="formService.printPdf()"></app-amrr-download-menu>
+        <app-amrr-download-menu [loading]="formService.pdfService.exporting"
+            (onPdfClicked)="formService.printPdf()"></app-amrr-download-menu>
         <mat-divider></mat-divider>
         <div class="amrr-table-container">
             <div *ngIf="formService.loading" class="grid-spinner">
@@ -76,7 +77,7 @@
     </div>
 </div>
 <ng-template #naTemplate>
-    -
+    <div style="display: flex; flex-direction: row-reverse;"> - </div>
 </ng-template>
 <ng-template #closingNaTemplate>
     <app-stock-info [bags]="0" [qty]="0"></app-stock-info>
