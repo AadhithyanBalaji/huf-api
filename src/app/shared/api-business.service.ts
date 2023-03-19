@@ -7,15 +7,11 @@ export class ApiBusinessService {
   constructor(private readonly httpClient: HttpClient) {}
 
   get(endpoint: string) {
-    return this.httpClient.get(
-      `${this.getBaseUrl()}/api/v1/${endpoint}`
-    );
+    return this.httpClient.get(`${this.getBaseUrl()}/api/v1/${endpoint}`);
   }
 
   getById(endpoint: string, id: number) {
-    return this.httpClient.get(
-      `${this.getBaseUrl()}/api/v1/${endpoint}/${id}`
-    );
+    return this.httpClient.get(`${this.getBaseUrl()}/api/v1/${endpoint}/${id}`);
   }
 
   post(endpoint: string, requestBody: any) {
@@ -33,11 +29,13 @@ export class ApiBusinessService {
   }
 
   delete(endpoint: string, id: number) {
-    return this.httpClient.delete(`${this.getBaseUrl()}/api/v1/${endpoint}/${id}`);
+    return this.httpClient.delete(
+      `${this.getBaseUrl()}/api/v1/${endpoint}/${id}`
+    );
   }
 
   private getBaseUrl() {
-    const isDev = true;
+    const isDev = false;
     return isDev
       ? 'http://localhost:3000'
       : 'https://amrr-api.azurewebsites.net';
