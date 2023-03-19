@@ -1,4 +1,4 @@
-<div>
+<div style="display: flex; flex-direction: row-reverse;">
     <div [ngClass]="{'green': customClass === 'g', 'red': customClass === 'r'}">
         <div *ngIf="qty >= 0">{{qty | number:'1.2-2'}}</div>
         <div *ngIf="bags >= 0"><i>{{bags}}&nbsp;Bags</i></div>
