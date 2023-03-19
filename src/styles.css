@@ -249,3 +249,11 @@ mat-list-item span {
 .mat-expansion-panel-header-description {
   font-size: 16px !important;
 }
+
+.amrr-table-container table,
+.amrr-table-container table thead,
+.amrr-table-container table th,
+.amrr-table-container table td {
+  border: 1px solid #dee2e6;
+  border-collapse: collapse;
+}
