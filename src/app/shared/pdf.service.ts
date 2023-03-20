@@ -310,8 +310,8 @@ export class PdfService {
       openingQty += (reportItem?.inwardQty ?? 0) + (reportItem?.gainQty ?? 0);
     }
 
-    this.bags = reportItem?.openingBags ?? 0;
-    this.qty = reportItem?.openingQty ?? 0;
+    this.bags = 0;
+    this.qty = 0;
 
     const rows = itemData.map((a) => {
       this.bags += a.bags;
@@ -347,8 +347,8 @@ export class PdfService {
           ...rows,
           this.addRow(
             'Closing',
-            !isInward ? openingBags + this.bags : this.bags,
-            !isInward ? openingQty + this.qty : this.qty
+            openingBags + this.bags,
+            openingQty + this.qty
           ),
         ],
       },
