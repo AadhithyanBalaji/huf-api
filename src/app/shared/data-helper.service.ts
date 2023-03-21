@@ -16,6 +16,7 @@ export class DataHelperService {
   bays$ = new Subject<AmrrBay[]>();
   items$ = new Subject<AmrrItem[]>();
   batches$ = new Subject<AmrrBatch[]>();
+  userBatches$ = new Subject<AmrrBatch[]>();
   godownsItems$ = new Subject<{ godowns: AmrrGodown[]; items: AmrrItem[] }>();
 
   constructor(
@@ -98,6 +99,30 @@ export class DataHelperService {
           ? this.snackBar.open('No items found for this godown/bay!')
           : null;
         this.items$.next(items);
+      });
+  }
+
+  getUserBatches(
+    godownId: number,
+    bayId: number,
+    itemGroupId: number,
+    itemId: number
+  ) {
+    this.apiBusinessService
+      .post(`batch`, {
+        godownId: godownId,
+        bayId: bayId,
+        itemGroupId: itemGroupId,
+        itemId: itemId,
+        userId: this.authService.getUserId(),
+      })
+      .pipe(take(1))
+      .subscribe((result: any) => {
+        const userBatches = [...(result as AmrrBatch[])];
+        userBatches.length === 0
+          ? this.snackBar.open('No batches found for this godown/bay!')
+          : null;
+        this.userBatches$.next(userBatches);
       });
   }
 }

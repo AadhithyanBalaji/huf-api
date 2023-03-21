@@ -1,6 +1,7 @@
 import { DatePipe } from '@angular/common';
 import { EventEmitter, Injectable } from '@angular/core';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
+import { debounceTime } from 'rxjs';
 import { AuthService } from 'src/app/auth/auth.service';
 import { AmrrBay } from 'src/app/master/amrr-bay/amrr-bay-editor/amrr-bay.model';
 import { AmrrGodown } from 'src/app/master/amrr-godown/amrr-godown-editor/amrr-godown.model';
@@ -8,6 +9,7 @@ import { AmrrItemGroup } from 'src/app/master/amrr-item-group/amrr-item-group-ed
 import { AmrrItem } from 'src/app/master/amrr-item/amrr-item-editor/amrr-item.model';
 import { IAmrrTypeahead } from '../amrr-typeahead.interface';
 import { ApiBusinessService } from '../api-business.service';
+import { DataHelperService } from '../data-helper.service';
 import Helper from '../helper';
 import { AmrrReportFilters } from './amrr-report-filters.model';
 
@@ -17,7 +19,7 @@ export class AmrrReportFiltersFormService {
   bays: AmrrBay[] = [];
   itemGroups: AmrrItemGroup[] = [];
   items: AmrrItem[] = [];
-  batches: IAmrrTypeahead[];
+  batches: IAmrrTypeahead[] = [];
 
   onViewClicked: EventEmitter<AmrrReportFilters>;
   form: FormGroup<{
@@ -37,7 +39,8 @@ export class AmrrReportFiltersFormService {
   constructor(
     private readonly apiBusinessService: ApiBusinessService,
     private readonly authService: AuthService,
-    private readonly datePipe: DatePipe
+    private readonly datePipe: DatePipe,
+    private readonly dataHelperService: DataHelperService
   ) {}
 
   init(
@@ -48,6 +51,12 @@ export class AmrrReportFiltersFormService {
     this.onViewClicked = onViewClicked;
     this.enableAllOptions = enableAllOptions;
     this.transactionTypeId = transactionTypeId;
+    this.dataHelperService.userBatches$.subscribe((batches) => {
+      this.batches = batches;
+      this.form.controls.batchId.setValue(
+        this.batches.length === 1 ? this.batches[0].id : null
+      );
+    });
     this.updateFiltersValues(true);
   }
 
@@ -73,9 +82,9 @@ export class AmrrReportFiltersFormService {
         this.items = this.addAllOption(
           JSON.parse(filterData?.output?.Items) ?? []
         );
-        this.batches = this.addAllOption(
-          JSON.parse(filterData?.output?.Batches) ?? []
-        );
+        // this.batches = this.addAllOption(
+        //   JSON.parse(filterData?.output?.Batches) ?? []
+        // );
         if (isFirstTime) {
           const today = new Date();
           this.form = new FormGroup({
@@ -91,6 +100,7 @@ export class AmrrReportFiltersFormService {
           this.setupFormListeners();
           this.getData();
         }
+        this.updateBatches();
       });
   }
 
@@ -109,8 +119,17 @@ export class AmrrReportFiltersFormService {
     this.form.controls.itemGroupId.valueChanges.subscribe((_) =>
       this.updateFiltersValues()
     );
-    this.form.controls.itemId.valueChanges.subscribe((_) =>
-      this.updateFiltersValues()
+    this.form.controls.itemId.valueChanges
+      .pipe(debounceTime(300))
+      .subscribe((_) => this.updateBatches());
+  }
+
+  private updateBatches() {
+    this.dataHelperService.getUserBatches(
+      this.form.controls['goDownId'].value?.id,
+      this.form.controls['bayId'].value?.id,
+      this.form.controls['itemGroupId'].value?.id,
+      this.form.controls['itemId'].value?.id
     );
   }
 
