@@ -103,7 +103,7 @@ export class TransactionService {
     this.saving = true;
     transaction.transactionDateString =
       this.datePipe.transform(
-        new Date(new Date(transaction.transactionDate).setHours(0, 0, 0, 0)),
+        transaction.transactionDate,
         'YYYY-MM-dd HH:mm:ss'
       ) ?? '';
     this.apiBusinessService

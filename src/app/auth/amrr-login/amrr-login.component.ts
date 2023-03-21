@@ -17,7 +17,7 @@ export class AmrrLoginComponent {
   });
   isAutoLogout: boolean;
 
-  constructor(private readonly authService: AuthService) {
+  constructor(readonly authService: AuthService) {
     this.isAutoLogout = localStorage.getItem('autoLogOff') === 'true' ?? false;
     localStorage.setItem('autoLogOff', 'false');
   }

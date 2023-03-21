@@ -18,6 +18,7 @@
             </mat-card-content>
             <div class="actions-container">
                 <button mat-raised-button color="primary" (click)="login()">Log in</button>
+                <mat-spinner *ngIf="authService.isLoggingIn" [diameter]="30"></mat-spinner>
             </div>
         </form>
     </mat-card>

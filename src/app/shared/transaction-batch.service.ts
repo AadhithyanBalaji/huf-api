@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
 import { MatPaginator } from '@angular/material/paginator';
+import { MatSnackBar } from '@angular/material/snack-bar';
 import { MatTableDataSource } from '@angular/material/table';
 import { take } from 'rxjs';
 import { ApiBusinessService } from './api-business.service';
@@ -15,7 +16,10 @@ export class TransactionBatchService {
   dataSource: MatTableDataSource<TransactionBatch, MatPaginator> =
     new MatTableDataSource();
 
-  constructor(private readonly apiBusinessService: ApiBusinessService) {}
+  constructor(
+    private readonly apiBusinessService: ApiBusinessService,
+    private readonly snackBar: MatSnackBar
+  ) {}
 
   setupGrid(batches: TransactionBatch[]) {
     if (Helper.isTruthy(batches) && batches.length > 0) {
@@ -40,6 +44,14 @@ export class TransactionBatchService {
 
   getNextRowSno() {
     return this.dataSource.data.length + 1;
+  }
+
+  getBatches() {
+    const batches = this.dataSource.data;
+    if (batches.length <= 0) {
+      this.snackBar.open('No batches added!');
+    }
+    return batches;
   }
 
   // to-do: make a pipe out of this

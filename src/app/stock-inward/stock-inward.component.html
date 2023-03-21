@@ -19,7 +19,7 @@
 </ng-template>
 <ng-template #dateTemplate let-row="row">
     <div>
-        <div> {{row['inwardDate'] | date : 'dd/MM/yyyy'}} </div>
+        <div> {{row['inwardDate'] | date : 'dd/MM/yyyy H:mm:ss'}} </div>
         <div> {{row['transactionId'] ? '#' + row['transactionId'] : row['transactionId']}} </div>
     </div>
 </ng-template>

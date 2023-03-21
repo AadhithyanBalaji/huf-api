@@ -57,8 +57,8 @@ export class StockOutwardEditorFormService {
   }
 
   addTransaction(stayOnPage = false) {
-    const batchData = this.transactionBatchService.dataSource.data;
-    if ((this.form.dirty || batchData?.length) && this.form.valid) {
+    const batchData = this.transactionBatchService.getBatches();
+    if (this.form.dirty && batchData?.length && this.form.valid) {
       this.transactionService.addTransaction(
         'stockOutward',
         this.buildTransactionData(),
