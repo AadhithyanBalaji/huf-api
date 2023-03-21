@@ -82,5 +82,7 @@ export class BatchwiseStockFormService {
       });
   }
 
-  excelExport() {}
+  excelExport() {
+    this.excelService.exportBSRAsExcel(this.dataSource.data, this.filters);
+  }
 }

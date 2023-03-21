@@ -82,6 +82,6 @@ export class ConsolidatedStockReportFormService {
   }
 
   excelExport() {
-    this.excelService.exportAsExcel(this.dataSource.data, this.filters);
+    this.excelService.exportCSRAsExcel(this.dataSource.data, this.filters);
   }
 }
