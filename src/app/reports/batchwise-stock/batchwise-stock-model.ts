@@ -3,6 +3,7 @@ export class BatchwiseStock {
   godown: string;
   bay: string;
   itemGroup: string;
+  itemId: number;
   itemName: string;
   batchName: string;
   openingQty: number;

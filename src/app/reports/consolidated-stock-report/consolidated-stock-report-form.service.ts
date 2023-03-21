@@ -77,7 +77,7 @@ export class ConsolidatedStockReportFormService {
         exportData.toDate = this.filters.toDate;
         exportData.itemRows = data.recordset as CSRExportRow[];
         exportData.reportData = this.dataSource.data;
-        this.pdfService.exportAsPdf(exportData);
+        this.pdfService.exportCSRPdf(exportData);
       });
   }
 
