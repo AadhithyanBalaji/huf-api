@@ -52,7 +52,7 @@ export class AmrrReportFiltersFormService {
     this.enableAllOptions = enableAllOptions;
     this.transactionTypeId = transactionTypeId;
     this.dataHelperService.userBatches$.subscribe((batches) => {
-      this.batches = this.batches.find((x) => x.id === 0)
+      this.batches = batches.find((x) => x.id === 0)
         ? batches
         : this.addAllOption(batches);
       this.form.controls.batchId.setValue(
