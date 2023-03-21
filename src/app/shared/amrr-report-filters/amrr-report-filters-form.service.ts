@@ -171,11 +171,15 @@ export class AmrrReportFiltersFormService {
       filters.godownId = this.checkForAllOption(this.form.controls.goDownId);
       filters.godown = this.form.controls.goDownId.value?.name;
       filters.bayId = this.checkForAllOption(this.form.controls.bayId);
+      filters.bay = this.form.controls.bayId.value?.name;
       filters.itemGroupId = this.checkForAllOption(
         this.form.controls.itemGroupId
       );
+      filters.itemGroup = this.form.controls.itemGroupId.value?.name;
       filters.itemId = this.checkForAllOption(this.form.controls.itemId);
+      filters.item = this.form.controls.itemId.value?.name;
       filters.batchId = this.checkForAllOption(this.form.controls.batchId);
+      filters.batch = this.form.controls.batchId.value?.name;
       filters.userId = this.authService.getUserId();
       filters.checkBoxValue = this.form.controls.checkBox.value;
     }

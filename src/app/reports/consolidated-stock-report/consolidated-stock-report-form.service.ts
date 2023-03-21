@@ -7,6 +7,7 @@ import { AmrrReportFilters } from 'src/app/shared/amrr-report-filters/amrr-repor
 import { ApiBusinessService } from 'src/app/shared/api-business.service';
 import { CSRExportData } from 'src/app/shared/csr-export-data.model';
 import { CSRExportRow } from 'src/app/shared/csr-export-row.model';
+import { ExcelService } from 'src/app/shared/excel.service';
 import Helper from 'src/app/shared/helper';
 import { PdfService } from 'src/app/shared/pdf.service';
 import { ConsolidatedStockReport } from './consolidated-stock-report.model';
@@ -32,6 +33,7 @@ export class ConsolidatedStockReportFormService {
 
   constructor(
     readonly pdfService: PdfService,
+    readonly excelService: ExcelService,
     private readonly apiBusinessService: ApiBusinessService
   ) {}
 
@@ -77,5 +79,9 @@ export class ConsolidatedStockReportFormService {
         exportData.reportData = this.dataSource.data;
         this.pdfService.exportAsPdf(exportData);
       });
+  }
+
+  excelExport() {
+    this.excelService.exportAsExcel(this.dataSource.data, this.filters);
   }
 }

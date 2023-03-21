@@ -22,7 +22,6 @@ export class HttpLoadingInterceptor implements HttpInterceptor {
     next: HttpHandler
   ): Observable<HttpEvent<any>> {
     this.loadingDialogService.showLoading();
-    console.log(request);
     if (request.url.indexOf('auth') === -1 && !this.authService.isLoggedIn()) {
       this.authService.logOut(true);
       localStorage.setItem('autoLogOff', 'true');

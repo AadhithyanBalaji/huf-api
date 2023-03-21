@@ -9,5 +9,9 @@ export class AmrrReportFilters {
   itemId?: number | null;
   batchId?: number | null;
   godown?: string;
+  bay?: string;
+  itemGroup?: string;
+  item?: string;
+  batch?: string;
   checkBoxValue?: boolean;
 }

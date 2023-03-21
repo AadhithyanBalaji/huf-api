@@ -39,8 +39,6 @@ export class PdfService {
     }
   }
 
-  exportAsExcel() {}
-
   private getCSRContent(data: CSRExportData) {
     const itemGroupwiseTable = this.getItemGroupwiseTable();
     const itemwiseTable = this.getItemwiseTable();

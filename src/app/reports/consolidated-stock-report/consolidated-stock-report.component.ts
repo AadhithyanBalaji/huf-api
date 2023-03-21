@@ -1,5 +1,6 @@
-import { AfterViewInit, Component, OnInit, ViewChild } from '@angular/core';
+import { AfterViewInit, Component, ViewChild } from '@angular/core';
 import { MatSort } from '@angular/material/sort';
+import { ExcelService } from 'src/app/shared/excel.service';
 import { PdfService } from 'src/app/shared/pdf.service';
 import { ConsolidatedStockReportFormService } from './consolidated-stock-report-form.service';
 
@@ -7,7 +8,7 @@ import { ConsolidatedStockReportFormService } from './consolidated-stock-report-
   selector: 'app-consolidated-stock-report',
   templateUrl: './consolidated-stock-report.component.html',
   styleUrls: ['./consolidated-stock-report.component.css'],
-  providers: [ConsolidatedStockReportFormService, PdfService],
+  providers: [ConsolidatedStockReportFormService, PdfService, ExcelService],
 })
 export class ConsolidatedStockReportComponent implements AfterViewInit {
   @ViewChild(MatSort) sort: MatSort;
