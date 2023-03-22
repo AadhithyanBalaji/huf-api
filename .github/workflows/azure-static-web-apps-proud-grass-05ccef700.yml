@@ -3,11 +3,11 @@ name: Azure Static Web Apps CI/CD
 on:
   push:
     branches:
-      - master
+      - develop
   pull_request:
     types: [opened, synchronize, reopened, closed]
     branches:
-      - master
+      - develop
 
 jobs:
   build_and_deploy_job:
@@ -28,8 +28,9 @@ jobs:
           ###### Repository/Build Configurations - These values can be configured to match your app requirements. ######
           # For more information regarding Static Web App workflow configurations, please visit: https://aka.ms/swaworkflowconfig
           app_location: "/" # App source code path
-          api_location: "" # Api source code path - optional
-          output_location: "" # Built app content directory - optional
+          api_location: "api" # Api source code path - optional
+          output_location: "dist/amrr-poc" # Built app content directory - optional
+          config_file_location: src/app/configuration
           ###### End of Repository/Build Configurations ######
 
   close_pull_request_job:
