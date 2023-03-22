@@ -36,7 +36,7 @@ export class StockInwardEditorFormService {
 
   constructor(
     readonly transactionService: TransactionService,
-    private readonly route: ActivatedRoute,    
+    private readonly route: ActivatedRoute,
     private readonly authService: AuthService,
     private readonly transactionBatchService: TransactionBatchService
   ) {
@@ -56,7 +56,7 @@ export class StockInwardEditorFormService {
 
   addTransaction(stayOnPage = false) {
     const batchData = this.transactionBatchService.getBatches();
-    if ((this.form.dirty && batchData?.length > 0) && this.form.valid) {
+    if (batchData?.length > 0 && this.form.valid) {
       this.transactionService.addTransaction(
         'stockInward',
         this.buildTransactionData(),

@@ -21,7 +21,7 @@ export class StockAdjustmentEditorFormService {
   constructor(
     readonly transactionService: TransactionService,
     private readonly route: ActivatedRoute,
-    private readonly authService: AuthService,    
+    private readonly authService: AuthService,
     private readonly transactionBatchService: TransactionBatchService
   ) {
     this.transactionService.transaction$.subscribe((data: any) => {
@@ -40,7 +40,7 @@ export class StockAdjustmentEditorFormService {
 
   addTransaction(stayOnPage = false) {
     const batchData = this.transactionBatchService.getBatches();
-    if ((this.form.dirty && batchData?.length > 0) && this.form.valid) {
+    if (batchData?.length > 0 && this.form.valid) {
       this.transactionService.addTransaction(
         'stockAdjustment',
         this.buildTransactionData(),
