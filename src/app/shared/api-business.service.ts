@@ -38,6 +38,6 @@ export class ApiBusinessService {
     const isDev = false;
     return isDev
       ? 'http://localhost:3000'
-      : 'https://amrr-api.azurewebsites.net';
+      : 'https://a1-dev-mdmpl-api.azurewebsites.net';
   }
 }
