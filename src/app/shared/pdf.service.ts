@@ -34,7 +34,7 @@ export class PdfService {
     ) {
       this.exporting = true;
       const documentDefinition = this.getCSRContent(data);
-      pdfMake.createPdf(documentDefinition as any).open();
+      pdfMake.createPdf(documentDefinition as any).open({}, window);
       this.exporting = false;
     } else {
       this.snackBar.open('No data to export');
