@@ -1,43 +1,48 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { take } from 'rxjs';
+import { environment } from 'src/environment';
 
 @Injectable()
 export class ApiBusinessService {
-  constructor(private readonly httpClient: HttpClient) {}
+  baseURL = '';
+
+  constructor(private readonly httpClient: HttpClient) {
+    this.baseURL = this.setBaseUrl();
+  }
 
   get(endpoint: string) {
-    return this.httpClient.get(`${this.getBaseUrl()}/api/v1/${endpoint}`);
+    return this.httpClient.get(`${this.baseURL}/api/v1/${endpoint}`);
   }
 
   getById(endpoint: string, id: number) {
-    return this.httpClient.get(`${this.getBaseUrl()}/api/v1/${endpoint}/${id}`);
+    return this.httpClient.get(`${this.baseURL}/api/v1/${endpoint}/${id}`);
   }
 
   post(endpoint: string, requestBody: any) {
     return this.httpClient.post(
-      `${this.getBaseUrl()}/api/v1/${endpoint}`,
+      `${this.baseURL}/api/v1/${endpoint}`,
       requestBody
     );
   }
 
   put(endpoint: string, requestBody: any) {
     return this.httpClient.put(
-      `${this.getBaseUrl()}/api/v1/${endpoint}`,
+      `${this.baseURL}/api/v1/${endpoint}`,
       requestBody
     );
   }
 
   delete(endpoint: string, id: number) {
-    return this.httpClient.delete(
-      `${this.getBaseUrl()}/api/v1/${endpoint}/${id}`
-    );
+    return this.httpClient.delete(`${this.baseURL}/api/v1/${endpoint}/${id}`);
   }
 
-  private getBaseUrl() {
-    const isDev = false;
-    return isDev
-      ? 'http://localhost:3000'
-      : 'https://p1-mdmpl-api.azurewebsites.net';
+  private setBaseUrl(): string {
+    if (window.location.href.indexOf(environment.dev.uiURL) !== -1)
+      return environment.dev.apiURL;
+    else if (window.location.href.indexOf(environment.local.uiURL) !== -1)
+      return environment.local.apiURL;
+    else if (window.location.href.indexOf(environment.prod.uiURL) !== -1)
+      return environment.prod.apiURL;
+    return '';
   }
 }
