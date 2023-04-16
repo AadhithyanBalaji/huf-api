@@ -1,40 +1,47 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { environment } from 'src/environments/environment';
+import { environment } from 'src/environment';
 
 @Injectable()
 export class ApiBusinessService {
-  constructor(private readonly httpClient: HttpClient) {}
+  baseURL = '';
+
+  constructor(private readonly httpClient: HttpClient) {
+    this.baseURL = this.setBaseUrl();
+  }
 
   get(endpoint: string) {
-    return this.httpClient.get(`${this.getBaseUrl()}/api/v1/${endpoint}`);
+    return this.httpClient.get(`${this.baseURL}/api/v1/${endpoint}`);
   }
 
   getById(endpoint: string, id: number) {
-    return this.httpClient.get(`${this.getBaseUrl()}/api/v1/${endpoint}/${id}`);
+    return this.httpClient.get(`${this.baseURL}/api/v1/${endpoint}/${id}`);
   }
 
   post(endpoint: string, requestBody: any) {
     return this.httpClient.post(
-      `${this.getBaseUrl()}/api/v1/${endpoint}`,
+      `${this.baseURL}/api/v1/${endpoint}`,
       requestBody
     );
   }
 
   put(endpoint: string, requestBody: any) {
     return this.httpClient.put(
-      `${this.getBaseUrl()}/api/v1/${endpoint}`,
+      `${this.baseURL}/api/v1/${endpoint}`,
       requestBody
     );
   }
 
   delete(endpoint: string, id: number) {
-    return this.httpClient.delete(
-      `${this.getBaseUrl()}/api/v1/${endpoint}/${id}`
-    );
+    return this.httpClient.delete(`${this.baseURL}/api/v1/${endpoint}/${id}`);
   }
 
-  private getBaseUrl() {
-    return environment.apiURL;
+  private setBaseUrl(): string {
+    console.log(window.location.href, environment.local.uiURL);
+    if (window.location.href.indexOf(environment.dev.uiURL) !== -1)
+      return environment.dev.apiURL;
+    else if (window.location.href.indexOf(environment.local.uiURL) !== -1)
+      return environment.local.apiURL;
+    return '';
   }
 }
