@@ -1,6 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { take } from 'rxjs';
+import { environment } from 'src/environments/environment';
 
 @Injectable()
 export class ApiBusinessService {
@@ -35,9 +35,6 @@ export class ApiBusinessService {
   }
 
   private getBaseUrl() {
-    const isDev = false;
-    return isDev
-      ? 'http://localhost:3000'
-      : 'https://a1-dev-mdmpl-api.azurewebsites.net';
+    return environment.apiURL;
   }
 }
