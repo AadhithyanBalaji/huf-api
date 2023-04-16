@@ -33,8 +33,7 @@ export class PdfService {
       data.reportData.length > 0
     ) {
       this.exporting = true;
-      const documentDefinition = this.getCSRContent(data);
-      pdfMake.createPdf(documentDefinition as any).open({}, window);
+      this.printPdf(this.getCSRContent(data));
       this.exporting = false;
     } else {
       this.snackBar.open('No data to export');
@@ -48,12 +47,18 @@ export class PdfService {
       data.reportData.length > 0
     ) {
       this.exporting = true;
-      const documentDefinition = this.getBSRContent(data);
-      pdfMake.createPdf(documentDefinition as any).open();
+      this.printPdf(this.getBSRContent(data));
       this.exporting = false;
     } else {
       this.snackBar.open('No data to export');
     }
+  }
+
+  private printPdf(docDef: any) {
+    const isSafari = /^((?!chrome|android).)*safari/i.test(navigator.userAgent);
+    isSafari
+      ? pdfMake.createPdf(docDef as any).open({}, window)
+      : pdfMake.createPdf(docDef as any).open();
   }
 
   private getCSRContent(data: CSRExportData) {
