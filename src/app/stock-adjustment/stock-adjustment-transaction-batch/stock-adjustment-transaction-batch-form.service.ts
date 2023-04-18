@@ -265,7 +265,7 @@ export class StockAdjustmentTransactionBatchFormService {
       const bagsCtrl = this.batchForm.controls['bags'];
       if (Helper.isTruthy(batch) && !isNaN(batch.bags) && !isNaN(batch.qty)) {
         this.formHelperService.setMaxValueForControl(qtyCtrl, batch.qty);
-        this.formHelperService.setMaxValueForControl(bagsCtrl, batch.bags, 0);
+        this.formHelperService.setMaxValueForControl(bagsCtrl, batch.bags);
       }
     } else {
       this.batchForm.controls.qty.setValidators(Validators.required);

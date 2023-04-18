@@ -4,7 +4,10 @@ import { debounceTime } from 'rxjs';
 import { AmrrBay } from 'src/app/master/amrr-bay/amrr-bay-editor/amrr-bay.model';
 import { AmrrGodown } from 'src/app/master/amrr-godown/amrr-godown-editor/amrr-godown.model';
 import { AmrrItem } from 'src/app/master/amrr-item/amrr-item-editor/amrr-item.model';
-import { GridColumnType, IAmmrGridColumn } from 'src/app/shared/ammr-grid/ammr-grid-column.interface';
+import {
+  GridColumnType,
+  IAmmrGridColumn,
+} from 'src/app/shared/ammr-grid/ammr-grid-column.interface';
 import { DataHelperService } from 'src/app/shared/data-helper.service';
 import Helper from 'src/app/shared/helper';
 import { AmrrBatch } from 'src/app/shared/models/amrr-batch.model';
@@ -87,10 +90,7 @@ export class OutwardTransactionBatchFormService {
       ]),
       batch: new FormControl(null, [Validators.required]),
       qty: new FormControl(null, [Validators.required, Validators.min(0.0001)]),
-      bags: new FormControl(null, [
-        Validators.required,
-        Validators.min(0.0001),
-      ]),
+      bags: new FormControl(null),
     });
     this.setupFormListeners();
     this.columns = this.getColumns();
@@ -158,10 +158,6 @@ export class OutwardTransactionBatchFormService {
       ) &&
       this.validateBatchValue() &&
       this.formHelperService.validateNumberControlValue(
-        this.batchForm.get('bags'),
-        this.batchForm.get('bags')?.value
-      ) &&
-      this.formHelperService.validateNumberControlValue(
         this.batchForm.get('qty'),
         this.batchForm.get('qty')?.value
       )
@@ -191,7 +187,7 @@ export class OutwardTransactionBatchFormService {
     batch.itemName = this.batchForm.controls.item.value.name;
     batch.batchId = this.batchForm.controls.batch.value.id;
     batch.batchName = this.batchForm.controls.batch.value.name;
-    batch.bags = this.batchForm.controls.bags.value;
+    batch.bags = this.batchForm.controls.bags.value ?? 0;
     batch.qty = this.batchForm.controls.qty.value;
     return batch;
   }

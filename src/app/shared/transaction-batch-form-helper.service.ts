@@ -20,12 +20,8 @@ export class TransactionBatchFormHelperService {
     return isValid;
   }
 
-  setMaxValueForControl(control: any, max: number, min?: number) {
+  setMaxValueForControl(control: any, max: number) {
     control.setValue(null);
-    control.setValidators([
-      Validators.required,
-      Validators.min(min ?? 0.0001),
-      Validators.max(max),
-    ]);
+    control.setValidators([Validators.required, Validators.max(max)]);
   }
 }
