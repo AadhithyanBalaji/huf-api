@@ -1,7 +1,7 @@
 <div style="display: flex; flex-direction: row-reverse;">
     <div [ngClass]="{'green': customClass === 'g', 'red': customClass === 'r'}">
-        <div *ngIf="qty >= 0" class="qtyText">{{qty | number:'1.2-2'}}</div>
-        <div *ngIf="bags >= 0" class="bagText"><i>{{bags}}&nbsp;Bags</i></div>
+        <div *ngIf="qty !== 0" class="qtyText">{{qty | number:'1.2-2'}}</div>
+        <div *ngIf="bags !== 0" class="bagText"><i>{{bags}}&nbsp;Bags</i></div>
     </div>
     <div *ngIf="date">{{date | date: 'dd/MM/yyyy'}}</div>
     <div *ngIf="info_1">{{info_1}}</div>
