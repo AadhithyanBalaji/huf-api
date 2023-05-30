@@ -9,7 +9,7 @@
                 <mat-card-content>
                     <mat-form-field>
                         <mat-label>Inward Date</mat-label>
-                        <input matInput formControlName="inwardDate" [matDatepicker]="fromDatePicker">
+                        <input readonly matInput formControlName="inwardDate" [matDatepicker]="fromDatePicker">
                         <mat-datepicker-toggle matIconSuffix [for]="fromDatePicker"></mat-datepicker-toggle>
                         <mat-datepicker #fromDatePicker> </mat-datepicker>
                     </mat-form-field>
