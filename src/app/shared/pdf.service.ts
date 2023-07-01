@@ -11,6 +11,9 @@ import { CSRExportData } from './csr-export-data.model';
 import { CSRExportRow } from './csr-export-row.model';
 import Helper from './helper';
 import { IReportData } from './report-data.interface.model';
+import { CSRItemGroupExportData } from './csr-item-group-export-data.model';
+import { CSRItemGroupRow } from './csr-item-group-export-row.model';
+import { CSRItemGroup } from '../reports/csr-item-group-report/csr-item-group.model';
 (pdfMake as any).vfs = pdfFonts.pdfMake.vfs;
 
 @Injectable()
@@ -40,6 +43,20 @@ export class PdfService {
     }
   }
 
+  exportCSRByItemGroupPdf(data: CSRItemGroupExportData) {
+    if (
+      Helper.isTruthy(data) &&
+      Helper.isTruthy(data.reportData) &&
+      data.reportData.length > 0
+    ) {
+      this.exporting = true;
+      this.printPdf(this.getCSRItemGroupContent(data));
+      this.exporting = false;
+    } else {
+      this.snackBar.open('No data to export');
+    }
+  }
+
   exportBSRPdf(data: BSRExportData) {
     if (
       Helper.isTruthy(data) &&
@@ -62,7 +79,8 @@ export class PdfService {
   }
 
   private getCSRContent(data: CSRExportData) {
-    const itemGroupwiseTable = this.getItemGroupwiseTable(data.reportData);
+    const groups = this.groupBy(data.reportData, 'itemGroup');
+    const itemGroupwiseTable = this.getItemGroupwiseTable(groups);
     const itemwiseTable = this.getItemwiseTable(data.reportData);
     const unsortedInwardData = data.itemRows.filter(
       (x) =>
@@ -87,7 +105,7 @@ export class PdfService {
       },
       content: [
         {
-          text: this.buildPdfTitle(data),
+          text: this.buildPdfTitle(data.fromDate, data.toDate, data.godown),
           style: 'header',
           alignment: 'center',
         },
@@ -110,8 +128,55 @@ export class PdfService {
     };
   }
 
+  private getCSRItemGroupContent(data: CSRItemGroupExportData) {
+    const groups = this.groupBy(data.reportData, 'itemGroup');
+    const itemGroupwiseTable = this.getItemGroupwiseTable(groups);
+    const unsortedInwardData = data.itemGroupRows.filter(
+      (x) =>
+        x.transactionTypeId === 1 || (x.transactionTypeId === 3 && x.qty > 0)
+    );
+    const inwardData = this.sortByItemGroup(unsortedInwardData);
+
+    const unsortedOutwardData = data.itemGroupRows.filter(
+      (x) =>
+        x.transactionTypeId === 2 || (x.transactionTypeId === 3 && x.qty < 0)
+    );
+    const outwardData = this.sortByItemGroup(unsortedOutwardData);
+
+    return {
+      info: {
+        title: `Consolidated_StockReport_Item_Group_${
+          data.godown === 'All' ? 'All_GODOWNS' : data.godown
+        }`,
+        author: 'AMRR',
+        subject: 'AMRR Transaction report for the selected criteria',
+        keywords: 'amrr transactions report',
+      },
+      content: [
+        {
+          text: this.buildPdfTitle(data.fromDate, data.toDate, data.godown),
+          style: 'header',
+          alignment: 'center',
+        },
+        itemGroupwiseTable,
+        inwardData.length > 0
+          ? this.getItemGroupStockTable(true, inwardData, data.reportData)
+          : {},
+        outwardData.length > 0
+          ? this.getItemGroupStockTable(false, outwardData, data.reportData)
+          : {},
+      ],
+      styles: this.getPdfStyles(),
+      defaultStyle: {
+        columnGap: 20,
+        color: 'black',
+      },
+    };
+  }
+
   private getBSRContent(data: BSRExportData) {
-    const itemGroupwiseTable = this.getItemGroupwiseTable(data.reportData);
+    const groups = this.groupBy(data.reportData, 'itemGroup');
+    const itemGroupwiseTable = this.getItemGroupwiseTable(groups);
     const itemwiseTable = this.getBSRItemwiseTable(data.reportData);
     const unsortedInwardData = data.itemRows.filter(
       (x) =>
@@ -136,7 +201,7 @@ export class PdfService {
       },
       content: [
         {
-          text: this.buildPdfTitle(data),
+          text: this.buildPdfTitle(data.fromDate, data.toDate, data.godown),
           style: 'header',
           alignment: 'center',
         },
@@ -159,13 +224,11 @@ export class PdfService {
     };
   }
 
-  private sortByItemGroup(unsortedData: CSRExportRow[]) {
-    let data: CSRExportRow[] = [];
+  private sortByItemGroup(unsortedData: any[]) {
+    let data: any[] = [];
     this.itemGroups.forEach((itemGroup) => {
       data.push(
-        ...unsortedData.filter(
-          (x: CSRExportRow) => x.itemGroup === itemGroup.key
-        )
+        ...unsortedData.filter((x: any) => x.itemGroup === itemGroup.key)
       );
     });
     return data;
@@ -183,22 +246,25 @@ export class PdfService {
     return data;
   }
 
-  private buildPdfTitle(data: CSRExportData) {
+  private buildPdfTitle(
+    fromDateString: string,
+    toDateString: string,
+    godown: string
+  ) {
     const fromDate =
-      data.fromDate.split(' ').length > 0
-        ? this.datePipe.transform(data.fromDate.split(' ')[0], 'dd-MM-YYYY')
+      fromDateString.split(' ').length > 0
+        ? this.datePipe.transform(fromDateString.split(' ')[0], 'dd-MM-YYYY')
         : '';
     const toDate =
-      data.toDate.split(' ').length > 0
-        ? this.datePipe.transform(data.toDate.split(' ')[0], 'dd-MM-YYYY')
+      toDateString.split(' ').length > 0
+        ? this.datePipe.transform(toDateString.split(' ')[0], 'dd-MM-YYYY')
         : '';
-    return `${data.godown === 'All' ? 'All GODOWNS' : data.godown} ${
+    return `${godown === 'All' ? 'All GODOWNS' : godown} ${
       fromDate === toDate ? fromDate : fromDate + ' to ' + toDate
     }`;
   }
 
-  private getItemGroupwiseTable(reportData: IReportData[]) {
-    const groups = this.groupBy(reportData, 'itemGroup');
+  private getItemGroupwiseTable(groups: any) {
     let totalQty = 0,
       totalBags = 0;
     this.itemGroups = [];
@@ -436,6 +502,70 @@ export class PdfService {
     ];
   }
 
+  private getItemGroupStockTable(
+    isInward: boolean,
+    rows: CSRItemGroupRow[],
+    reportData: CSRItemGroup[]
+  ) {
+    const itemsGroup = this.groupBy(rows, 'itemGroup');
+    const tables: any[] = [];
+
+    const itemGroupNames = Object.keys(itemsGroup);
+    for (let i = 0; i + 1 < itemGroupNames.length; i = i + 2) {
+      tables.push({
+        columns: [
+          this.getItemGroupTransactionsTable(
+            itemGroupNames[i],
+            itemsGroup[itemGroupNames[i]],
+            isInward,
+            reportData
+          ),
+          itemGroupNames[i + 1] !== undefined
+            ? this.getItemGroupTransactionsTable(
+                itemGroupNames[i + 1],
+                itemsGroup[itemGroupNames[i + 1]],
+                isInward,
+                reportData
+              )
+            : {},
+        ],
+      });
+    }
+    if (itemGroupNames.length % 2 === 1) {
+      tables.push({
+        columns: [
+          this.getItemGroupTransactionsTable(
+            itemGroupNames[itemGroupNames.length - 1],
+            itemsGroup[itemGroupNames[itemGroupNames.length - 1]],
+            isInward,
+            reportData
+          ),
+          {},
+        ],
+      });
+    }
+
+    return [
+      {
+        table: {
+          style: 'noBorder',
+          widths: ['*'],
+          headerRows: 1,
+          body: [
+            [
+              {
+                text: isInward ? 'Stock In List' : 'Delivery list',
+                style: 'transactionsHeader',
+                alignment: 'center',
+              },
+            ],
+          ],
+        },
+      },
+      ...tables,
+    ];
+  }
+
   private getBSRStockTable(
     isInward: boolean,
     rows: BSRExportRow[],
@@ -539,6 +669,69 @@ export class PdfService {
           [
             {
               text: item,
+              style: 'tableMainHeader',
+              colSpan: 3,
+              alignment: 'center',
+            },
+            {},
+            {},
+          ],
+          [
+            { text: '', style: 'tableHeader' },
+            { text: 'Bags', style: 'tableHeader', alignment: 'right' },
+            { text: 'Quantity', style: 'tableHeader', alignment: 'right' },
+          ],
+          this.addRow('Opening', openingBags, openingQty),
+          ...rows,
+          this.addRow(
+            'Closing',
+            openingBags + this.bags,
+            openingQty + this.qty
+          ),
+        ],
+      },
+    };
+  }
+
+  private getItemGroupTransactionsTable(
+    itemGroup: string,
+    itemData: CSRItemGroupRow[],
+    isInward: boolean,
+    reportData: CSRItemGroup[]
+  ) {
+    const reportItem = reportData.find((x) => x.itemGroup === itemGroup);
+    let openingBags = reportItem?.openingBags ?? 0;
+    if (!isInward) {
+      openingBags +=
+        (reportItem?.inwardBags ?? 0) + (reportItem?.gainBags ?? 0);
+    }
+
+    let openingQty = reportItem?.openingQty ?? 0;
+    if (!isInward) {
+      openingQty += (reportItem?.inwardQty ?? 0) + (reportItem?.gainQty ?? 0);
+    }
+
+    this.bags = 0;
+    this.qty = 0;
+
+    const rows = itemData.map((a) => {
+      this.bags += a.bags;
+      this.qty += a.qty;
+      return this.addRow(a.partyName, a.bags, a.qty);
+    });
+
+    return {
+      style: 'tableExample',
+
+      table: {
+        keepWithHeaderRows: true,
+        dontBreakRows: true,
+        widths: ['*', 60, 60],
+        headerRows: 2,
+        body: [
+          [
+            {
+              text: itemGroup,
               style: 'tableMainHeader',
               colSpan: 3,
               alignment: 'center',

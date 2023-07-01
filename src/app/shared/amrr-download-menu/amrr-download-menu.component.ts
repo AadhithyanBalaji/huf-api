@@ -7,6 +7,7 @@ import { Component, EventEmitter, Input, Output } from '@angular/core';
 })
 export class AmrrDownloadMenuComponent {
   @Input() loading = false;
+  @Input() hideExcel = false;
   @Output() onPdfClicked = new EventEmitter<any>();
   @Output() onExcelClicked = new EventEmitter<any>();
 
