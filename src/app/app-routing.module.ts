@@ -24,6 +24,7 @@ import { StockInwardEditorComponent } from './stock-inward/stock-inward-editor/s
 import { StockInwardComponent } from './stock-inward/stock-inward.component';
 import { StockOutwardEditorComponent } from './stock-outward/stock-outward-editor/stock-outward-editor.component';
 import { StockOutwardComponent } from './stock-outward/stock-outward.component';
+import { CsrItemGroupReportComponent } from './reports/csr-item-group-report/csr-item-group-report.component';
 
 const routes: Routes = [
   { path: 'login', component: AmrrLoginComponent },
@@ -45,6 +46,10 @@ const routes: Routes = [
       {
         path: 'reports/consolidatedStock',
         component: ConsolidatedStockReportComponent,
+      },
+      {
+        path: 'reports/consolidatedStockByItemGroup',
+        component: CsrItemGroupReportComponent,
       },
       {
         path: 'reports/batchwiseStock',

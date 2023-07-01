@@ -64,6 +64,7 @@ import { AllTransactionsReportComponent } from './reports/all-transactions-repor
 import { AmrrDownloadMenuComponent } from './shared/amrr-download-menu/amrr-download-menu.component';
 import { AmrrActionRowComponent } from './shared/amrr-action-row/amrr-action-row.component';
 import { AmrrMultiSelectWithSearchComponent } from './shared/amrr-multi-select-with-search/amrr-multi-select-with-search.component';
+import { CsrItemGroupReportComponent } from './reports/csr-item-group-report/csr-item-group-report.component';
 
 @NgModule({
   declarations: [
@@ -106,6 +107,7 @@ import { AmrrMultiSelectWithSearchComponent } from './shared/amrr-multi-select-w
     AmrrDownloadMenuComponent,
     AmrrActionRowComponent,
     AmrrMultiSelectWithSearchComponent,
+    CsrItemGroupReportComponent,
   ],
   imports: [
     BrowserModule,
