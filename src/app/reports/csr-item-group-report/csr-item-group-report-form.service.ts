@@ -6,10 +6,10 @@ import { take } from 'rxjs';
 import { AmrrReportFilters } from 'src/app/shared/amrr-report-filters/amrr-report-filters.model';
 import { ApiBusinessService } from 'src/app/shared/api-business.service';
 import Helper from 'src/app/shared/helper';
-import { PdfService } from 'src/app/shared/pdf.service';
 import { CSRItemGroup } from './csr-item-group.model';
-import { CSRItemGroupExportData } from 'src/app/shared/csr-item-group-export-data.model';
-import { CSRItemGroupRow } from 'src/app/shared/csr-item-group-export-row.model';
+import { CSRItemGroupExportData } from 'src/app/reports/csr-item-group-report/pdf-service/csr-item-group-export-data.model';
+import { CSRItemGroupPdfService } from './pdf-service/csr-item-group-pdf.service';
+import { CSRItemGroupRow } from './pdf-service/csr-item-group-export-row.model';
 
 @Injectable()
 export class CSRItemGroupReportFormService {
@@ -30,7 +30,7 @@ export class CSRItemGroupReportFormService {
   filters: AmrrReportFilters;
 
   constructor(
-    readonly pdfService: PdfService,
+    readonly pdfService: CSRItemGroupPdfService,
     private readonly apiBusinessService: ApiBusinessService
   ) {}
 
@@ -69,7 +69,7 @@ export class CSRItemGroupReportFormService {
         exportData.toDate = this.filters.toDate;
         exportData.itemGroupRows = data.recordset as CSRItemGroupRow[];
         exportData.reportData = this.dataSource.data;
-        this.pdfService.exportCSRByItemGroupPdf(exportData);
+        this.pdfService.export(exportData);
       });
   }
 }

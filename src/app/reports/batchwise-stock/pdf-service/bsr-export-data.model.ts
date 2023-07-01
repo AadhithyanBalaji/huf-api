@@ -1,4 +1,4 @@
-import { BatchwiseStock } from './batchwise-stock-model';
+import { BatchwiseStock } from '../batchwise-stock-model';
 import { BSRExportRow } from './bsr-export-row.model';
 
 export class BSRExportData {

@@ -5,12 +5,12 @@ import { MatTableDataSource } from '@angular/material/table';
 import { take } from 'rxjs';
 import { AmrrReportFilters } from 'src/app/shared/amrr-report-filters/amrr-report-filters.model';
 import { ApiBusinessService } from 'src/app/shared/api-business.service';
-import { CSRExportData } from 'src/app/shared/csr-export-data.model';
-import { CSRExportRow } from 'src/app/shared/csr-export-row.model';
 import { ExcelService } from 'src/app/shared/excel.service';
 import Helper from 'src/app/shared/helper';
-import { PdfService } from 'src/app/shared/pdf.service';
 import { ConsolidatedStockReport } from './consolidated-stock-report.model';
+import { CsrPdfService } from './pdf-service/csr-pdf.service';
+import { CSRExportData } from './pdf-service/csr-export-data.model';
+import { CSRExportRow } from './pdf-service/csr-export-row.model';
 
 @Injectable()
 export class ConsolidatedStockReportFormService {
@@ -32,7 +32,7 @@ export class ConsolidatedStockReportFormService {
   filters: AmrrReportFilters;
 
   constructor(
-    readonly pdfService: PdfService,
+    readonly pdfService: CsrPdfService,
     readonly excelService: ExcelService,
     private readonly apiBusinessService: ApiBusinessService
   ) {}
@@ -77,7 +77,7 @@ export class ConsolidatedStockReportFormService {
         exportData.toDate = this.filters.toDate;
         exportData.itemRows = data.recordset as CSRExportRow[];
         exportData.reportData = this.dataSource.data;
-        this.pdfService.exportCSRPdf(exportData);
+        this.pdfService.export(exportData);
       });
   }
 

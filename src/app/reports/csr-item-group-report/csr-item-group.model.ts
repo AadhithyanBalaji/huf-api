@@ -1,7 +1,9 @@
-export class CSRItemGroup {
+import { IReportData } from 'src/app/shared/report-data.interface.model';
+
+export class CSRItemGroup implements IReportData {
   sno: number;
   itemGroupId: number;
-  itemGroup: string;
+  desc: string;
   openingQty: number;
   openingBags: number;
   inwardQty: number;

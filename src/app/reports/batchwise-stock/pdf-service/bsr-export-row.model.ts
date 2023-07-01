@@ -1,4 +1,6 @@
-export class BSRExportRow {
+import { IItemRow } from "src/app/shared/pdf-service/item-row.interface";
+
+export class BSRExportRow implements IItemRow{
   transactionTypeId: number;
   bay: string;
   itemGroup: string;

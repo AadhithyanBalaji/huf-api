@@ -1,4 +1,4 @@
-import { ConsolidatedStockReport } from '../reports/consolidated-stock-report/consolidated-stock-report.model';
+import { ConsolidatedStockReport } from '../consolidated-stock-report.model';
 import { CSRExportRow } from './csr-export-row.model';
 
 export class CSRExportData {

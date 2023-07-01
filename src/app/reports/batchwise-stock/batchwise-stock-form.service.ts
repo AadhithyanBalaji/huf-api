@@ -7,10 +7,10 @@ import { AmrrReportFilters } from 'src/app/shared/amrr-report-filters/amrr-repor
 import { ApiBusinessService } from 'src/app/shared/api-business.service';
 import { ExcelService } from 'src/app/shared/excel.service';
 import Helper from 'src/app/shared/helper';
-import { PdfService } from 'src/app/shared/pdf.service';
 import { BatchwiseStock } from './batchwise-stock-model';
-import { BSRExportData } from './bsr-export-data.model';
-import { BSRExportRow } from './bsr-export-row.model';
+import { BSRExportData } from './pdf-service/bsr-export-data.model';
+import { BSRExportRow } from './pdf-service/bsr-export-row.model';
+import { BSRPdfService } from './pdf-service/bsr-pdf.service';
 
 @Injectable()
 export class BatchwiseStockFormService {
@@ -33,7 +33,7 @@ export class BatchwiseStockFormService {
   filters: AmrrReportFilters;
 
   constructor(
-    readonly pdfService: PdfService,
+    readonly pdfService: BSRPdfService,
     readonly excelService: ExcelService,
     private readonly apiBusinessService: ApiBusinessService
   ) {}
@@ -78,7 +78,7 @@ export class BatchwiseStockFormService {
         exportData.toDate = this.filters.toDate;
         exportData.itemRows = data.recordset as BSRExportRow[];
         exportData.reportData = this.dataSource.data;
-        this.pdfService.exportBSRPdf(exportData);
+        this.pdfService.export(exportData);
       });
   }
 

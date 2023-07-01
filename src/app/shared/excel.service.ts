@@ -21,7 +21,7 @@ export class ExcelService {
       return {
         'S.No.': x.sno,
         'Group Name': x.itemGroup,
-        'Item Name': x.itemName,
+        'Item Name': x.desc,
         'Opening Bags': x.openingBags,
         Opening: x.openingQty,
         'Inward Bags': x.inwardBags,
@@ -127,7 +127,7 @@ export class ExcelService {
         'Item Name': x.itemName,
         Godown: x.godown,
         Bay: x.bay,
-        Batch: x.batchName,
+        Batch: x.desc,
         'Opening Bags': x.openingBags,
         Opening: x.openingQty,
         'Inward Bags': x.openingBags,
