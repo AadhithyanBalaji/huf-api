@@ -151,16 +151,14 @@ export class AmrrReportFiltersFormService {
 
   private buildFiltersObject(): AmrrReportFilters {
     const filters = new AmrrReportFilters();
-    const fromDate = new Date(this.form.controls.fromDate.value);
-    var yesterday = new Date(fromDate.getTime());
-    yesterday.setDate(fromDate.getDate() - 1);
-
     if (this.form.valid) {
       filters.userId = this.authService.getUserId();
       filters.transactionTypeId = this.transactionTypeId;
       filters.fromDate =
         this.datePipe.transform(
-          new Date(yesterday.setHours(23, 59, 59, 0)),
+          new Date(
+            new Date(this.form.controls.fromDate.value).setHours(0, 0, 0, 0)
+          ),
           'YYYY-MM-dd HH:mm:ss'
         ) ?? '';
       filters.toDate =
