@@ -11,4 +11,8 @@ export const environment = {
     uiURL: 'https://www.amrrmdmpl.in',
     apiURL: 'https://p1-mdmpl-api.azurewebsites.net',
   },
+  prod_huf: {
+    uiURL: 'https://kind-beach-065e1db10.3.azurestaticapps.net',
+    apiURL: 'https://p1-huf-api.azurewebsites.net',
+  },
 };

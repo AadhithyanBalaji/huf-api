@@ -122,10 +122,10 @@ import { CsrItemGroupReportComponent } from './reports/csr-item-group-report/csr
     DecimalPipe,
     ApiBusinessService,
     AmrrLoadingDialogService,
-    {
-      provide: ErrorHandler,
-      useClass: GlobalErrorHandler,
-    },
+    // {
+    //   provide: ErrorHandler,
+    //   useClass: GlobalErrorHandler,
+    // },
     {
       provide: HTTP_INTERCEPTORS,
       useClass: HttpLoadingInterceptor,

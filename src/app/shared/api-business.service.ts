@@ -43,6 +43,8 @@ export class ApiBusinessService {
       return environment.local.apiURL;
     else if (window.location.href.indexOf(environment.prod.uiURL) !== -1)
       return environment.prod.apiURL;
+    else if (window.location.href.indexOf(environment.prod_huf.uiURL) !== -1)
+      return environment.prod_huf.apiURL;
     return '';
   }
 }
