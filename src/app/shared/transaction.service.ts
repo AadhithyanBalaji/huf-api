@@ -107,6 +107,7 @@ export class TransactionService {
       .post('stock/validateDeliveryChallan', {
         deliveryChallan: transaction.deliveryChallan,
         godownIds: godownIds,
+        transactionId: transaction.transactionId
       })
       .pipe(take(1))
       .subscribe((result: any) => {

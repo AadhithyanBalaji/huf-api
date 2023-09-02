@@ -98,15 +98,11 @@ export class StockOutwardEditorFormService {
           disabled: true,
         }),
         vehicleName: new FormControl(transaction.vehicleName),
-        party: new FormControl(transaction.partyName ?? '', [
-          Validators.required,
-        ]),
+        party: new FormControl(transaction.partyName ?? ''),
         deliveryChallan: new FormControl(transaction.deliveryChallan ?? '', [
           Validators.required,
         ]),
-        vehicleRegNo: new FormControl(transaction.vehicleRegNo ?? '', [
-          Validators.required,
-        ]),
+        vehicleRegNo: new FormControl(transaction.vehicleRegNo ?? ''),
         remarks: new FormControl(transaction.remarks),
         verifiedBy: new FormControl(transaction.verifiedBy),
       });
@@ -125,10 +121,8 @@ export class StockOutwardEditorFormService {
     transaction.batches = this.transactionBatchService.dataSource.data;
     transaction.transactionTypeId = 2;
     transaction.transactionDate = this.form.controls.outwardDate.value!;
-    transaction.vehicleRegNo = this.form.controls.vehicleRegNo.value!;
     transaction.partyName = this.form.controls.party.value!;
     transaction.deliveryChallan = this.form.controls.deliveryChallan.value!;
-    transaction.vehicleName = this.form.controls.vehicleName.value!;
     transaction.remarks = this.form.controls.remarks.value!;
     transaction.verifiedBy = this.form.controls.verifiedBy.value!;
     if (transaction.transactionId == null) {
