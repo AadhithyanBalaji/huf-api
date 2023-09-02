@@ -20,6 +20,7 @@ export class StockOutwardEditorFormService {
     runningNo: FormControl<number | null>;
     vehicleName: FormControl<string | null>;
     party: FormControl<string | null>;
+    deliveryChallan: FormControl<string | null>;
     vehicleRegNo: FormControl<string | null>;
     remarks: FormControl<any>;
     verifiedBy: FormControl<any>;
@@ -100,6 +101,9 @@ export class StockOutwardEditorFormService {
         party: new FormControl(transaction.partyName ?? '', [
           Validators.required,
         ]),
+        deliveryChallan: new FormControl(transaction.deliveryChallan ?? '', [
+          Validators.required,
+        ]),
         vehicleRegNo: new FormControl(transaction.vehicleRegNo ?? '', [
           Validators.required,
         ]),
@@ -123,6 +127,7 @@ export class StockOutwardEditorFormService {
     transaction.transactionDate = this.form.controls.outwardDate.value!;
     transaction.vehicleRegNo = this.form.controls.vehicleRegNo.value!;
     transaction.partyName = this.form.controls.party.value!;
+    transaction.deliveryChallan = this.form.controls.deliveryChallan.value!;
     transaction.vehicleName = this.form.controls.vehicleName.value!;
     transaction.remarks = this.form.controls.remarks.value!;
     transaction.verifiedBy = this.form.controls.verifiedBy.value!;

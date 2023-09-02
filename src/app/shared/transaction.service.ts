@@ -101,31 +101,52 @@ export class TransactionService {
     form: FormGroup
   ) {
     this.saving = true;
-    transaction.transactionDateString =
-      this.datePipe.transform(
-        new Date(new Date(transaction.transactionDate).setHours(0, 1, 0, 0)),
-        'YYYY-MM-dd HH:mm:ss'
-      ) ?? '';
+
+    const godownIds = transaction.batches.map((b) => b.godownId).join(',');
     this.apiBusinessService
-      .post('stock', transaction)
+      .post('stock/validateDeliveryChallan', {
+        deliveryChallan: transaction.deliveryChallan,
+        godownIds: godownIds,
+      })
       .pipe(take(1))
-      .subscribe(
-        (_) => {
-          this.displaySuccessToast(transaction.transactionId);
-          if (stayOnPage) {
-            this.router.navigate([]);
-            this.formHelperService.resetForm(form);
-            this.transactionBatchService.setupGrid([]);
-            this.requestTransactionInfo(NaN, transaction.transactionTypeId);
-          } else {
-            this.router.navigate([routeKey]);
-          }
+      .subscribe((result: any) => {
+        console.log(result);
+        const msgs = result.map((r: any) => `${r.Godown} (${r.TransactionId})`);
+        if (msgs.length > 0) {
+          this.snackBar.open(
+            `Delivery challan already used. Details ${msgs.join(',')}`
+          );
           this.saving = false;
-        },
-        (error) => {
-          this.saving = false;
+          return;
         }
-      );
+        transaction.transactionDateString =
+          this.datePipe.transform(
+            new Date(
+              new Date(transaction.transactionDate).setHours(0, 1, 0, 0)
+            ),
+            'YYYY-MM-dd HH:mm:ss'
+          ) ?? '';
+        this.apiBusinessService
+          .post('stock', transaction)
+          .pipe(take(1))
+          .subscribe(
+            (_) => {
+              this.displaySuccessToast(transaction.transactionId);
+              if (stayOnPage) {
+                this.router.navigate([]);
+                this.formHelperService.resetForm(form);
+                this.transactionBatchService.setupGrid([]);
+                this.requestTransactionInfo(NaN, transaction.transactionTypeId);
+              } else {
+                this.router.navigate([routeKey]);
+              }
+              this.saving = false;
+            },
+            (error) => {
+              this.saving = false;
+            }
+          );
+      });
   }
 
   delete(transaction: Transaction) {

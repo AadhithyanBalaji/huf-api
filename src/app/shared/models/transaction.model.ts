@@ -5,6 +5,7 @@ export class Transaction {
   runningNo: number;
   transactionId: number;
   transactionTypeId: number;
+  deliveryChallan: string;
   invoiceNo: string;
   partyName: string;
   vehicleName: string;

@@ -5,6 +5,7 @@ export class StockOutward {
   godown: string;
   items: string;
   partyName: string;
+  deliveryChallan: string;
   vehicleRegNo: string;
   vehicleName: string;
   bags: string;
