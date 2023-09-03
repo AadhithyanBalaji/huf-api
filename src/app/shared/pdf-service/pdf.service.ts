@@ -142,27 +142,13 @@ export class PdfService {
     const tables: any[] = [];
 
     const itemGroupNames = Object.keys(itemsGroup);
-    for (let i = 0; i + 1 < itemGroupNames.length; i = i + 2) {
+    for (let i = 0; i < itemGroupNames.length; i++) {
       tables.push(
-        this.buildColumn(
-          reportData,
+        this.getTransactionsTable(
           itemGroupNames[i],
           itemsGroup[itemGroupNames[i]],
-          itemGroupNames[i + 1],
-          itemGroupNames[i + 1] ? itemsGroup[itemGroupNames[i + 1]] : undefined,
-          isInward
-        )
-      );
-    }
-    if (itemGroupNames.length % 2 === 1) {
-      tables.push(
-        this.buildColumn(
-          reportData,
-          itemGroupNames[itemGroupNames.length - 1],
-          itemsGroup[itemGroupNames[itemGroupNames.length - 1]],
-          undefined,
-          undefined,
-          isInward
+          isInward,
+          reportData
         )
       );
     }
@@ -186,6 +172,38 @@ export class PdfService {
       },
       {
         text: this.decimalPipe.transform(Math.abs(qty), '1.2-2'),
+        style: style,
+        alignment: 'right',
+      },
+    ];
+  }
+
+  addRowWithDC(
+    col1: string,
+    bags: number,
+    qty: number,
+    deliveryChallan: string = ''
+  ) {
+    const style =
+      col1 === 'Opening' || col1 === 'Closing' ? 'closingCell' : 'dataCell';
+    return [
+      {
+        text: col1,
+        style: style,
+        alignment: 'left',
+      },
+      {
+        text: this.decimalPipe.transform(Math.abs(bags), '1.0-0'),
+        style: style,
+        alignment: 'right',
+      },
+      {
+        text: this.decimalPipe.transform(Math.abs(qty), '1.2-2'),
+        style: style,
+        alignment: 'right',
+      },
+      {
+        text: deliveryChallan ?? '',
         style: style,
         alignment: 'right',
       },
@@ -297,7 +315,7 @@ export class PdfService {
     const rows = itemData.map((a) => {
       this.bags += a.bags;
       this.qty += a.qty;
-      return this.addRow(a.partyName, a.bags, a.qty);
+      return this.addRowWithDC(a.partyName, a.bags, a.qty, a.deliveryChallan);
     });
 
     return {
@@ -306,16 +324,17 @@ export class PdfService {
       table: {
         keepWithHeaderRows: true,
         dontBreakRows: true,
-        widths: ['*', 60, 60],
+        widths: ['*', 60, 60, '*'],
         headerRows: 2,
         body: [
           [
             {
               text: item,
               style: 'tableMainHeader',
-              colSpan: 3,
+              colSpan: 4,
               alignment: 'center',
             },
+            {},
             {},
             {},
           ],
@@ -323,10 +342,15 @@ export class PdfService {
             { text: '', style: 'tableHeader' },
             { text: 'Bags', style: 'tableHeader', alignment: 'right' },
             { text: 'Quantity', style: 'tableHeader', alignment: 'right' },
+            {
+              text: 'Delivery Challan',
+              style: 'tableHeader',
+              alignment: 'right',
+            },
           ],
-          this.addRow('Opening', openingBags, openingQty),
+          this.addRowWithDC('Opening', openingBags, openingQty),
           ...rows,
-          this.addRow(
+          this.addRowWithDC(
             'Closing',
             openingBags + this.bags,
             openingQty + this.qty

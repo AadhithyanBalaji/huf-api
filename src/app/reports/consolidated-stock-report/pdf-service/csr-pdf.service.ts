@@ -68,7 +68,6 @@ export class CsrPdfService extends PdfService implements IPdfService {
         .forEach((reportRow: IReportData) => {
           totalBags += reportRow.closingBags;
           totalQty += reportRow.closingQty;
-          console.log(reportRow);
           tableRows.push(
             this.addRow(
               reportRow.desc,

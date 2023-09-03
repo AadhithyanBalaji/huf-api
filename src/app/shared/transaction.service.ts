@@ -107,11 +107,10 @@ export class TransactionService {
       .post('stock/validateDeliveryChallan', {
         deliveryChallan: transaction.deliveryChallan,
         godownIds: godownIds,
-        transactionId: transaction.transactionId
+        transactionId: transaction.transactionId,
       })
       .pipe(take(1))
       .subscribe((result: any) => {
-        console.log(result);
         const msgs = result.map((r: any) => `${r.Godown} (${r.TransactionId})`);
         if (msgs.length > 0) {
           this.snackBar.open(

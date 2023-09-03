@@ -7,4 +7,5 @@ export class CSRItemGroupRow implements IItemRow {
     partyName: string;
     qty: number;
     bags: number;
+    deliveryChallan: string;
 }

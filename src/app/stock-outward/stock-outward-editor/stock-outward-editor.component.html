@@ -32,6 +32,8 @@
                         <mat-label>Delivery Challan</mat-label>
                         <input matInput formControlName="deliveryChallan" required>
                     </mat-form-field>
+                    <mat-error *ngIf="formService.form?.controls?.deliveryChallan?.hasError('pattern')">Only numbers
+                        allowed</mat-error>
                 </mat-card-content>
             </mat-card>
         </div>

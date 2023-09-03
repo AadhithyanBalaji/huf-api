@@ -9,4 +9,5 @@ export class BSRExportRow implements IItemRow{
   partyName: string;
   qty: number;
   bags: number;
+  deliveryChallan: string;
 }
