@@ -34,6 +34,10 @@
                     </mat-form-field>
                     <mat-error *ngIf="formService.form?.controls?.deliveryChallan?.hasError('pattern')">Only numbers
                         allowed</mat-error>
+                    <mat-form-field>
+                        <mat-label>Place</mat-label>
+                        <input matInput formControlName="place" required>
+                    </mat-form-field>
                 </mat-card-content>
             </mat-card>
         </div>

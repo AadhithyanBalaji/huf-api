@@ -6,6 +6,7 @@ export class Transaction {
   transactionId: number;
   transactionTypeId: number;
   deliveryChallan: string;
+  place: string;
   invoiceNo: string;
   partyName: string;
   vehicleName: string;

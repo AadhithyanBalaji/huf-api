@@ -21,6 +21,7 @@ export class StockOutwardEditorFormService {
     vehicleName: FormControl<string | null>;
     party: FormControl<string | null>;
     deliveryChallan: FormControl<string | null>;
+    place: FormControl<string | null>;
     vehicleRegNo: FormControl<string | null>;
     remarks: FormControl<any>;
     verifiedBy: FormControl<any>;
@@ -101,8 +102,9 @@ export class StockOutwardEditorFormService {
         party: new FormControl(transaction.partyName ?? ''),
         deliveryChallan: new FormControl(transaction.deliveryChallan ?? '', [
           Validators.required,
-          Validators.pattern("[0-9]*")
+          Validators.pattern('[0-9]*'),
         ]),
+        place: new FormControl(transaction.place ?? '', [Validators.required]),
         vehicleRegNo: new FormControl(transaction.vehicleRegNo ?? ''),
         remarks: new FormControl(transaction.remarks),
         verifiedBy: new FormControl(transaction.verifiedBy),
@@ -124,6 +126,7 @@ export class StockOutwardEditorFormService {
     transaction.transactionDate = this.form.controls.outwardDate.value!;
     transaction.partyName = this.form.controls.party.value!;
     transaction.deliveryChallan = this.form.controls.deliveryChallan.value!;
+    transaction.place = this.form.controls.place.value!;
     transaction.remarks = this.form.controls.remarks.value!;
     transaction.verifiedBy = this.form.controls.verifiedBy.value!;
     if (transaction.transactionId == null) {

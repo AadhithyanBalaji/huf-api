@@ -6,6 +6,7 @@ export class StockOutward {
   items: string;
   partyName: string;
   deliveryChallan: string;
+  place: string;
   vehicleRegNo: string;
   vehicleName: string;
   bags: string;

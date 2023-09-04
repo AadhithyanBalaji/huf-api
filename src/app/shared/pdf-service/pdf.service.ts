@@ -112,24 +112,6 @@ export class PdfService {
     };
   }
 
-  buildColumn(
-    reportData: IReportData[],
-    itemName: string,
-    items: IItemRow[],
-    itemName2?: string,
-    items2?: IItemRow[],
-    isInward = false
-  ) {
-    return {
-      columns: [
-        this.getTransactionsTable(itemName, items, isInward, reportData),
-        itemName2 !== undefined
-          ? this.getTransactionsTable(itemName2!, items2!, isInward, reportData)
-          : {},
-      ],
-    };
-  }
-
   getStockTable(
     reportData: IReportData[],
     itemRows: IItemRow[],
@@ -182,7 +164,8 @@ export class PdfService {
     col1: string,
     bags: number,
     qty: number,
-    deliveryChallan: string = ''
+    deliveryChallan: string = '',
+    place: string = ''
   ) {
     const style =
       col1 === 'Opening' || col1 === 'Closing' ? 'closingCell' : 'dataCell';
@@ -204,6 +187,11 @@ export class PdfService {
       },
       {
         text: deliveryChallan ?? '',
+        style: style,
+        alignment: 'right',
+      },
+      {
+        text: place ?? '',
         style: style,
         alignment: 'right',
       },
@@ -315,7 +303,13 @@ export class PdfService {
     const rows = itemData.map((a) => {
       this.bags += a.bags;
       this.qty += a.qty;
-      return this.addRowWithDC(a.partyName, a.bags, a.qty, a.deliveryChallan);
+      return this.addRowWithDC(
+        a.partyName,
+        a.bags,
+        a.qty,
+        a.deliveryChallan,
+        a.place
+      );
     });
 
     return {
@@ -324,16 +318,17 @@ export class PdfService {
       table: {
         keepWithHeaderRows: true,
         dontBreakRows: true,
-        widths: ['*', 60, 60, '*'],
+        widths: ['*', 60, 60, '*', '*'],
         headerRows: 2,
         body: [
           [
             {
               text: item,
               style: 'tableMainHeader',
-              colSpan: 4,
+              colSpan: 5,
               alignment: 'center',
             },
+            {},
             {},
             {},
             {},
@@ -344,6 +339,11 @@ export class PdfService {
             { text: 'Quantity', style: 'tableHeader', alignment: 'right' },
             {
               text: 'Delivery Challan',
+              style: 'tableHeader',
+              alignment: 'right',
+            },
+            {
+              text: 'Place',
               style: 'tableHeader',
               alignment: 'right',
             },

@@ -6,4 +6,5 @@ export interface IItemRow {
   qty: number;
   bags: number;
   deliveryChallan: string;
+  place: string;
 }

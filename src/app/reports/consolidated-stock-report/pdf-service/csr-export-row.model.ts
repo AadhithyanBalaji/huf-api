@@ -8,4 +8,5 @@ export class CSRExportRow implements IItemRow {
   qty: number;
   bags: number;
   deliveryChallan: string;
+  place: string;
 }
