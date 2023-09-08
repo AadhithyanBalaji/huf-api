@@ -102,7 +102,6 @@ export class StockOutwardEditorFormService {
         party: new FormControl(transaction.partyName ?? ''),
         deliveryChallan: new FormControl(transaction.deliveryChallan ?? '', [
           Validators.required,
-          Validators.pattern('[0-9]*'),
         ]),
         place: new FormControl(transaction.place ?? '', [Validators.required]),
         vehicleRegNo: new FormControl(transaction.vehicleRegNo ?? ''),
